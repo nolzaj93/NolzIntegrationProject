@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="NolzIP8747GUI">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/NolzIP8747GUI.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

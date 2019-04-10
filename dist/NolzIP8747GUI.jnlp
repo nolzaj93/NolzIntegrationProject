@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="NolzIP8747GUI.jnlp">
+  <information>
+    <title>NolzIP8747GUI</title>
+    <vendor>Austin Nolz</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="NolzIP8747GUI.jar" size="542340" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="800" height="600" main-class="com.nolzaj93.macrofriendgui.NolzIP8747GUI"  name="NolzIP8747GUI" />
+  <update check="always"/>
+</jnlp>
