@@ -10,11 +10,16 @@ public class UserCalendar {
   private DailyTracker[][] monthsAndDays = new DailyTracker[12][];
   private int currentMonth = today.getMonthValue();
   private int currentDay = today.getDayOfMonth();
+  /*
+   * (42) Use multidimensional arrays
+   */
   private DailyTracker currentDayTracker = monthsAndDays[currentMonth][currentDay];
-
 
   public UserCalendar() {
     boolean isLeapYr = today.isLeapYear();
+    /*
+     * (42) Declare and instantiate multi-dimensional arrays
+     */
     monthsAndDays[0] = new DailyTracker[31];
     if (isLeapYr) {
       monthsAndDays[1] = new DailyTracker[29];

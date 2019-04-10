@@ -39,7 +39,6 @@ public class DailyTracker {
   public void setDailyProteinGrams(ArrayList<Double> dailyProteinGrams) {
     this.dailyProteinGrams = dailyProteinGrams;
   }
-
   /*
    * (39) Get a sum of the values in an array using an accumulator.
    */
