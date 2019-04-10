@@ -2,19 +2,20 @@ package com.nolzaj93.macrofriend;
 //Austin Nolz
 
 import java.time.*;
-import java.time.LocalDate;
+
 
 public class UserCalendar {
 
-  private static final ZonedDateTime startDate = ZonedDateTime.now();
-  LocalDate today = LocalDate.now();
-  boolean isLeapYr = today.isLeapYear();
+  private LocalDate today = LocalDate.now();
+  private DailyTracker[][] monthsAndDays = new DailyTracker[12][];
+  private int currentMonth = today.getMonthValue();
+  private int currentDay = today.getDayOfMonth();
+  private DailyTracker currentDayTracker = monthsAndDays[currentMonth][currentDay];
 
-  public DailyTracker[][] monthsAndDays = new DailyTracker[12][];
 
   public UserCalendar() {
+    boolean isLeapYr = today.isLeapYear();
     monthsAndDays[0] = new DailyTracker[31];
-
     if (isLeapYr) {
       monthsAndDays[1] = new DailyTracker[29];
     } else {
@@ -36,5 +37,4 @@ public class UserCalendar {
         monthsAndDays[month][day] = new DailyTracker();
     }
   }
-
-}
+ }

@@ -49,7 +49,8 @@ PSI 3
     
    (43)Declare and use an ArrayList of a given type
      
-   (43)
+   (43) DailyTracker line 13
+        DailyTracker.addNewMeal(double fatGrams, double carbGrams, double proteinGrams), line 51
     
    (44)Search a two-dimensional array and identify the coordinates where a value was found
  

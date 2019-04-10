@@ -776,7 +776,7 @@ public class NewUser extends Introduction {
               + "macronutrient. To re-enter your percentages type: back \n"
               + "To proceed press enter/return" : "\n");
 
-    } while (decrementOption == true);
+    } while (decrementOption);
   }
 
   /*
@@ -822,7 +822,7 @@ public class NewUser extends Introduction {
           break;
       }
 
-    } while (goalIsSet == false);
+    } while (!goalIsSet);
 
     return goalIsSet;
   }
@@ -949,7 +949,7 @@ public class NewUser extends Introduction {
 
       }
 
-    } while (isInvalidInput == true);
+    } while (isInvalidInput);
 
     return goalBool;
   }
