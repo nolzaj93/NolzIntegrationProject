@@ -1,5 +1,6 @@
 package com.nolzaj93.macrofriend;
 //Austin Nolz
+
 import java.util.ArrayList;
 
 public class DailyTracker {
@@ -39,6 +40,7 @@ public class DailyTracker {
   public void setDailyProteinGrams(ArrayList<Double> dailyProteinGrams) {
     this.dailyProteinGrams = dailyProteinGrams;
   }
+
   /*
    * (39) Get a sum of the values in an array using an accumulator.
    */
@@ -71,4 +73,32 @@ public class DailyTracker {
     return new Object[]{newMealGrams, newMealCalories};
   }
 
+  public ArrayList<Integer> searchArray(double[] doubleArray, int searchValue) {
+
+    int index = 0;
+    int[] intArray = new int[doubleArray.length];
+    for (index = 0; index < doubleArray.length; index++) {
+      intArray[index] = (int) Math.rint(doubleArray[index]);
+    }
+
+    index = 0;
+    ArrayList<Integer> indicesFound = new ArrayList<>(intArray.length);
+
+    /*
+     * Searches the entire array for the searchValue
+     */
+    while (index < intArray.length) {
+      if (intArray[index] == searchValue) {
+        indicesFound.add(index);
+      } else {
+        index += 1;
+      }
+    }
+    return indicesFound;
+  }
+  public ArrayList<ArrayList<Integer>> search2DArray(){
+
+    ArrayList<ArrayList<Integer>> twoDimensionalIndicesFound = new ArrayList<ArrayList<Integer>>();
+    return twoDimensionalIndicesFound;
+  }
 }
