@@ -8,6 +8,8 @@ public class DailyTracker {
   private double totalMealCalories;
   private double[] newMealGrams;
   private double[] newMealCalories;
+  private int[] intArray;
+  private ArrayList<Integer> indicesFound;
   private static final int fatCaloriesPerGram = 9;
   private static final int carbOrProteinCaloriesPerGram = 4;
   /*
@@ -76,14 +78,15 @@ public class DailyTracker {
   public ArrayList<Integer> searchArray(double[] doubleArray, int searchValue) {
 
     int index = 0;
-    int[] intArray = new int[doubleArray.length];
+
+    intArray = new int[doubleArray.length];
     for (index = 0; index < doubleArray.length; index++) {
       intArray[index] = (int) Math.rint(doubleArray[index]);
     }
 
     index = 0;
-    ArrayList<Integer> indicesFound = new ArrayList<>(intArray.length);
 
+    indicesFound = new ArrayList<>(intArray.length);
     /*
      * Searches the entire array for the searchValue
      */
@@ -96,9 +99,5 @@ public class DailyTracker {
     }
     return indicesFound;
   }
-  public ArrayList<ArrayList<Integer>> search2DArray(){
 
-    ArrayList<ArrayList<Integer>> twoDimensionalIndicesFound = new ArrayList<ArrayList<Integer>>();
-    return twoDimensionalIndicesFound;
-  }
 }
