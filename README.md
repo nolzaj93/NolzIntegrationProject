@@ -37,7 +37,7 @@ PSI 3
     
    (40)Search an array and identify the index where a value was found.
    
-   (40) DailyTracker.searchArray(double[] doubleArray, int searchValue)
+   (40) NewUser.searchArray(Scanner userScanner)
     
    (41)Create and use the enhanced for loop
    
@@ -54,7 +54,7 @@ PSI 3
     
    (44)Search a two-dimensional array and identify the coordinates where a value was found
  
-   (44) 
+   (44) UserCalendar.searchMonthAndDay(Scanner userScanner)
     
    (45)Effectively utilize exception handling for user input of an int
    
