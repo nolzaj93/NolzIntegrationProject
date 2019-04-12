@@ -56,7 +56,7 @@ PSI 3
  
    (44) UserCalendar.searchMonthAndDay(Scanner userScanner)
     
-   (45)Effectively utilize exception handling for user input of an int
+   (45) Effectively utilize exception handling for user input of an int
    
    (45) NewUser, line 96
 
