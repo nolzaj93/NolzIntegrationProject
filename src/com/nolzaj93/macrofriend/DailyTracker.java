@@ -8,8 +8,6 @@ public class DailyTracker {
   private double totalMealCalories;
   private double[] newMealGrams;
   private double[] newMealCalories;
-  private int[] intArray;
-  private ArrayList<Integer> indicesFound;
   private static final int fatCaloriesPerGram = 9;
   private static final int carbOrProteinCaloriesPerGram = 4;
   /*
@@ -18,7 +16,13 @@ public class DailyTracker {
   private ArrayList<Double> dailyFatGrams = new ArrayList<>();
   private ArrayList<Double> dailyCarbGrams = new ArrayList<>();
   private ArrayList<Double> dailyProteinGrams = new ArrayList<>();
+  private double totalDailyFatGrams = 0;
+  private double totalDailyCarbGrams = 0;
+  private double totalDailyProteinGrams = 0;
 
+  public DailyTracker(){
+
+  }
   public ArrayList<Double> getDailyFatGrams() {
     return dailyFatGrams;
   }
@@ -56,6 +60,10 @@ public class DailyTracker {
     dailyFatGrams.add(fatGrams);
     dailyCarbGrams.add(carbGrams);
     dailyProteinGrams.add(proteinGrams);
+
+    totalDailyFatGrams += fatGrams;
+    totalDailyCarbGrams += carbGrams;
+    totalDailyProteinGrams += proteinGrams;
     /*
      *(39)Get a sum of the values in an array using an accumulator.
      */
@@ -73,31 +81,6 @@ public class DailyTracker {
     newMealCalories[3] = totalMealCalories;
 
     return new Object[]{newMealGrams, newMealCalories};
-  }
-
-  public ArrayList<Integer> searchArray(double[] doubleArray, int searchValue) {
-
-    int index = 0;
-
-    intArray = new int[doubleArray.length];
-    for (index = 0; index < doubleArray.length; index++) {
-      intArray[index] = (int) Math.rint(doubleArray[index]);
-    }
-
-    index = 0;
-
-    indicesFound = new ArrayList<>(intArray.length);
-    /*
-     * Searches the entire array for the searchValue
-     */
-    while (index < intArray.length) {
-      if (intArray[index] == searchValue) {
-        indicesFound.add(index);
-      } else {
-        index += 1;
-      }
-    }
-    return indicesFound;
   }
 
 }

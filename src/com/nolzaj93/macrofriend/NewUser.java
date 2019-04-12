@@ -1,6 +1,7 @@
 package com.nolzaj93.macrofriend;
 // Austin Nolz
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
@@ -31,9 +32,9 @@ public class NewUser extends Introduction {
   private double percentFat;
   private double percentCarb;
   private double percentProtein;
-  private double gramsFat;
-  private double gramsCarb;
-  private double gramsProtein;
+  private double goalGramsFat;
+  private double goalGramsCarb;
+  private double goalGramsProtein;
   private double[] grams; // (37) declare a one-dimensional array
   private String goal;
 
@@ -59,7 +60,10 @@ public class NewUser extends Introduction {
      */
     //super();
     this();
-
+    this.searchArray(userScanner);
+    System.out.println("Welcome to MacroFriend! This application will help you plan \n"
+        + "your daily meals based on your activity level, age, and\n"
+        + "an estimate of your body fat percentage.\n\n");
     String[] userStrings = new String[2];
     Double[] userDoubles = new Double[5];
     enterUserInfo(userScanner, userStrings, userDoubles);
@@ -455,34 +459,34 @@ public class NewUser extends Introduction {
     percentProtein = newPercentProtein;
   }
 
-  public double getGramsFat() {
+  public double getGoalGramsFat() {
 
-    return gramsFat;
+    return goalGramsFat;
   }
 
-  public void setGramsFat(double newGramsFat) {
+  public void setGoalGramsFat(double newGramsFat) {
 
-    gramsFat = newGramsFat;
+    goalGramsFat = newGramsFat;
   }
 
-  public double getGramsCarb() {
+  public double getGoalGramsCarb() {
 
-    return gramsCarb;
+    return goalGramsCarb;
   }
 
-  public void setGramsCarb(double newGramsCarb) {
+  public void setGoalGramsCarb(double newGramsCarb) {
 
-    gramsCarb = newGramsCarb;
+    goalGramsCarb = newGramsCarb;
   }
 
-  public double getGramsProtein() {
+  public double getGoalGramsProtein() {
 
-    return gramsProtein;
+    return goalGramsProtein;
   }
 
-  public void setGramsProtein(double newGramsProtein) {
+  public void setGoalGramsProtein(double newGramsProtein) {
 
-    gramsProtein = newGramsProtein;
+    goalGramsProtein = newGramsProtein;
   }
 
   public double getGrams(int n) {
@@ -836,14 +840,14 @@ public class NewUser extends Introduction {
    */
   public void calculateGrams(double fatPercent, double carbPercent, double proteinPercent) {
 
-    setGramsFat(Math.rint((fatPercent / 100) * (getDailyEnergy()) / 9));
-    setGramsCarb(Math.rint((carbPercent / 100) * (getDailyEnergy()) / 4));
-    setGramsProtein(Math.rint((proteinPercent / 100) * (getDailyEnergy()) / 4));
-    System.out.println("Your daily macronutrient requirements in grams:\n" + "Fat: " + getGramsFat()
-        + " g\n" + "Carbs: " + getGramsCarb() + " g\n" + "Protein: " + getGramsProtein() + " g\n");
+    setGoalGramsFat(Math.rint((fatPercent / 100) * (getDailyEnergy()) / 9));
+    setGoalGramsCarb(Math.rint((carbPercent / 100) * (getDailyEnergy()) / 4));
+    setGoalGramsProtein(Math.rint((proteinPercent / 100) * (getDailyEnergy()) / 4));
+    System.out.println("Your daily macronutrient requirements in grams:\n" + "Fat: " + getGoalGramsFat()
+        + " g\n" + "Carbs: " + getGoalGramsCarb() + " g\n" + "Protein: " + getGoalGramsProtein() + " g\n");
 
     // (37) instantiate and initialize a one-dimensional array
-    setGrams(new double[]{getGramsFat(), getGramsCarb(), getGramsProtein()});
+    setGrams(new double[]{getGoalGramsFat(), getGoalGramsCarb(), getGoalGramsProtein()});
   }
 
   public void generateMealPlanOptions() {
@@ -1187,4 +1191,72 @@ public class NewUser extends Introduction {
     }
   }
 
+  /*
+   * (40)Search an array and identify the index where a value was found.
+   */
+  public void searchArray(Scanner userScanner) {
+    System.out.println("Array search method: please enter the number of integers you would like\n"
+        + "to search through.");
+    boolean arraySizeSet = false;
+    int arraySize = 0;
+    while (!arraySizeSet) {
+      try {
+        arraySize = userScanner.nextInt();
+        arraySizeSet = true;
+      } catch (InputMismatchException ex) {
+        System.out.println("Please enter a whole integer number. Example: 5");
+        userScanner.nextLine();
+      }
+    }
+    int[] inputArray = new int[arraySize];
+
+    int index = 0;
+    boolean elementIsSet;
+    for (index = 0; index < arraySize; index++) {
+      elementIsSet = false;
+      System.out.println("Please enter a whole integer. Example: 5");
+      while (!elementIsSet) {
+        try {
+          inputArray[index] = userScanner.nextInt();
+          elementIsSet = true;
+        } catch (InputMismatchException ex){
+          System.out.println("Your input included text. Please enter a whole number. Example: 5");
+          userScanner.nextLine();
+        }
+      }
+    }
+
+    int searchValue = 0;
+    boolean searchValueEntered = false;
+    System.out
+        .println("Please enter the whole integer value you would like to search for in the array.");
+    while (!searchValueEntered) {
+      try {
+        searchValue = userScanner.nextInt();
+        searchValueEntered = true;
+      } catch (InputMismatchException ex) {
+        System.out.println("Please enter a whole integer value. Example: 5");
+        userScanner.nextLine();
+      }
+    }
+    index = 0;
+
+    ArrayList<Integer> indicesFound = new ArrayList<>(inputArray.length);
+    /*
+     * Searches the entire array for the searchValue
+     */
+    while (index < inputArray.length) {
+      if (inputArray[index] == searchValue) {
+        indicesFound.add(index);
+        index += 1;
+      } else {
+        index += 1;
+      }
+    }
+    System.out.println("The value you gave was found at the following indices.");
+    for (Integer num : indicesFound) {
+      System.out.print(num + " ");
+      System.out.println();
+    }
+  }
 }

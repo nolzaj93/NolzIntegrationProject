@@ -39,9 +39,12 @@ public class Introduction {
      * and overridden method code will be executed even from a call from an object that
      * has the base type.
      */
+    UserCalendar sampleCalendar = new UserCalendar();
+    sampleCalendar.searchMonthAndDay(userInfo);
+
     NewUser user1 = new NewUser(userInfo);
     Introduction user = (Introduction) user1;
-    user1.runUserFunctions(userInfo);
+    user.runUserFunctions(userInfo);
 
     System.out.println("Please type new to add another user.");
 
@@ -59,9 +62,7 @@ public class Introduction {
 
   // Explicitly defined no-argument constructor prints welcome message every time
   public Introduction() {
-    System.out.println("Welcome to MacroFriend! This application will help you plan \n"
-        + "your daily meals based on your activity level, age, and\n"
-        + "an estimate of your body fat percentage.\n\n");
+
   }
 
   /*
@@ -72,5 +73,4 @@ public class Introduction {
         + "when it is cast to the Introduction type due to polymorphism and rules of the "
         + "Java Runtime Environment.");
   }
-
 }
