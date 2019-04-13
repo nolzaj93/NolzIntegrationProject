@@ -26,16 +26,19 @@ public class NewUser extends Introduction {
   private double workoutsPerWeek;
   private boolean randomOption = true;
   private boolean mealPlanOption = true;
-  private boolean calcServingOption = true;
+  private boolean calculateGramsPerMealOption = true;
   private double basalMetabolicRate;
   private double totalDailyEnergyExpenditure;
+  private double goalDailyCalories;
   private double percentFat;
   private double percentCarb;
   private double percentProtein;
   private double goalGramsFat;
   private double goalGramsCarb;
   private double goalGramsProtein;
-  private double[] grams; // (37) declare a one-dimensional array
+  private double[] goalGrams; // (37) declare a one-dimensional array
+  private String[] macronutrients = {"Fat", "Carb", "Protein"};
+  private double[] mealGramTotals = new double[3];
   private String goal;
 
   public NewUser() {
@@ -60,10 +63,14 @@ public class NewUser extends Introduction {
      */
     //super();
     this();
-    this.searchArray(userScanner);
+
     System.out.println("Welcome to MacroFriend! This application will help you plan \n"
         + "your daily meals based on your activity level, age, and\n"
         + "an estimate of your body fat percentage.\n\n");
+    /*
+     * userStrings and userDoubles are declared and instantiated locally and passed into
+     * the method enterUserInfo() as arguments
+     */
     String[] userStrings = new String[2];
     Double[] userDoubles = new Double[5];
     enterUserInfo(userScanner, userStrings, userDoubles);
@@ -274,38 +281,32 @@ public class NewUser extends Introduction {
       userScanner.nextLine();
 
     } while (!bodyFatIsSet);
-
+    /*
+     * Do-while loop used with a boolean to set
+     */
     boolean workoutsPerWeekIsSet = false;
     double workoutsPerWeek = 0;
     do {
       try {
-
         System.out.println("\nIn the past month, how many hours \n"
             + "have you exercised each week on average?\n");
-
         workoutsPerWeek = userScanner.nextDouble();
 
         // (19) if/else constructs
         if (workoutsPerWeek < 0) {
-
-          System.out.println("Invalid ent. Please enter a positive number.");
-
+          System.out.println("Your entry was less than zero. Please enter a number greater than"
+              + "or equal to zero.");
           continue;
-
         } else if (workoutsPerWeek > 21) {
-
           System.out.println("Please enter a realistic number. Olympic level sprinters \n"
               + "workout at most 21 hours per week. If this number is accurate\n"
               + "you are likely overtraining. Please consult your physician for individual \n"
               + "recommendations.\n");
-
           continue;
         } else {
-
           workoutsPerWeekIsSet = true;
           userDoubles[4] = workoutsPerWeek;
         }
-
       } catch (InputMismatchException ex) {
         System.out.println("Error: please input a number.");
         userScanner.nextLine();
@@ -395,14 +396,24 @@ public class NewUser extends Introduction {
     basalMetabolicRate = newBMR;
   }
 
-  public double getDailyEnergy() {
+  public double getTDEE() {
 
     return totalDailyEnergyExpenditure;
   }
 
-  public void setDailyEnergy(double newDailyEnergy) {
+  public void setTDEE(double newTDEE) {
 
-    totalDailyEnergyExpenditure = newDailyEnergy;
+    totalDailyEnergyExpenditure = newTDEE;
+  }
+
+  public double getGoalDailyCalories() {
+
+    return goalDailyCalories;
+  }
+
+  public void setGoalDailyCalories(double newGoalCals) {
+
+    goalDailyCalories = newGoalCals;
   }
 
   public boolean getRandomOption() {
@@ -421,12 +432,12 @@ public class NewUser extends Introduction {
     mealPlanOption = newVal;
   }
 
-  public boolean getCalcServingOption() {
-    return calcServingOption;
+  public boolean getCalculateGramsPerMealOption() {
+    return calculateGramsPerMealOption;
   }
 
-  public void setCalcServingOption(boolean newVal) {
-    calcServingOption = newVal;
+  public void setCalculateGramsPerMealOption(boolean calculateGramsPerMealOption) {
+    this.calculateGramsPerMealOption = calculateGramsPerMealOption;
   }
 
   public double getPercentFat() {
@@ -489,19 +500,19 @@ public class NewUser extends Introduction {
     goalGramsProtein = newGramsProtein;
   }
 
-  public double getGrams(int n) {
+  public double getGoalGrams(int n) {
 
-    return grams[n];
+    return goalGrams[n];
   }
 
-  public double[] getGrams() {
+  public double[] getGoalGrams() {
 
-    return grams;
+    return goalGrams;
   }
 
-  public void setGrams(double[] newGrams) {
+  public void setGoalGrams(double[] newGrams) {
 
-    grams = newGrams;
+    goalGrams = newGrams;
   }
 
   public void setGoal(String newGoal) {
@@ -519,35 +530,33 @@ public class NewUser extends Introduction {
    * parentheses. The return value is a double.
    */
   public double estimateTDEE() {
-
+// Sourced from this website:
+//https://www.ajdesigner.com/phpweightloss/weight_loss_equations_total_daily_energy_expenditure_moderate.php
     /*
      * This calculation estimates basal metabolic rate(BMR) depending on biological sex, body fat %,
      * height, weight, and age. We take the average of two equations: the Katch-McArdle equation,
      * and the Harris-Benedict equation. (23) use +, - , * , /, an example of order of operations
-     * PEMDAS
+     * PEMDAS.
+     *
      */
-
     if (getBiologicalSex().equals("female")) {
       /*
-       * Sourced from this website: https://www.ajdesigner.com/phpweightloss/
-       * weight_loss_equations_total_daily_energy_expenditure_moderate.php
-       *
+       *  equations for females
        */
       setBasalMetabolicRate(((370 + (21.6 * (1 - getUserBodyFat()) * (getUserWeight() / 2.2)))
           + (655 + (9.6 * (getUserWeight() / 2.2)) + (1.8 * getUserHeight() * 2.54)
           - (4.7 * getUserAge())) / 2.0));
 
     } else if (getBiologicalSex().equals("male")) {
-
-      setBasalMetabolicRate(((370 + (21.6 * (1 - getUserBodyFat()) * (getUserWeight() / 2.2))) + (66
-          + (13.7 * getUserWeight() / 2.2) + (5 * getUserHeight() * 2.54) - (6.8 * getUserAge())))
-          / 2.0);
-
+      //equations for males
+      setBasalMetabolicRate(((370 + (21.6 * (1 - getUserBodyFat()) * (getUserWeight() / 2.2))) +
+          (66 + (13.7 * (getUserWeight() / 2.2)) + (5 * getUserHeight() * 2.54)
+              - (6.8 * getUserAge()))) / 2.0);
     }
 
     /*
-     * (21) Use a switch statement This estimates total daily energy expenditure using BMR and
-     * workouts per week
+     * (21) Use a switch statement This estimates total daily energy expenditure(TDEE) using BMR
+     * and workouts per week, based on the equations referenced above.
      */
     int workouts = (int) Math.rint(getWorkoutsPerWeek());
     switch (workouts) {
@@ -572,9 +581,12 @@ public class NewUser extends Introduction {
         break;
     }
     /*
-     * (18) Use Math class, Math.rint returns double value closest to the argument
+     * (18) Use Math class, Math.rint returns double value closest to the argument.
+     * This rounds the estimated TDEE to the nearest integer, and also sets goalDailyCalories to
+     * this number by default.
      */
-    setDailyEnergy(Math.rint(totalDailyEnergyExpenditure));
+    totalDailyEnergyExpenditure = Math.rint(totalDailyEnergyExpenditure);
+    setGoalDailyCalories(getTDEE());
 
     System.out.println("\n" + "Name: " + getUserName() + "\n" + "Age: " + getUserAge()
         + " years old" + "\n" + "Height: " + getUserHeight() + " inches" + "\n" + "Weight: "
@@ -582,7 +594,7 @@ public class NewUser extends Introduction {
         + (getUserBodyFat() * 100) + "%\n" + "Workouts per week: " + getWorkoutsPerWeek());
 
     System.out.printf("Estimated Total Daily Energy Expenditure (TDEE): " + "%.0f Calories\n\n",
-        getDailyEnergy());
+        getTDEE());
 
     System.out.println("This amount of Calories will maintain your current \n"
         + "weight. When you look at a nutrition label it has \n"
@@ -597,11 +609,94 @@ public class NewUser extends Introduction {
     return totalDailyEnergyExpenditure;
   }
 
-  public void changeMacronutrientPercent(Scanner userInfo) {
+  /*
+   * This method gives the user the option to call the generateRandomExample() method.
+   */
+  public void giveRandomExampleOption(Scanner userScanner) {
+    userScanner.nextLine();
+    while (randomOption) {
+      System.out.println("Would you like to generate a random distribution of macronutrients?\n"
+          + "Type yes for a random example or type anything else to enter your own percentages.\n");
+      String randomInput = userScanner.nextLine();
+
+      if (randomInput.toLowerCase().equals("yes")) {
+        generateRandomExample();
+        setRandomOption(false);
+      } else {
+        setRandomOption(false);
+      }
+    }
+  }
+
+  /*
+   * This method generates a random example of daily grams to maintain weight using the user's
+   * total daily energy expenditure(TDEE).
+   */
+  public void generateRandomExample() {
+
+    Random macroSample = new Random();
 
     /*
-     * resets these three variables, if someone types "back" in incrementMacroPercent or
-     * decrementMacroPercent
+     * (11) final fields (17) Use the Random class
+     * Random integers are generated for an example of percentage of Calories from fat,
+     * carbohydrate, and protein.
+     */
+    final int FAT_PERCENT = macroSample.nextInt(15) + 20;
+    final int CARB_PERCENT = macroSample.nextInt(20) + 45;
+    final int PROTEIN_PERCENT = 100 - FAT_PERCENT - CARB_PERCENT;
+
+    System.out.printf("Randomized example of daily macronutrient distribution: "
+        + "%d%% Fat %d%% Carbs %d%% Protein\n\n", FAT_PERCENT, CARB_PERCENT, PROTEIN_PERCENT);
+
+    /*
+     * Daily Calories from each macronutrient is calculated by multiplying the user's
+     * total daily energy expenditure by the percentage of daily Calories from each macronutrient
+     */
+    final double caloriesFromFat = (FAT_PERCENT / 100.0) * (getTDEE());
+    final double caloriesFromCarb = (CARB_PERCENT / 100.0) * (getTDEE());
+    final double caloriesFromProtein = (PROTEIN_PERCENT / 100.0) * (getTDEE());
+
+    System.out.printf(
+        "If we multiply each percentage by the total daily energy expenditure we get: \n"
+            + "(%d/100)*(%.0f) = %.0f Calories from fat\n"
+            + "(%d/100)*(%.0f) = %.0f Calories from carbs\n"
+            + "(%d/100)*(%.0f) = %.0f Calories from protein.\n\n",
+        FAT_PERCENT, getTDEE(), caloriesFromFat,
+        CARB_PERCENT, getTDEE(), caloriesFromCarb,
+        PROTEIN_PERCENT, getTDEE(), caloriesFromProtein);
+
+    /*
+     * Daily grams of each macronutrient is calculated by multiplying number of daily Calories
+     * for each macronutrient by the respective number of Calories per gram.
+     */
+    final double gramsOfFat = caloriesFromFat / 9; // 9 Cal/gram of fat
+    final double gramsOfCarb = caloriesFromCarb / 4; // 4 Cal/gram of Carb
+    final double gramsOfProtein = caloriesFromProtein / 4; // 4 Cal/gram of Protein
+    System.out.printf("We then divide by Calories per gram for each macronutrient, which gives\n"
+            + "daily macronutrient needs in grams: \n\n"
+            + "%.2f grams of fat, %.2f grams of carbs, %.2f grams of protein \n\n",
+        gramsOfFat, gramsOfCarb, gramsOfProtein);
+
+    /*
+     * (20) A nested ternary operator is used to print different Strings depending on the conditions
+     * of caloriesFromFat > caloriesFromCarb
+     */
+    String result = (caloriesFromFat != caloriesFromCarb
+        ? ((caloriesFromFat > caloriesFromCarb) ? "is fat dominant." : "is carbohydrate dominant.")
+        : "has equal Calories from fat and carbs");
+
+    System.out.println("This random sample distribution of macronutrients " + result);
+  }
+
+  /*
+   * This method allows the user to enter their preferred percentage of daily Calories from fat,
+   * carbohydrate, and protein. User input is only accepted when within normal ranges based
+   * on the US Dietary guidelines.
+   */
+  public void changeMacronutrientPercent(Scanner userScanner) {
+    /*
+     * The method resets these three variables to account for when someone types "back" in
+     * incrementMacroPercent or decrementMacroPercent
      */
     setPercentFat(0);
     setPercentCarb(0);
@@ -609,89 +704,95 @@ public class NewUser extends Introduction {
 
     System.out.println("\n Please enter your preferred percentage of "
         + "Calories from fat sources. An average American diet \n"
-        + "consists of 20-35 percent fat, 45-65 percent carbohydrate, and \n"
-        + "10-35 percent protein. A classic ketogenic diet \n"
-        + "would have 60-75 percent fat, 5-10 percent carbohydrate, \n"
-        + "and 15-30 percent protein.");
+        + "consists of 20-35 percent fat. A classic ketogenic diet \n"
+        + "would have 60-75 percent fat.\n"
+        + "What percent of daily Calories from fat do you prefer? Your input must be"
+        + "between 20.0 and 75.0.\n");
 
     do {
       try {
-
-        System.out
-            .println("What percent of daily Calories " + "from fat do you prefer? Example: 20");
-        setPercentFat(userInfo.nextDouble());
-
+        setPercentFat(userScanner.nextDouble());
         /*
          * (24) Use relation operators (<=, <) (25) Use conditional operators (&& ||)
+         * Exception is thrown if user inputs a double not within the inclusive range [20.0, 75.0],
+         * and InputMismatchException is thrown if the input includes text.
          */
-        if (percentFat <= 0 || percentFat > 75) {
-          System.out.println(
-              "Invalid entry. Please enter your preferred percentage of Calories from fat.");
+        if (getPercentFat() <= 19.9 || getPercentFat() > 75) {
           setPercentFat(0);
-          continue;
+          throw new Exception();
         }
-        System.out.println((0 < percentFat && percentFat < 20)
-            ? "Warning: this is below the recommended minimum percentage from fat. \n"
-            + "Consult a physician and/or a nutritionist to get an individual \n"
-            + "recommendation of your ideal macronutrient distribution."
-            : "");
-
-      } catch (InputMismatchException e) {
-        System.out.println("Error: please enter your preferred percentage of \n"
-            + "Calories from fat. Example: 20.5");
+      } catch (InputMismatchException ex) {
+        System.out.println("Error: your input included text. Please enter your preferred\n"
+            + "percentage of Calories from fat. Example: 45.5");
+        userScanner.nextLine();
+      } catch (Exception ex) {
+        System.out.println("Error: your entry was not between 20.0 and 75.0. Please enter your\n"
+            + "preferred percentage of Calories from fat. Example: 25.5");
+        userScanner.nextLine();
       }
-      userInfo.nextLine();
 
     } while (percentFat == 0);
 
-    System.out.println("\nPlease enter your preferred percentage of "
-        + "Calories from carbohydrate sources. An average American diet \n"
-        + "consists of 20-35 percent fat, 45-65 percent carbohydrate, and \n"
-        + "10-35 percent protein. A classic ketogenic diet \n"
-        + "would have 60-75 percent fat,  5-10 percent carbohydrate, \n"
-        + "and 15-30 percent protein. What percent of daily Calories \n"
-        + "from fat do you prefer? Example: 20 ");
+    System.out.println("\nPlease enter your preferred percentage of Calories from carbohydrate\n"
+        + "sources. An average American diet 45-65 percent carbohydrate.\n"
+        + "A classic ketogenic diet would have 5-10 percent carbohydrate.\n"
+        + "What percent of daily Calories from fat do you prefer? Your input must be \n"
+        + "between 5.0 and 65.0 ");
 
     do {
       try {
-
-        setPercentCarb(userInfo.nextDouble());
-        if (percentCarb <= 0 || percentCarb > 65) {
-          System.out.println("Invalid entry. Please enter your preferred"
-              + " percentage of Calories from carbohydrate between \n" + "5 and 65 percent.");
+        setPercentCarb(userScanner.nextDouble());
+        /*
+         * Exception is thrown if user inputs a double not within the inclusive range [5.0, 65.0],
+         * and InputMismatchException is thrown if the input includes text.
+         */
+        if (percentCarb < 5 || percentCarb > 65) {
           setPercentCarb(0);
-          continue;
+          throw new Exception();
         }
-        System.out.println((0 < percentCarb && percentCarb < 45)
-            ? "Warning: this is below the recommended minimum percentage from carbohydrate. \n"
-            + "Consult a physician and/or a nutritionist to get an individual \n\n"
+        System.out.println((5 <= percentCarb && percentCarb < 45)
+            ? "Warning: this is below the recommended minimum percentage from carbohydrate.\n"
+            + "Consult a physician and/or a nutritionist to get an individual\n"
             + "recommendation of your ideal macronutrient distribution."
             : "");
-
-      } catch (InputMismatchException e) {
-        System.out.println("Error: please enter your preferred percentage of "
-            + "Calories from carbohydrate. Example: 45.5");
+      } catch (InputMismatchException ex) {
+        System.out.println("Error: your input included text. Please enter your preferred\n"
+            + "percentage of Calories from carbohydrate. Example: 45.5");
+        userScanner.nextLine();
+      } catch (Exception ex) {
+        System.out.println("Error: your entry was not between 5.0 and 65.0. Please enter your\n"
+            + "preferred percentage of Calories from carbohydrates between 5.0 and 65.0.");
+        userScanner.nextLine();
       }
-      userInfo.nextLine();
-      // (23) Use %
-      setPercentProtein(Math.rint((1 - ((percentFat + percentCarb) / 100.0) % 1.0) * 100.0));
-      System.out.println("Percent fat: " + percentFat + "\n" + "Percent carb: " + percentCarb + "\n"
-          + "Percent protein: " + percentProtein + "\n");
-
     } while (percentCarb == 0);
+    userScanner.nextLine();
 
+    /*
+     *(23) Use %, proteinPercent is found by taking the remainder of the sum of (percentFat and
+     * percentCarb)/100 divided by 1.0. Example: percentFat = 20, percentCarb = 50,
+     * remaining percent = 0.3 so percentProtein = 30
+     */
+    double remainingPercent = (1 - ((percentFat + percentCarb) / 100.0) % 1.0);
+    setPercentProtein(Math.rint(remainingPercent * 100.0));
+    System.out.println("Percent fat: " + percentFat + "\n" + "Percent carb: " + percentCarb + "\n"
+        + "Percent protein: " + percentProtein + "\n");
   }
 
-  // (23) use ++
+  /*
+   * (23) use ++. This method allows the user to increment the percent of each macronutrient
+   * by typing the name of the macronutrient: fat, carb, or protein. Also, allows them to
+   * proceed by pressing enter, or to call changeMacronutrientPercent(Scanner userScanner)
+   * by entering "back".
+   */
   public void incrementMacroPercent(Scanner userInfo) {
 
     boolean incrementOption = true;
     do {
-      System.out.println("\n To increase a percentage by 1.0% type in the macronutrient,\n"
-          + "either: fat, carb, or protein \n"
+      System.out.println("To increase a percentage by 1.0% type in the macronutrient,\n"
+          + "either: fat, carb, or protein.\n"
           + "This will automatically reduce the other two macronutrients by 0.5%. \n"
-          + "To re-enter your preferred percentages type: back \n"
-          + "To proceed press enter/return.\n");
+          + "To re-enter your preferred percentages type: back\n"
+          + "To proceed press enter/return.");
       String changePercent = userInfo.nextLine();
       switch (changePercent.toLowerCase()) {
         case "fat":
@@ -711,82 +812,189 @@ public class NewUser extends Introduction {
           break;
         case "back":
           changeMacronutrientPercent(userInfo);
-
           break;
         case "":
           incrementOption = false;
           break;
         default:
-          System.out.println("Invalid input.");
+          System.out.println("Your input did not match fat, carb, protein, or back.");
           break;
       }
-
-      System.out.println((incrementOption)
-          ? "\nCurrent distribution: \n" + "Percent fat: " + percentFat + "\n" + "Percent carb: "
-          + percentCarb + "\n" + "Percent protein: " + percentProtein
-          : "\n");
-
-    } while (incrementOption == true);
+      System.out.println("Current distribution: \n"
+          + "Percent fat: " + percentFat + "\n"
+          + "Percent carb: " + percentCarb + "\n"
+          + "Percent protein: " + percentProtein + "\n");
+    } while (incrementOption);
   }
 
-  // (23) use -- and +=
+  /* (23) use -- and +=. This method allows the user to decrement the percent of each macronutrient
+   * by typing the name of the macronutrient: fat, carb, or protein. Also, allows them to
+   * proceed by pressing enter, or to call changeMacronutrientPercent(Scanner userScanner) again
+   * by entering "back".
+   */
   public void decrementMacroPercent(Scanner userInfo) {
     System.out.println("To decrease a percentage by 1.0% type in the macronutrient,\n"
-        + "either: fat, carb, or protein \n"
+        + "either: fat, carb, or protein.\n"
         + "This will automatically increase the other two macronutrients by 0.5%. \n"
-        + "To re-enter your preferred percentages type: back \n" + "To proceed press enter/return");
+        + "To re-enter your preferred percentages type: back \n"
+        + "To proceed press enter/return");
 
     boolean decrementOption = true;
     do {
-
       String changePercent = userInfo.nextLine();
       switch (changePercent.toLowerCase()) {
-
         case "fat":
           setPercentFat(--percentFat);
           setPercentCarb(percentCarb += 0.5);
           setPercentProtein(percentProtein += 0.5);
           break;
-
         case "carb":
           setPercentCarb(--percentCarb);
           setPercentFat(percentFat += 0.5);
           setPercentProtein(percentProtein += 0.5);
           break;
-
         case "protein":
           setPercentProtein(--percentProtein);
           setPercentFat(percentFat += 0.5);
           setPercentCarb(percentCarb += 0.5);
           break;
-
         case "back":
           changeMacronutrientPercent(userInfo);
           break;
-
         case "":
           decrementOption = false;
           break;
-
         default:
-          System.out.println("Invalid input.");
+          System.out.println("Your input did not match fat, carb, protein, or back.");
           break;
       }
-
-      System.out.println(
-          (decrementOption) ? "\nCurrent distribution: \n" + "Percent fat: " + percentFat + "\n"
-              + "Percent carb: " + percentCarb + "\n" + "Percent protein: " + percentProtein + "\n"
-              + "Please type either \n " + "fat, carb, or protein to increment the respective \n"
-              + "macronutrient. To re-enter your percentages type: back \n"
-              + "To proceed press enter/return" : "\n");
-
+      System.out.println("Current distribution: \n"
+          + "Percent fat: " + percentFat + "\n"
+          + "Percent carb: " + percentCarb + "\n"
+          + "Percent protein: " + percentProtein + "\n");
     } while (decrementOption);
   }
 
   /*
-   * (14) Parameters are userScanner and newGoalIsSet, returns the boolean named goalIsSet
+   * User previously input their preferred fatPercent, carbPercent and proteinPercent, and this
+   * method accepts these arguments with the parameters defined within the parentheses. Grams of
+   * each macronutrient are set using each setter method, and the values are printed to stdout.
+   * Using the get method for each goalGrams variable, we instantiate and initialize a
+   * one-dimensional array using setGoalGrams().
    */
-  public boolean changeMacrosByGoal(Scanner userScanner, boolean newGoalIsSet) {
+  public void calculateGoalGrams(double fatPercent, double carbPercent, double proteinPercent) {
+
+    setGoalGramsFat(Math.rint((fatPercent / 100) * (getGoalDailyCalories()) / 9));
+    setGoalGramsCarb(Math.rint((carbPercent / 100) * (getGoalDailyCalories()) / 4));
+    setGoalGramsProtein(Math.rint((proteinPercent / 100) * (getGoalDailyCalories()) / 4));
+    System.out.println("Your daily macronutrient requirements in grams:\n"
+        + "Fat: " + getGoalGramsFat() + " g from " + fatPercent + "% of daily Calories" + "\n"
+        + "Carbs: " + getGoalGramsCarb() + " g from " + carbPercent + "% of daily Calories" + "\n"
+        + "Protein: " + getGoalGramsProtein() + " g from " + proteinPercent + "% of daily Calories"
+        + "\n");
+
+    // (37) instantiate and initialize a one-dimensional array
+    setGoalGrams(new double[]{getGoalGramsFat(), getGoalGramsCarb(), getGoalGramsProtein()});
+  }
+
+  /*
+   * generateMealPlanOptions() is overloaded, and the method below without a parameter prints each
+   * possible count of grams of fat, carbohydrate and protein for each meal if the user were to
+   * eat 1,2,3,4,5, or 6 meals per day.
+   */
+  public void generateMealPlanOptions() {
+
+    // (28) Use for loops
+    for (int meals = 1; meals <= 6; meals++) {
+      System.out.println("Meals per day: " + meals + "\n"
+          + "Fat: " + (Math.rint(getGoalGrams(0) / meals)) + " g\n"
+          + "Carbs: " + (Math.rint(getGoalGrams(1) / meals)) + " g\n"
+          + "Protein: " + (Math.rint(getGoalGrams(2) / meals)) + " g\n");
+    }
+  }
+
+  /*
+   * This method prints the grams of fat, carb, and protein per meal for the specific number of
+   * meals that the user enters, which is passed into the parameter, int meals.
+   */
+  public void generateMealPlanOptions(int meals) {
+    System.out.println("Meals per day: " + meals + "\n"
+        + "Fat: " + (Math.rint(getGoalGrams(0) / meals)) + " g\n"
+        + "Carbs: " + (Math.rint(getGoalGrams(1) / meals)) + " g\n"
+        + "Protein: " + (Math.rint(getGoalGrams(2) / meals)) + " g\n");
+  }
+
+  /*
+   * This method allows the user an option to calculate goalGrams of each macronutrient in an
+   * arbitrary number of servings. This is helpful if you plan on eating a number of servings
+   * that is not a whole integer
+   */
+  public void calculateGramsPerServing(Scanner userScanner) {
+    /*
+     * This method gives the user the option of calculating the total grams of each
+     * If user input is yes, then the Scanner will prompt for goalGrams of each macronutrient per
+     * serving and number of servings. Otherwise, calcServingOption is set to false and the loop is
+     * broken
+     */
+    while (getCalculateGramsPerMealOption()) {
+      System.out.println("If you would like to estimate the total grams of \n"
+          + "fat, carbs, and protein in an specific number of servings of a food using the \n"
+          + "the nutritional label please type yes, otherwise type anything else to continue.\n");
+      String input = userScanner.nextLine().toLowerCase().trim();
+
+      if (input.equals("yes")) {
+        System.out.println("Please enter the grams of fat per serving.");
+        double servingFatGrams = userScanner.nextDouble();
+
+        System.out.println("Please enter the grams of carbohydrate per serving.");
+        double servingCarbGrams = userScanner.nextDouble();
+
+        System.out.println("Please enter the grams protein per serving.");
+        double servingProteinGrams = userScanner.nextDouble();
+
+        System.out.println("Roughly how many servings did you or will you have?");
+        double servings = userScanner.nextDouble();
+        /*
+         * The array named mealGramTotals is initialized with the total grams of fat, carbs,
+         * and protein for the given number of servings.
+         */
+        mealGramTotals[0] = (servingFatGrams * servings);
+        mealGramTotals[1] = (servingCarbGrams * servings);
+        mealGramTotals[2] = (servingProteinGrams * servings);
+        System.out.println("Total grams for " + servings + " servings:");
+        /*
+         *(28) Use for loops; this for loop prints the Strings in the array
+         * named macronutrients, and the double values in the array named gramTotals
+         *(41) Create and use the enhanced for loop
+         */
+        for (String macro : macronutrients) {
+          System.out.print(macro + " ");
+        }
+        System.out.println();
+        for (double gramTotal : mealGramTotals) {
+          System.out.printf("%.0f    ", gramTotal);
+        }
+        System.out.println();
+        userScanner.nextLine();
+      } else {
+        setCalculateGramsPerMealOption(false);
+      }
+    }
+  }
+
+  /*
+   * (14) Parameters are userScanner and newGoalIsSet, returns the boolean named goalIsSet.
+   * This method allows the user to change the daily goal grams of each macronutrient according
+   * to their goal. If their goal is to maintain, then no change occurs. If the goal is to
+   * lose 1 pound per week, then 500 Calories is deducted from the estimated TDEE. For 2 pounds
+   * per week, 1000 Calories is deducted. To gain a half pound per week, 250 Calories are added
+   * to the goalDailyCalories, and for 1 pound of weight gain per week, 500 Calories are added.
+   */
+  public void changeMacrosByGoal(Scanner userScanner) {
+    /*
+     * The do-while loop is only broken when the goalIsSet boolean is set to true by the returned
+     * boolean from the confirmGoal() method.
+     */
     boolean goalIsSet = false;
     do {
       System.out.println("Type the number next to your goal to set your current "
@@ -798,286 +1006,127 @@ public class NewUser extends Introduction {
       String userGoal = userScanner.nextLine();
       switch (userGoal) {
         case "1":
-          setDailyEnergy(getDailyEnergy() - 500);
+          setGoalDailyCalories(getTDEE() - 500);
           setGoal("Lose 1 pound per week");
           /*
            *(36) Use this to access objects
            */
-          goalIsSet = confirmGoal(this, userScanner, newGoalIsSet);
+          goalIsSet = confirmGoal(this, userScanner, goalIsSet);
           break;
         case "2":
-          setDailyEnergy(getDailyEnergy() - 1000);
+          setGoalDailyCalories(getTDEE() - 1000);
           setGoal("Lose 2 pounds per week");
-          goalIsSet = confirmGoal(this, userScanner, newGoalIsSet);
+          goalIsSet = confirmGoal(this, userScanner, goalIsSet);
           break;
         case "3":
-          setDailyEnergy(getDailyEnergy() + 250);
+          setGoalDailyCalories(getTDEE() + 250);
           setGoal("Gain half a pound per week");
-          goalIsSet = confirmGoal(this, userScanner, newGoalIsSet);
+          goalIsSet = confirmGoal(this, userScanner, goalIsSet);
           break;
         case "4":
-          setDailyEnergy(getDailyEnergy() + 500);
+          setGoalDailyCalories(getTDEE() + 500);
           setGoal("Gain one pound per week");
-          goalIsSet = confirmGoal(this, userScanner, newGoalIsSet);
+          goalIsSet = confirmGoal(this, userScanner, goalIsSet);
           break;
         default:
+          setGoalDailyCalories(getTDEE());
           setGoal("Maintain current weight");
-          goalIsSet = confirmGoal(this, userScanner, newGoalIsSet);
+          goalIsSet = confirmGoal(this, userScanner, goalIsSet);
           break;
       }
-
     } while (!goalIsSet);
-
-    return goalIsSet;
   }
 
   /*
-   * User previously input their preferred fatPercent, carbPercent and proteinPercent, and this
-   * method accepts these arguments with the parameters defined within the parentheses. Grams of
-   * each macronutrient is set using each setter method, and the values are printed to stdout. Using
-   * the get method for each grams variable, we instantiate and initialize a one-dimensional array
-   * using setGrams().
+   * This method calls calculateGoalGrams() which uses percentFat, percentCarb, and percentProtein
+   * to calculate an estimate of daily grams according to the users weight change goal. It is
+   * called from changeMacrosByGoal() and returns a boolean to confirm that the goal has been set.
    */
-  public void calculateGrams(double fatPercent, double carbPercent, double proteinPercent) {
+  public boolean confirmGoal(NewUser user, Scanner userScanner, boolean goalSet) {
 
-    setGoalGramsFat(Math.rint((fatPercent / 100) * (getDailyEnergy()) / 9));
-    setGoalGramsCarb(Math.rint((carbPercent / 100) * (getDailyEnergy()) / 4));
-    setGoalGramsProtein(Math.rint((proteinPercent / 100) * (getDailyEnergy()) / 4));
-    System.out.println("Your daily macronutrient requirements in grams:\n" + "Fat: " + getGoalGramsFat()
-        + " g\n" + "Carbs: " + getGoalGramsCarb() + " g\n" + "Protein: " + getGoalGramsProtein() + " g\n");
-
-    // (37) instantiate and initialize a one-dimensional array
-    setGrams(new double[]{getGoalGramsFat(), getGoalGramsCarb(), getGoalGramsProtein()});
-  }
-
-  public void generateMealPlanOptions() {
-
-    // (28) Use for loops
-    for (int meals = 1; meals <= 6; meals++) {
-
-      System.out.println("Meals per day: " + meals + "\n" + "Fat: "
-          + (Math.rint(getGrams(0) / meals)) + " g\n" + "Carbs: " + (Math.rint(getGrams(1) / meals))
-          + " g\n" + "Protein: " + (Math.rint(getGrams(2) / meals)) + " g\n");
-    }
-  }
-
-  public void generateMealPlanOptions(int meals) {
-    System.out.println("Meals per day: " + meals + "\n" + "Fat: " + (Math.rint(getGrams(0) / meals))
-        + " g\n" + "Carbs: " + (Math.rint(getGrams(1) / meals)) + " g\n" + "Protein: "
-        + (Math.rint(getGrams(2) / meals)) + " g\n");
-  }
-
-  /*
-   * This method allows the user an option to calculate grams of each macronutrient in an arbitrary
-   * number of servings. This is helpful if you plan on eating a number of servings that is not a
-   * whole integer
-   */
-  public void calculateGramsPerServing(Scanner userScanner) {
-
+    calculateGoalGrams(user.getPercentFat(), user.getPercentCarb(), user.getPercentProtein());
     /*
-     * getCalcServingOption() returns the boolean calcServingOption, which is initialized to true.
-     * If user input is yes, then the Scanner will prompt for grams of each macronutrient per
-     * serving and number of servings. Otherwise, calcServingOption is set to false and the loop is
-     * broken
+     * Prints the users chosen goal, and requests an input of back to choose a different goal,
+     * or enter to continue. If the scanner reads an empty line with nextLine() then goalSet
+     * is set to true, which is returned to the method changeMacrosByGoal() where this method
+     * is called.
      */
-    while (getCalcServingOption()) {
-      System.out.println("If you would like to estimate the grams of \n"
-          + "fat, carbs, and protein in your last meal using the \n"
-          + "grams per serving on the nutritional label please \n"
-          + "type yes, otherwise type anything else to continue.\n");
-      String input = userScanner.nextLine().toLowerCase().trim();
-
-      if (input.equals("yes")) {
-        System.out.println("Please enter grams of fat per serving.");
-        double servingFatGrams = userScanner.nextDouble();
-
-        System.out.println("Please enter grams of carbohydrate per serving.");
-        double servingCarbGrams = userScanner.nextDouble();
-
-        System.out.println("Please enter grams protein per serving.");
-        double servingProteinGrams = userScanner.nextDouble();
-
-        System.out.println("Roughly how many servings did you have?");
-        double servings = userScanner.nextDouble();
-
-        /*
-         * Two arrays are declared, instantiated and initialized locally to print out the gram
-         * totals for the number of servings given by the user.
-         */
-
-        String[] macronutrients = new String[]{"Fat: ", "Carbs: ", "Protein: "};
-        double[] gramTotals = new double[]{(servingFatGrams * servings),
-            (servingCarbGrams * servings), (servingProteinGrams * servings)};
-
-        System.out.println("Total macronutrients for " + servings + " servings:\n");
-
-        // (28) Use for loops; this for loop prints the values
-        for (String index1 : macronutrients) {
-          System.out.print(index1);
-          for (double index2 : gramTotals) {
-            System.out.printf("%.0f\n", index2);
-          }
-        }
-      } else {
-        setCalcServingOption(false);
-        break;
-      }
-      userScanner.nextLine();
-    }
-  }
-
-  public boolean confirmGoal(NewUser user, Scanner userScanner, boolean goalBool) {
-    calculateGrams(user.getPercentFat(), user.getPercentCarb(), user.getPercentProtein());
     System.out.println("Current goal: " + user.getGoal() + " \n"
         + "Type back to choose a different goal,\n" + "or press enter to continue.");
-
-    boolean isInvalidInput = false;
+    boolean isInvalidInput;
     do {
       String input = userScanner.nextLine();
-
       switch (input) {
         case "":
-          goalBool = true;
+          goalSet = true;
           isInvalidInput = false;
           break;
         case "back":
-          goalBool = true;
-          returnToMaintenance(this);
-          changeMacrosByGoal(userScanner, goalBool);
+          /*
+           * Resets the goalDailyCalories to the estimated TDEE, which is daily Calories to
+           * maintain weight, sets the isInvalidInput boolean to false to break the while loop,
+           * and calls the method changeMacrosByGoal() again.
+           */
+          setGoalDailyCalories(getTDEE());
           isInvalidInput = false;
+          changeMacrosByGoal(userScanner);
           break;
         default:
-          System.out.println("Invalid input.");
+          System.out.println("Invalid input. Please press enter to continue, or type back\n"
+              + "then press enter to reset your goal.");
           isInvalidInput = true;
           break;
-
       }
-
     } while (isInvalidInput);
-
-    return goalBool;
-  }
-
-  public void returnToMaintenance(NewUser user) {
-    String chosenGoal = user.getGoal();
-    switch (chosenGoal) {
-      case "Lose 1 pound per week":
-        user.setDailyEnergy(getDailyEnergy() + 500);
-        calculateGrams(user.getPercentFat(), user.getPercentCarb(), user.getPercentProtein());
-        break;
-      case "Lose 2 pounds per week":
-        user.setDailyEnergy(getDailyEnergy() + 500);
-        calculateGrams(user.getPercentFat(), user.getPercentCarb(), user.getPercentProtein());
-        break;
-      case "Gain half a pound per week":
-        user.setDailyEnergy(getDailyEnergy() - 250);
-        calculateGrams(user.getPercentFat(), user.getPercentCarb(), user.getPercentProtein());
-        break;
-      case "Gain one pound per week":
-        user.setDailyEnergy(getDailyEnergy() - 500);
-        calculateGrams(user.getPercentFat(), user.getPercentCarb(), user.getPercentProtein());
-        break;
-      default:
-        break;
-    }
+    return goalSet;
   }
 
   public void printInfo() {
-    System.out.println("\n" + "Name: " + getUserName() + "\n" + "Age: " + getUserAge()
-        + " years old" + "\n" + "Height: " + getUserHeight() + " inches" + "\n" + "Weight: "
-        + getUserWeight() + "\n" + "Sex: " + getBiologicalSex() + "\n" + "Body Fat Percentage: "
-        + (getUserBodyFat() * 100) + "%\n" + "Workouts per week: " + getWorkoutsPerWeek());
-
-    System.out.printf("Estimated Daily Calories: " + "%.0f Calories\n\n", getDailyEnergy());
-
-    // (37) Use a one-dimensional array
-    System.out.println("Percent fat: " + getPercentFat() + "\n" + "Daily grams of fat: "
-        + getGrams(0) + "\n" + "Percent carbs: " + getPercentCarb() + "\n"
-        + "Daily grams of carbs: " + getGrams(1) + "\n" + "Percent protein: " + getPercentProtein()
-        + "\n" + "Daily grams of protein: " + getGrams(2) + "\n");
-  }
-
-  public void giveRandomExampleOption(Scanner userScanner) {
-
-    while (randomOption) {
-
-      System.out.println("Would you like to generate a random distribution of macronutrients?\n"
-          + "Type yes for a random example or \n type anything else to enter your own"
-          + " percentages.\n");
-      userScanner.nextLine();
-      String randomInput = userScanner.nextLine();
-
-      if (randomInput.toLowerCase().equals("yes")) {
-
-        generateRandomExample();
-        randomOption = false;
-
-      } else {
-        randomOption = false;
-
-      }
-    }
-  }
-
-  public void generateRandomExample() {
-
-    Random macroSample = new Random();
-
     /*
-     * (11) final fields (17) Use the Random class
+     * Prints user's name, age, height, weight, sex, body fat percentage, workouts per week,
+     * and estimated daily Calories.
      */
-
-    final int FAT_PERCENT = macroSample.nextInt(15) + 20;
-    final int CARB_PERCENT = macroSample.nextInt(20) + 45;
-    final int PROTEIN_PERCENT = 100 - FAT_PERCENT - CARB_PERCENT;
-
-    System.out.printf("Randomized example of daily macronutrient distribution: "
-        + "%d%% Fat %d%% Carbs %d%% Protein\n\n", FAT_PERCENT, CARB_PERCENT, PROTEIN_PERCENT);
-
-    final double caloriesFromFat = (FAT_PERCENT / 100.0) * (getDailyEnergy());
-    final double caloriesFromCarb = (CARB_PERCENT / 100.0) * (getDailyEnergy());
-    final double caloriesFromProtein = (PROTEIN_PERCENT / 100.0) * (getDailyEnergy());
-
-    System.out.printf(
-        "If we multiply each percentage by the total daily energy expenditure we get: \n"
-            + "(%d/100)*(%.0f) = %.0f Calories from fat\n"
-            + "(%d/100)*(%.0f) = %.0f Calories from carbs\n"
-            + "(%d/100)*(%.0f) = %.0f Calories from protein.\n\n",
-        FAT_PERCENT, getDailyEnergy(), caloriesFromFat,
-        CARB_PERCENT, getDailyEnergy(), caloriesFromCarb,
-        PROTEIN_PERCENT, getDailyEnergy(), caloriesFromProtein);
-
-    final double gramsOfFat = caloriesFromFat / 9; // 9 Cal/gram
-    final double gramsOfCarb = caloriesFromCarb / 4; // 4 Cal/gram
-    final double gramsOfProtein = caloriesFromProtein / 4; // 4 Cal/gram
-
-    System.out.printf(
-        "We then divide by Calories per gram for each "
-            + "macronutrient, which gives daily macronutrient needs \n"
-            + "in grams: \n\n%.2f grams of fat, %.2f grams of carbs, %.2f grams of protein \n\n",
-        gramsOfFat, gramsOfCarb, gramsOfProtein);
-
+    System.out.printf("Name: " + getUserName() + "\n"
+        + "Age: " + getUserAge() + " years old" + "\n"
+        + "Height: " + getUserHeight() + " inches" + "\n"
+        + "Weight: " + getUserWeight() + "\n"
+        + "Sex: " + getBiologicalSex() + "\n"
+        + "Body Fat Percentage: " + (getUserBodyFat() * 100) + "%\n"
+        + "Workouts per week: " + getWorkoutsPerWeek()
+        + "Current Goal: " + getGoal()
+        + "Estimated Goal Daily Calories: %.0f Calories\n", getGoalDailyCalories());
     /*
-     * (20) A nested ternary operator is used to print different Strings depending on the conditions
-     * of caloriesFromFat > caloriesFromCarb
+     *(37) Use a one-dimensional array. Prints user goal, percent of Calories from each
+     * macronutrient, and the daily target grams of each macronutrient for the user's goal
      */
-    String result = (caloriesFromFat != caloriesFromCarb
-        ? (caloriesFromFat > caloriesFromCarb ? "is fat dominant." : "is carbohydrate dominant.")
-        : "has equal Calories from fat and carbs");
-
-    System.out.println("This random sample distribution of macronutrients " + result);
+    System.out.println("Percent fat: " + getPercentFat() + "\n"
+        + "Percent carbs: " + getPercentCarb() + "\n"
+        + "Percent protein: " + getPercentProtein() + "\n"
+        + "Daily target grams of fat: " + getGoalGrams(0) + "\n"
+        + "Daily target grams of carbs: " + getGoalGrams(1) + "\n"
+        + "Daily target grams of protein: " + getGoalGrams(2) + "\n");
   }
 
+  @Override
   public void runUserFunctions(Scanner userScanner) {
-
+    /*
+     * First, the method estimateTDEE() calculates an estimate of basal metabolic rate(BMR)
+     * and total daily energy expenditure (TDEE). Then, the method giverRandomExampleOption()
+     * is called, which gives the user the option to generate a random example of daily grams
+     * from fat, carbohydrate, and protein.
+     */
     estimateTDEE();
     giveRandomExampleOption(userScanner);
-
+    /*
+     * Once the user opts against generating a random example, then the methods within the
+     * while loop are called. Once the user makes it through these methods, then the break
+     * statement exits the loop.
+     */
     while (!getRandomOption()) {
       changeMacronutrientPercent(userScanner);
       incrementMacroPercent(userScanner);
       decrementMacroPercent(userScanner);
-      calculateGrams(getPercentFat(), getPercentCarb(), getPercentProtein());
+      calculateGoalGrams(getPercentFat(), getPercentCarb(), getPercentProtein());
       /*
        * (30) The break statement will break the loop, and operates as if we were to write:
        * randomOption = true Both statements will exit the loop
@@ -1092,16 +1141,16 @@ public class NewUser extends Introduction {
         + "carbs, and protein you would need if you ate 1-6 meals?\n");
 
     while (getMealPlanOption()) {
-
       /*
        * If the user types "yes" the switch statement calls generateMealPlanOptions(), which prints
-       * grams per meal for every number 1-6. If the user types a single number between 1 and 6 then
-       * the switch statement will call generateMealPlanOptions(int meals) which prints an estimate
-       * of grams per meal for that #. Any other input exits the loop.
+       * goalGrams per meal for every number 1-6. If the user types a single number between 1 and 6
+       * then the switch statement will call generateMealPlanOptions(int meals) which prints an
+       * estimate of goalGrams per meal for that #. Any other input exits the loop.
        */
-      System.out.println("Type yes to estimate grams per meal for 1, 2, 3, 4, 5, and 6 meals. \n"
-          + "Type 1, 2, 3, 4, 5 or 6 to estimate grams per meal for only one meal frequency,\n"
-          + "or type anything else to continue.\n");
+      System.out
+          .println("Type yes to estimate goalGrams per meal for 1 through 6 meals. \n"
+              + "Type 1, 2, 3, 4, 5 or 6 to estimate grams per meal for only one meal frequency,\n"
+              + "or type anything else to continue.\n");
       String input = userScanner.nextLine().toLowerCase().trim();
       switch (input) {
         case "":
@@ -1133,32 +1182,23 @@ public class NewUser extends Introduction {
           break;
       }
     }
+    /*
+     * Once calculateGramsPerMealOption is set to false, then the
+     * changeMacrosByGoal(Scanner userScanner) method is called.
+     * Within the calculateGramsPerMeal() method, the user is given the option to calculate the
+     * grams of each macronutrient in a food with nutrition information for an arbitrary decimal
+     * number of servings.
+     */
 
-    if (!getMealPlanOption()) {
-      calculateGramsPerServing(userScanner);
-
-    }
+    calculateGramsPerServing(userScanner);
 
     System.out.println("A daily caloric deficit of roughly 500 Calories must\n"
         + "be expended to lose one pound in one week. Conversely, a daily\n"
         + "caloric surplus of roughly 500 Calories must be consumed to gain\n"
         + "one pound in one week. Rapid weight changes are not recommended.\n");
-
-    /*
-     * Once getCalServingOption returns false,
-     */
-    while (!getCalcServingOption()) {
-      boolean goalSet = false;
-      do {
-        goalSet = changeMacrosByGoal(userScanner, goalSet);
-
-      } while (goalSet == false);
-      break;
-    }
-
+    changeMacrosByGoal(userScanner);
     printInfo();
-    findSmallest(getGrams());
-
+    findSmallest(getGoalGrams());
   }
 
   /*
@@ -1175,7 +1215,7 @@ public class NewUser extends Introduction {
     }
     if (smallestInGrams == gramsParam[0]) {
       System.out
-          .println("Your smallest number of daily grams is from fat: " + gramsParam[0] + " g\n"
+          .println("Your smallest number of daily goalGrams is from fat: " + gramsParam[0] + " g\n"
               + (gramsParam[0] < 40.0
               ? "Please consult a physician and/or a nutritionist to get \n"
               + "an individual recommendation of daily fat requirements. This a very low \n"
@@ -1184,48 +1224,71 @@ public class NewUser extends Introduction {
 
     } else if (smallestInGrams == gramsParam[1]) {
       System.out
-          .println("Your smallest number of daily grams is from carbs: " + gramsParam[1] + " g\n");
+          .println(
+              "Your smallest number of daily goalGrams is from carbs: " + gramsParam[1] + " g\n");
     } else {
       System.out.println(
-          "Your smallest number of daily grams is from protein: " + gramsParam[2] + " g\n");
+          "Your smallest number of daily goalGrams is from protein: " + gramsParam[2] + " g\n");
     }
   }
 
   /*
    * (40)Search an array and identify the index where a value was found.
    */
-  public void searchArray(Scanner userScanner) {
-    System.out.println("Array search method: please enter the number of integers you would like\n"
-        + "to search through.");
-    boolean arraySizeSet = false;
+  public static void searchArray(Scanner userScanner) {
+    System.out.println("Array search method: please enter a number of integers you would like\n"
+        + "to search through. The number must be a whole number greater than or equal to 1 and"
+        + "less than or equal to 10.");
+    /*
+     * The user enters an array size in the inclusive range [0,10]. InputMismatchException is
+     * caught if text or decimals are entered, and custom exception is thrown if the input is
+     * not within the inclusive range [0,10],
+     */
+    boolean arraySizeIsSet = false;
     int arraySize = 0;
-    while (!arraySizeSet) {
+    while (!arraySizeIsSet) {
       try {
         arraySize = userScanner.nextInt();
-        arraySizeSet = true;
+        if (arraySize < 1 || arraySize > 10) {
+          throw new Exception();
+        }
+        arraySizeIsSet = true;
       } catch (InputMismatchException ex) {
-        System.out.println("Please enter a whole integer number. Example: 5");
+        System.out.println("Your input included text or was a decimal number.\n"
+            + "Please enter a whole number greater than or equal to 1 and less than\n"
+            + "or equal to 10. Example: 5");
         userScanner.nextLine();
+      } catch (Exception ex) {
+        System.out.println("Your input was not in the correct range.\n"
+            + "Please enter a whole number greater than or equal to 1 and less than\n"
+            + "or equal to 10. Example: 5");
       }
     }
+    /*
+     * Array named inputArray is declared and instantiated with the input arraySize. The for loop
+     * sets elementIsSet to false and initializes each element of the array on each iteration.
+     * The while loop contains a try/catch block to make sure each input is an int.
+     */
     int[] inputArray = new int[arraySize];
-
     int index = 0;
     boolean elementIsSet;
     for (index = 0; index < arraySize; index++) {
       elementIsSet = false;
-      System.out.println("Please enter a whole integer. Example: 5");
+      System.out.println("Please enter integer number " + (index + 1) + ". Example: 5");
       while (!elementIsSet) {
         try {
           inputArray[index] = userScanner.nextInt();
           elementIsSet = true;
-        } catch (InputMismatchException ex){
-          System.out.println("Your input included text. Please enter a whole number. Example: 5");
+        } catch (InputMismatchException ex) {
+          System.out.println("Your input included text or was a decimal number.\n"
+              + "Please enter a whole number. Example: 5");
           userScanner.nextLine();
         }
       }
     }
-
+    /*
+     * The searchValue is ensured to be an integer with the try/catch block within the while loop.
+     */
     int searchValue = 0;
     boolean searchValueEntered = false;
     System.out
@@ -1235,28 +1298,39 @@ public class NewUser extends Introduction {
         searchValue = userScanner.nextInt();
         searchValueEntered = true;
       } catch (InputMismatchException ex) {
-        System.out.println("Please enter a whole integer value. Example: 5");
+        System.out.println("Your input included text or was a decimal number.\n"
+            + "Please enter a whole integer value. Example: 5");
         userScanner.nextLine();
       }
     }
     index = 0;
-
-    ArrayList<Integer> indicesFound = new ArrayList<>(inputArray.length);
+    ArrayList<Integer> indexesFound = new ArrayList<>(inputArray.length);
     /*
-     * Searches the entire array for the searchValue
+     * Searches the entire array for the searchValue, and adds the indexes to the arrayList
+     * named indexesFound.
      */
+    boolean searchValueFound = false;
     while (index < inputArray.length) {
       if (inputArray[index] == searchValue) {
-        indicesFound.add(index);
+        searchValueFound = true;
+        indexesFound.add(index);
         index += 1;
       } else {
         index += 1;
       }
     }
-    System.out.println("The value you gave was found at the following indices.");
-    for (Integer num : indicesFound) {
-      System.out.print(num + " ");
+    /*
+     * If the searchValue is found the indexes are printed to stdout, otherwise the user is
+     * notified that the searchValue was not found.
+     */
+    if (searchValueFound) {
+      System.out.println("The value was found at the following index(es).");
+      for (int num : indexesFound) {
+        System.out.print(num + " ");
+      }
       System.out.println();
+    } else {
+      System.out.println("The value was not found in the integers you entered.\n");
     }
   }
 }

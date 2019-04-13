@@ -1,5 +1,10 @@
 package com.nolzaj93.macrofriend;
-//Austin Nolz
+
+//
+// Austin Nolz
+// The UserCalendar class is still in a primitive stage of development. This class will create
+// a DailyTracker object for every day of every year, and will eventually connect to a database.
+//
 
 import java.time.*;
 import java.util.InputMismatchException;
@@ -9,13 +14,12 @@ public class UserCalendar {
 
   private LocalDate today = LocalDate.now();
   /*
-   * Declare multi-dimensional arrays
+   * (42) Declare multi-dimensional arrays
    */
   private String[][] monthsAndDays = new String[12][];
   private DailyTracker[][] monthAndDayTracker = new DailyTracker[12][];
   private int currentMonth = today.getMonthValue();
   private int currentDay = today.getDayOfMonth();
-
 
   public UserCalendar() {
     boolean isLeapYr = today.isLeapYear();

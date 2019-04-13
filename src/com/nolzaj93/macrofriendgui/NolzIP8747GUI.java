@@ -12,7 +12,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- *
+ * GUI is in infant stage.
  * @author Austin Nolz
  */
 public class NolzIP8747GUI extends Application {

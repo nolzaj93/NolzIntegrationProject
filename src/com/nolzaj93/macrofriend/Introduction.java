@@ -28,6 +28,51 @@ public class Introduction {
      * https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html
      */
     Scanner userInfo = new Scanner(System.in);
+    /*
+     * Creates an object named sampleCalendar from the UserCalendar class, and calls the
+     * searchMonthAndDay(Scanner userScanner) method.
+     */
+    UserCalendar sampleCalendar = new UserCalendar();
+
+    boolean monthAndDaySearchOption = true;
+    while(monthAndDaySearchOption) {
+      System.out.println("Please type yes to run the two-dimensional array search, or press\n"
+          + "enter to skip this method.");
+      String twoDArraySearchInput = userInfo.nextLine().toLowerCase().trim();
+      switch (twoDArraySearchInput) {
+        case "yes":
+          sampleCalendar.searchMonthAndDay(userInfo);
+          break;
+        case "":
+          monthAndDaySearchOption = false;
+          break;
+        default:
+          System.out.println("Your input was invalid.\n");
+          break;
+      }
+    }
+    /*
+     * NewUser contains the static method named searchArray(Scanner userScanner), which is called
+     * using the class name because static methods belong to the class and not a specific
+     * instance.
+     */
+    boolean arraySearchOption = true;
+    while(arraySearchOption) {
+      System.out.println("Please type yes to run the array search, or press\n"
+          + "enter to skip this method.");
+      String arraySearchInput = userInfo.nextLine().toLowerCase().trim();
+      switch (arraySearchInput) {
+        case "yes":
+          NewUser.searchArray(userInfo);
+          break;
+        case "":
+          arraySearchOption = false;
+          break;
+        default:
+          System.out.println("Your input was invalid.\n");
+          break;
+      }
+    }
 
     /*
      * (35) Develop code that makes use of polymorphism.
@@ -39,9 +84,6 @@ public class Introduction {
      * and overridden method code will be executed even from a call from an object that
      * has the base type.
      */
-    UserCalendar sampleCalendar = new UserCalendar();
-    sampleCalendar.searchMonthAndDay(userInfo);
-
     NewUser user1 = new NewUser(userInfo);
     Introduction user = (Introduction) user1;
     user.runUserFunctions(userInfo);
@@ -58,6 +100,7 @@ public class Introduction {
       user2.runUserFunctions(userInfo);
     }
     user1.printInfo();
+    userInfo.close();
   }
 
   // Explicitly defined no-argument constructor prints welcome message every time
@@ -66,7 +109,7 @@ public class Introduction {
   }
 
   /*
-   * (35) Polymorphism
+   * (35) Develop code that makes use of polymorphism
    */
   public void runUserFunctions(Scanner userScanner) {
     System.out.println("This method and statement will not be reached from a NewUser object even "

@@ -20,9 +20,10 @@ public class DailyTracker {
   private double totalDailyCarbGrams = 0;
   private double totalDailyProteinGrams = 0;
 
-  public DailyTracker(){
+  public DailyTracker() {
 
   }
+
   public ArrayList<Double> getDailyFatGrams() {
     return dailyFatGrams;
   }

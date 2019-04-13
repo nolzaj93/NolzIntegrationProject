@@ -8,36 +8,39 @@ PSI 3
    
    (33)Overload a method 
      
-   (33) NewUser.generateMealPlanOptions(), line 516
+   (33) NewUser.generateMealPlanOptions(), line 853, 
+        NewUser.generateMealPlanOptions(int meals), line 864
     
    (34)Describe inheritance and its benefits 
    
-   (34) NewUser, line 7
+   (34) NewUser, line 11
     
    (35)Develop code that makes use of polymorphism
    
-   (35)Introduction, line 34, 69, NewUser.runUserFunctions(Scanner userScanner)
+   (35)Introduction, line 33, 49,
+       NewUser.runUserFunctions(Scanner userScanner), line 1071
+       Introduction.runUserFunctions(Scanner userScanner), line 74
     
    (36)Use super and this to access objects and constructors
    
-   (36)NewUser.NewUser(Scanner userScanner), line 42,
-       NewUser.changeMacrosByGoal(Scanner userScanner, boolean newGoalIsSet), line 799
+   (36)NewUser.NewUser(Scanner userScanner), line 43,
+       NewUser.changeMacrosByGoal(Scanner userScanner, boolean newGoalIsSet), line 806
    
    (37)Declare, instantiate, initialize and use a one-dimensional array
    
-   (37) NewUser.grams line 38, NewUser.calculateGrams line 844, NewUser.printInfo() line 988
+   (37) NewUser.grams line 38, NewUser.calculateGrams line 851, NewUser.printInfo() line 995
    
    (38)Manually find the smallest value in an array
  
-   (38) NewUser.findSmallest(), line 1160
+   (38) NewUser.findSmallest(double[] gramsParam), line 1169
    
    (39)Get a sum of the values in an array using an accumulator.
    
-   (39) DailyTracker.addNewMeal(double fatGrams, double carbGrams, double proteinGrams)
+   (39) DailyTracker.addNewMeal(double fatGrams, double carbGrams, double proteinGrams), line 68
     
    (40)Search an array and identify the index where a value was found.
    
-   (40) NewUser.searchArray(Scanner userScanner)
+   (40) NewUser.searchArray(Scanner userScanner), line 1199
     
    (41)Create and use the enhanced for loop
    
