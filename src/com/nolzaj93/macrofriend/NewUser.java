@@ -8,12 +8,13 @@ import java.util.Scanner;
 
 /*
  * (32)Make a class in a separate file with private fields, public getters and setters, a
- * constructor with and without parameters. (34) Describe inheritance and its benefits Inheritance
- * through the keyword "extends" allows the NewUser class to inherit all the members from the
- * superclass, Introduction. Note: constructors are not members, but the superclass constructor can
- * be called directly by the subclass if accessible. This is beneficial because we can quickly type
- * extends and the superclass name, instead of copying and pasting the code into the subclass. This
- * is much more efficient.
+ * constructor with and without parameters.
+ * (34) Describe inheritance and its benefits.
+ * Inheritance through the keyword "extends" allows the NewUser class to inherit all the members
+ * from the superclass, Introduction. Note: constructors are not members, but the superclass
+ * constructor can be called directly by the subclass if accessible. This is beneficial
+ * because we can quickly type extends and the superclass name, instead of copying and pasting
+ * the code into the subclass. This is much more efficient.
  */
 public class NewUser extends Introduction {
 
@@ -64,9 +65,6 @@ public class NewUser extends Introduction {
     //super();
     this();
 
-    System.out.println("Welcome to MacroFriend! This application will help you plan \n"
-        + "your daily meals based on your activity level, age, and\n"
-        + "an estimate of your body fat percentage.\n\n");
     /*
      * userStrings and userDoubles are declared and instantiated locally and passed into
      * the method enterUserInfo() as arguments
@@ -104,10 +102,9 @@ public class NewUser extends Introduction {
          */
         continue;
       } else {
-
-        userStrings[0] = name;
         userNameIsSet = true;
       }
+      userStrings[0] = name;
     }
 
     // (13) This string is formatted using the escape sequence for a new line
@@ -116,18 +113,18 @@ public class NewUser extends Introduction {
 
     // (29) do while loops
     boolean ageIsSet = false;
-    double age = 0;
+    int age = 0;
     do {
       try {
 
-        age = userScanner.nextDouble();
+        age = userScanner.nextInt();
 
         if (age > 120 || age < 0) {
           throw new Exception();
 
         } else {
 
-          userDoubles[0] = age;
+          userDoubles[0] = (double) age;
           ageIsSet = true;
         }
         /*
@@ -187,7 +184,7 @@ public class NewUser extends Introduction {
 
     System.out.println("Please enter your current weight in pounds.\n");
     boolean weightIsSet = false;
-    double weight = 0;
+    double weight;
     do {
       try {
         /*
@@ -197,7 +194,8 @@ public class NewUser extends Introduction {
         weight = userScanner.nextDouble();
 
         if (weight <= 0) {
-          System.out.println("Invalid entry. Please enter your weight in pounds.\n");
+          System.out.println("Your entry was less than or equal to zero. "
+              + "Please enter your weight in pounds.\n");
           continue;
         } else {
           userDoubles[2] = weight;
@@ -1091,9 +1089,9 @@ public class NewUser extends Introduction {
         + "Height: " + getUserHeight() + " inches" + "\n"
         + "Weight: " + getUserWeight() + "\n"
         + "Sex: " + getBiologicalSex() + "\n"
-        + "Body Fat Percentage: " + (getUserBodyFat() * 100) + "%\n"
-        + "Workouts per week: " + getWorkoutsPerWeek()
-        + "Current Goal: " + getGoal()
+        + "Body Fat Percentage: " + (getUserBodyFat() * 100) + "%%\n"
+        + "Workouts per week: " + getWorkoutsPerWeek() + "\n"
+        + "Current Goal: " + getGoal() + "\n"
         + "Estimated Goal Daily Calories: %.0f Calories\n", getGoalDailyCalories());
     /*
      *(37) Use a one-dimensional array. Prints user goal, percent of Calories from each
@@ -1202,33 +1200,28 @@ public class NewUser extends Introduction {
   }
 
   /*
-   * (38) Manually find the smallest value in an array
+   * (38) Manually find the smallest value in an array. Finds macronutrient with smallest number of
+   * daily Calories according to user's goal.
    */
   public void findSmallest(double[] gramsParam) {
-    double smallestInGrams = gramsParam[0];
-
-    for (int count = 1; count < gramsParam.length; count++) {
-      if (gramsParam[count] < smallestInGrams) {
-        smallestInGrams = gramsParam[count];
+    double[] caloriesForEachMacro = {(gramsParam[0] * 9), (gramsParam[1] * 4), (gramsParam[2] * 4)};
+    double smallestCalorieCount = caloriesForEachMacro[0];
+    for (int count = 1; count < caloriesForEachMacro.length; count++) {
+      if (caloriesForEachMacro[count] < smallestCalorieCount) {
+        smallestCalorieCount = caloriesForEachMacro[count];
       }
 
     }
-    if (smallestInGrams == gramsParam[0]) {
-      System.out
-          .println("Your smallest number of daily goalGrams is from fat: " + gramsParam[0] + " g\n"
-              + (gramsParam[0] < 40.0
-              ? "Please consult a physician and/or a nutritionist to get \n"
-              + "an individual recommendation of daily fat requirements. This a very low \n"
-              + "amount of daily fat."
-              : ""));
+    if (smallestCalorieCount == caloriesForEachMacro[0]) {
+      System.out.println("Your smallest number of daily Calories is from fat: "
+          + caloriesForEachMacro[0] + " g\n");
 
-    } else if (smallestInGrams == gramsParam[1]) {
-      System.out
-          .println(
-              "Your smallest number of daily goalGrams is from carbs: " + gramsParam[1] + " g\n");
+    } else if (smallestCalorieCount == caloriesForEachMacro[1]) {
+      System.out.println("Your smallest number of daily goalGrams is from carbs: "
+          + caloriesForEachMacro[1] + " g\n");
     } else {
-      System.out.println(
-          "Your smallest number of daily goalGrams is from protein: " + gramsParam[2] + " g\n");
+      System.out.println("Your smallest number of daily goalGrams is from protein: "
+          + caloriesForEachMacro[2] + " g\n");
     }
   }
 
@@ -1304,6 +1297,9 @@ public class NewUser extends Introduction {
       }
     }
     index = 0;
+    /*
+     * (43) Declare an ArrayList of a given type
+     */
     ArrayList<Integer> indexesFound = new ArrayList<>(inputArray.length);
     /*
      * Searches the entire array for the searchValue, and adds the indexes to the arrayList
@@ -1325,6 +1321,9 @@ public class NewUser extends Introduction {
      */
     if (searchValueFound) {
       System.out.println("The value was found at the following index(es).");
+      /*
+       * (43) Use an ArrayList of a given type
+       */
       for (int num : indexesFound) {
         System.out.print(num + " ");
       }

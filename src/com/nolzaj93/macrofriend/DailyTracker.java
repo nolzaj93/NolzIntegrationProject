@@ -1,6 +1,6 @@
 package com.nolzaj93.macrofriend;
 //Austin Nolz
-
+//The DailyTracker class is a work in progress
 import java.util.ArrayList;
 
 public class DailyTracker {
@@ -10,9 +10,6 @@ public class DailyTracker {
   private double[] newMealCalories;
   private static final int fatCaloriesPerGram = 9;
   private static final int carbOrProteinCaloriesPerGram = 4;
-  /*
-   * (43) Declare an ArrayList of a given type
-   */
   private ArrayList<Double> dailyFatGrams = new ArrayList<>();
   private ArrayList<Double> dailyCarbGrams = new ArrayList<>();
   private ArrayList<Double> dailyProteinGrams = new ArrayList<>();
@@ -48,16 +45,11 @@ public class DailyTracker {
     this.dailyProteinGrams = dailyProteinGrams;
   }
 
-  /*
-   * (39) Get a sum of the values in an array using an accumulator.
-   */
   public Object[] addNewMeal(double fatGrams, double carbGrams, double proteinGrams) {
     totalMealCalories = 0;
     newMealGrams = new double[]{fatGrams, carbGrams, proteinGrams};
     newMealCalories = new double[4];
-    /*
-     * (43) Use an ArrayList of a given type
-     */
+
     dailyFatGrams.add(fatGrams);
     dailyCarbGrams.add(carbGrams);
     dailyProteinGrams.add(proteinGrams);

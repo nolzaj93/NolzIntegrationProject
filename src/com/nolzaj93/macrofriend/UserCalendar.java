@@ -117,10 +117,11 @@ public class UserCalendar {
 
     for (int month = 0; month < monthsAndDays.length; month++) {
       for (int day = 0; day < monthsAndDays[month].length; day++) {
-
-        System.out.print((monthAndDay.equals(monthsAndDays[month][day]))
-            ? "Your input month and day was found at the coordinates: " + month + " " + day + "\n"
-            : "");
+        if (monthAndDay.equals(monthsAndDays[month][day])) {
+          System.out.print("Your input month and day was found at the coordinates: "
+              + month + " " + day + "\n");
+          break;
+        }
       }
     }
   }

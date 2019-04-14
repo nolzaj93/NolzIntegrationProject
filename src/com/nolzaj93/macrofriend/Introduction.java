@@ -35,7 +35,7 @@ public class Introduction {
     UserCalendar sampleCalendar = new UserCalendar();
 
     boolean monthAndDaySearchOption = true;
-    while(monthAndDaySearchOption) {
+    while (monthAndDaySearchOption) {
       System.out.println("Please type yes to run the two-dimensional array search, or press\n"
           + "enter to skip this method.");
       String twoDArraySearchInput = userInfo.nextLine().toLowerCase().trim();
@@ -51,13 +51,13 @@ public class Introduction {
           break;
       }
     }
-    /*
+    /* (40) Search an array and identify the index where a value was found
      * NewUser contains the static method named searchArray(Scanner userScanner), which is called
      * using the class name because static methods belong to the class and not a specific
      * instance.
      */
     boolean arraySearchOption = true;
-    while(arraySearchOption) {
+    while (arraySearchOption) {
       System.out.println("Please type yes to run the array search, or press\n"
           + "enter to skip this method.");
       String arraySearchInput = userInfo.nextLine().toLowerCase().trim();
@@ -77,8 +77,8 @@ public class Introduction {
     /*
      * (35) Develop code that makes use of polymorphism.
      * Polymorphism means an object can have many different forms. In this case
-     * user1 is a NewUser, an Object, and also an Introduction object because
-     * of inheritence. We can cast the user1 object into a different
+     * user1 is a NewUser object, a subclass of Object, and also a subclass of  Introduction
+     * because of inheritence. We can cast the user1 object into a different
      * variable with type Introduction, which is the base/super/parent class.
      * This feature also allows for Base methods to be overridden in derived classes,
      * and overridden method code will be executed even from a call from an object that
@@ -105,7 +105,9 @@ public class Introduction {
 
   // Explicitly defined no-argument constructor prints welcome message every time
   public Introduction() {
-
+    System.out.println("Welcome to MacroFriend! This application will help you plan \n"
+        + "your daily meals based on your activity level, age, and\n"
+        + "an estimate of your body fat percentage.\n\n");
   }
 
   /*

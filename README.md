@@ -8,60 +8,62 @@ PSI 3
    
    (33)Overload a method 
      
-   (33) NewUser.generateMealPlanOptions(), line 853, 
-        NewUser.generateMealPlanOptions(int meals), line 864
+   (33) NewUser.generateMealPlanOptions() line 903, 
+        NewUser.generateMealPlanOptions(int meals) line 918
     
    (34)Describe inheritance and its benefits 
    
-   (34) NewUser, line 11
+   (34) NewUser, line 12
     
    (35)Develop code that makes use of polymorphism
    
-   (35)Introduction, line 33, 49,
-       NewUser.runUserFunctions(Scanner userScanner), line 1071
-       Introduction.runUserFunctions(Scanner userScanner), line 74
+   (35)Introduction line 88, 
+       NewUser.runUserFunctions(Scanner userScanner) line 1109
+       Introduction.runUserFunctions(Scanner userScanner) line 116
     
    (36)Use super and this to access objects and constructors
    
-   (36)NewUser.NewUser(Scanner userScanner), line 43,
-       NewUser.changeMacrosByGoal(Scanner userScanner, boolean newGoalIsSet), line 806
+   (36)NewUser.NewUser(Scanner userScanner) line 59,
+       NewUser.changeMacrosByGoal(Scanner userScanner, boolean newGoalIsSet) line 991
    
    (37)Declare, instantiate, initialize and use a one-dimensional array
    
-   (37) NewUser.grams line 38, NewUser.calculateGrams line 851, NewUser.printInfo() line 995
+   (37) NewUser.grams line 40, NewUser.calculateGoalGrams line 894, NewUser.printInfo() line 1097
    
    (38)Manually find the smallest value in an array
  
-   (38) NewUser.findSmallest(double[] gramsParam), line 1169
+   (38) NewUser.findSmallest(double[] gramsParam) line 1203
    
    (39)Get a sum of the values in an array using an accumulator.
    
-   (39) DailyTracker.addNewMeal(double fatGrams, double carbGrams, double proteinGrams), line 68
+   (39) DailyTracker.addNewMeal(double fatGrams, double carbGrams, double proteinGrams) line 66
     
    (40)Search an array and identify the index where a value was found.
    
-   (40) NewUser.searchArray(Scanner userScanner), line 1199
+   (40) NewUser.searchArray(Scanner userScanner), line 1229
+        Introduction line 54
     
    (41)Create and use the enhanced for loop
    
-   (41) NewUser.calculateGramsPerServing(Scanner userScanner), line 815
+   (41) NewUser.calculateGramsPerServing(Scanner userScanner), line 966
     
    (42)Declare, instantiate, initialize and use multi-dimensional arrays
    
-   (42) UserCalendar lines 14 and 22,  
+   (42) UserCalendar.UserCalendar() lines 17, 27 and 60  
     
    (43)Declare and use an ArrayList of a given type
      
-   (43) DailyTracker line 13
-        DailyTracker.addNewMeal(double fatGrams, double carbGrams, double proteinGrams), line 51
+   (43) NewUser.searchArray(Scanner userScanner) lines 1301, and 1325
     
    (44)Search a two-dimensional array and identify the coordinates where a value was found
  
-   (44) UserCalendar.searchMonthAndDay(Scanner userScanner)
+   (44) UserCalendar.searchMonthAndDay(Scanner userScanner) line 74
+        Introduction line 44
     
    (45) Effectively utilize exception handling for user input of an int
    
-   (45) NewUser, line 96
+   (45) NewUser.enterUserInfo(Scanner userScanner, String[] userStrings, Double[] userDoubles) 
+        line 114
 
 
 PSI2   
