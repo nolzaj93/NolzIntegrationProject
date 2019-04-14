@@ -45,7 +45,7 @@ public class DailyTracker {
     this.dailyProteinGrams = dailyProteinGrams;
   }
 
-  public Object[] addNewMeal(double fatGrams, double carbGrams, double proteinGrams) {
+  public double[][] addNewMeal(double fatGrams, double carbGrams, double proteinGrams) {
     totalMealCalories = 0;
     newMealGrams = new double[]{fatGrams, carbGrams, proteinGrams};
     newMealCalories = new double[4];
@@ -73,7 +73,7 @@ public class DailyTracker {
     }
     newMealCalories[3] = totalMealCalories;
 
-    return new Object[]{newMealGrams, newMealCalories};
+    return new double[][]{newMealGrams, newMealCalories};
   }
 
 }

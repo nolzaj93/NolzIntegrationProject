@@ -131,8 +131,8 @@ public class NewUser extends Introduction {
          * (45) Effectively utilize exception handling for user input of an int
          */
       } catch (InputMismatchException ex) {
-        System.out
-            .println("Error: your input included text. Please input your age as a whole number.");
+        System.out.println("Error: your input included text or had a decimal point.\n"
+            + "Please input your age as a whole number.");
       } catch (Exception ex) {
         System.out.println("Error: your age must be greater than zero, or less than 120.\n"
             + "Please enter your age expressed as a whole number.");
@@ -895,7 +895,7 @@ public class NewUser extends Introduction {
     setGoalGrams(new double[]{getGoalGramsFat(), getGoalGramsCarb(), getGoalGramsProtein()});
   }
 
-  /*
+  /* (33) Overload a Method.
    * generateMealPlanOptions() is overloaded, and the method below without a parameter prints each
    * possible count of grams of fat, carbohydrate and protein for each meal if the user were to
    * eat 1,2,3,4,5, or 6 meals per day.
@@ -911,7 +911,7 @@ public class NewUser extends Introduction {
     }
   }
 
-  /*
+  /* (33) Overload a method.
    * This method prints the grams of fat, carb, and protein per meal for the specific number of
    * meals that the user enters, which is passed into the parameter, int meals.
    */
@@ -1107,7 +1107,7 @@ public class NewUser extends Introduction {
 
   @Override
   public void runUserFunctions(Scanner userScanner) {
-    /*
+    /* (35) Develop code that makes use of polymorphism
      * First, the method estimateTDEE() calculates an estimate of basal metabolic rate(BMR)
      * and total daily energy expenditure (TDEE). Then, the method giverRandomExampleOption()
      * is called, which gives the user the option to generate a random example of daily grams
@@ -1214,14 +1214,14 @@ public class NewUser extends Introduction {
     }
     if (smallestCalorieCount == caloriesForEachMacro[0]) {
       System.out.println("Your smallest number of daily Calories is from fat: "
-          + caloriesForEachMacro[0] + " g\n");
+          + caloriesForEachMacro[0] + " Calories\n");
 
     } else if (smallestCalorieCount == caloriesForEachMacro[1]) {
-      System.out.println("Your smallest number of daily goalGrams is from carbs: "
-          + caloriesForEachMacro[1] + " g\n");
+      System.out.println("Your smallest number of daily Calories is from carbs: "
+          + caloriesForEachMacro[1] + " Calories\n");
     } else {
-      System.out.println("Your smallest number of daily goalGrams is from protein: "
-          + caloriesForEachMacro[2] + " g\n");
+      System.out.println("Your smallest number of daily Calories is from protein: "
+          + caloriesForEachMacro[2] + " Calories\n");
     }
   }
 
@@ -1230,8 +1230,8 @@ public class NewUser extends Introduction {
    */
   public static void searchArray(Scanner userScanner) {
     System.out.println("Array search method: please enter a number of integers you would like\n"
-        + "to search through. The number must be a whole number greater than or equal to 1 and"
-        + "less than or equal to 10.");
+        + "to search through. The number must be a whole number greater than or \n"
+        + "equal to 1 and less than or equal to 10.");
     /*
      * The user enters an array size in the inclusive range [0,10]. InputMismatchException is
      * caught if text or decimals are entered, and custom exception is thrown if the input is

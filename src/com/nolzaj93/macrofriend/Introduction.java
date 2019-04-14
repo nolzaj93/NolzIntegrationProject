@@ -42,6 +42,7 @@ public class Introduction {
       switch (twoDArraySearchInput) {
         case "yes":
           sampleCalendar.searchMonthAndDay(userInfo);
+          userInfo.nextLine();
           break;
         case "":
           monthAndDaySearchOption = false;
@@ -87,7 +88,17 @@ public class Introduction {
     NewUser user1 = new NewUser(userInfo);
     Introduction user = (Introduction) user1;
     user.runUserFunctions(userInfo);
-
+    
+    int currentMonth = sampleCalendar.getCurrentMonth();
+    int currentDay = sampleCalendar.getCurrentDay();
+    DailyTracker currentDayTracker = sampleCalendar.getMonthAndDayTracker(currentMonth,currentDay);
+    double[][] testMeal = currentDayTracker.addNewMeal(10,10,10);
+    System.out.println("Calories from Fat, Carbs, and Protein");
+    for(int index = 0; index < 3; index++){
+      System.out.print(testMeal[1][index] + " Calories ");
+    }
+    //(39) Get a sum of the values in an array using an accumulator
+    System.out.println("\nTotal Meal Calories: " + testMeal[1][3]+"\n");
     System.out.println("Please type new to add another user.");
 
     /*

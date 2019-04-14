@@ -19,7 +19,7 @@ PSI 3
    
    (35)Introduction line 88, 
        NewUser.runUserFunctions(Scanner userScanner) line 1109
-       Introduction.runUserFunctions(Scanner userScanner) line 116
+       Introduction.runUserFunctions(Scanner userScanner) line 127
     
    (36)Use super and this to access objects and constructors
    
@@ -37,6 +37,7 @@ PSI 3
    (39)Get a sum of the values in an array using an accumulator.
    
    (39) DailyTracker.addNewMeal(double fatGrams, double carbGrams, double proteinGrams) line 66
+        Introduction.main(String[] args) line 100
     
    (40)Search an array and identify the index where a value was found.
    
@@ -46,6 +47,7 @@ PSI 3
    (41)Create and use the enhanced for loop
    
    (41) NewUser.calculateGramsPerServing(Scanner userScanner), line 966
+        
     
    (42)Declare, instantiate, initialize and use multi-dimensional arrays
    

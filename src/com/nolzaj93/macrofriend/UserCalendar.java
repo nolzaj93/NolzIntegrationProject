@@ -18,10 +18,12 @@ public class UserCalendar {
    */
   private String[][] monthsAndDays = new String[12][];
   private DailyTracker[][] monthAndDayTracker = new DailyTracker[12][];
-  private int currentMonth = today.getMonthValue();
-  private int currentDay = today.getDayOfMonth();
+  private int currentMonth;
+  private int currentDay;
 
   public UserCalendar() {
+    currentMonth = today.getMonthValue();
+    currentDay = today.getDayOfMonth();
     boolean isLeapYr = today.isLeapYear();
     /*
      * (42)instantiate multi-dimensional arrays
@@ -69,6 +71,29 @@ public class UserCalendar {
         monthsAndDays[month][day] = Integer.toString(month + 1) + " " + Integer.toString(day + 1);
       }
     }
+  }
+  public int getCurrentMonth() {
+    return currentMonth;
+  }
+
+  public void setCurrentMonth(int currentMonth) {
+    this.currentMonth = currentMonth;
+  }
+
+  public int getCurrentDay() {
+    return currentDay;
+  }
+
+  public void setCurrentDay(int currentDay) {
+    this.currentDay = currentDay;
+  }
+
+  public DailyTracker getMonthAndDayTracker(int month, int day) {
+    return monthAndDayTracker[month][day];
+  }
+
+  public void setMonthAndDayTracker(DailyTracker[][] monthAndDayTracker) {
+    this.monthAndDayTracker = monthAndDayTracker;
   }
 
   public void searchMonthAndDay(Scanner userScanner) {
@@ -144,12 +169,11 @@ public class UserCalendar {
       } catch (InputMismatchException ex) {
         System.out.printf("Your input included text or was expressed as a decimal number. \n"
             + "Please enter the %s expressed as an integer. Example: 5\n", inputString);
-        userScanner.nextLine();
       } catch (Exception ex) {
         System.out.printf("Your input was not in the correct range.\n"
             + "Please enter the %s expressed as an integer. Example: 5\n", inputString);
-        userScanner.nextLine();
       }
+      userScanner.nextLine();
     }
     return inputVar;
   }
