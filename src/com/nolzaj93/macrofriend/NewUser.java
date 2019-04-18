@@ -16,7 +16,7 @@ import java.util.Scanner;
  * because we can quickly type extends and the superclass name, instead of copying and pasting
  * the code into the subclass. This is much more efficient.
  */
-public class NewUser extends Introduction {
+public class NewUser {
 
   private String userName = "";
   private double userAge;
@@ -25,6 +25,11 @@ public class NewUser extends Introduction {
   private String userBiologicalSex;
   private double userBodyFatPercentage;
   private double workoutsPerWeek;
+  protected String[] userStrings = new String[2];
+  protected Double[] userDoubles = new Double[5];
+  private double katchMcArdleBMR;
+  private double femaleHarrisBenedictBMR;
+  private double maleHarrisBenedictBMR;
   private boolean randomOption = true;
   private boolean mealPlanOption = true;
   private boolean calculateGramsPerMealOption = true;
@@ -56,6 +61,21 @@ public class NewUser extends Introduction {
     super();
   }
 
+  public NewUser(String[] userStrings, Double[] userDoubles){
+    setUserName(userStrings[0]);
+    setBiologicalSex(userStrings[1]);
+    setUserAge(userDoubles[0]);
+    setUserHeight(userDoubles[1]);
+    setUserWeight(userDoubles[2]);
+    setUserBodyFat(userDoubles[3]);
+    setWorkoutsPerWeek(userDoubles[4]);
+    setKatchMcArdleBMR(370 + (21.6 * (1 - getUserBodyFat()) * (getUserWeight() / 2.2)));
+    setFemaleHarrisBenedictBMR(655 + (9.6 * (getUserWeight() / 2.2))
+        + (1.8 * getUserHeight() * 2.54) - (4.7 * getUserAge()));
+    setMaleHarrisBenedictBMR(66 + (13.7 * (getUserWeight() / 2.2))
+        + (5 * getUserHeight() * 2.54) - (6.8 * getUserAge()));
+  }
+
   public NewUser(Scanner userScanner) {
     /* (36) It is incorrect to call super() and this() constructors within the same constructor.
      * Uncomment super(); to see the error. The statement this(); is redundant because the
@@ -69,8 +89,6 @@ public class NewUser extends Introduction {
      * userStrings and userDoubles are declared and instantiated locally and passed into
      * the method enterUserInfo() as arguments
      */
-    String[] userStrings = new String[2];
-    Double[] userDoubles = new Double[5];
     enterUserInfo(userScanner, userStrings, userDoubles);
     setUserName(userStrings[0]);
     setBiologicalSex(userStrings[1]);
@@ -79,6 +97,11 @@ public class NewUser extends Introduction {
     setUserWeight(userDoubles[2]);
     setUserBodyFat(userDoubles[3]);
     setWorkoutsPerWeek(userDoubles[4]);
+    setKatchMcArdleBMR(370 + (21.6 * (1 - getUserBodyFat()) * (getUserWeight() / 2.2)));
+    setFemaleHarrisBenedictBMR(655 + (9.6 * (getUserWeight() / 2.2))
+        + (1.8 * getUserHeight() * 2.54) - (4.7 * getUserAge()));
+    setMaleHarrisBenedictBMR(66 + (13.7 * (getUserWeight() / 2.2))
+        + (5 * getUserHeight() * 2.54) - (6.8 * getUserAge()));
   }
 
   public void enterUserInfo(Scanner userScanner, String[] userStrings, Double[] userDoubles) {
@@ -222,7 +245,7 @@ public class NewUser extends Introduction {
     String biologicalSex = "";
     while (!biologicalSexIsSet) {
 
-      System.out.println("Are you male or female?\n");
+      System.out.println("Are you male, female, or intersex?\n");
       biologicalSex = userScanner.next().toLowerCase();
 
       // (19) if/else constructs
@@ -234,10 +257,11 @@ public class NewUser extends Introduction {
         biologicalSexIsSet = true;
         userStrings[1] = biologicalSex;
 
+      } else if (biologicalSex.equals("intersex")){
+        biologicalSexIsSet = true;
+        userStrings[1] = biologicalSex;
       } else {
-
-        System.out
-            .println("Error: invalid input for the Katch-McArdle and Harris-Benedict equations.\n");
+        System.out.println("Error: invalid input. Please type your biological sex.\n");
         continue;
       }
       userScanner.nextLine();
@@ -311,6 +335,7 @@ public class NewUser extends Introduction {
       }
 
     } while (workoutsPerWeekIsSet == false);
+
   }
 
   // getter and setter methods
@@ -382,6 +407,46 @@ public class NewUser extends Introduction {
   public void setWorkoutsPerWeek(double newWorkoutDays) {
 
     workoutsPerWeek = newWorkoutDays;
+  }
+
+  public String[] getUserStrings() {
+    return userStrings;
+  }
+
+  public void setUserStrings(String[] userStrings) {
+    this.userStrings = userStrings;
+  }
+
+  public Double[] getUserDoubles() {
+    return userDoubles;
+  }
+
+  public void setUserDoubles(Double[] userDoubles) {
+    this.userDoubles = userDoubles;
+  }
+
+  public double getKatchMcArdleBMR() {
+    return katchMcArdleBMR;
+  }
+
+  public void setKatchMcArdleBMR(double katchMcArdleBMR) {
+    this.katchMcArdleBMR = katchMcArdleBMR;
+  }
+
+  public double getFemaleHarrisBenedictBMR() {
+    return femaleHarrisBenedictBMR;
+  }
+
+  public void setFemaleHarrisBenedictBMR(double femaleHarrisBenedictBMR) {
+    this.femaleHarrisBenedictBMR = femaleHarrisBenedictBMR;
+  }
+
+  public double getMaleHarrisBenedictBMR() {
+    return maleHarrisBenedictBMR;
+  }
+
+  public void setMaleHarrisBenedictBMR(double maleHarrisBenedictBMR) {
+    this.maleHarrisBenedictBMR = maleHarrisBenedictBMR;
   }
 
   public double getBasalMetabolicRate() {
@@ -523,59 +588,42 @@ public class NewUser extends Introduction {
     return goal;
   }
 
+  public void estimateBMR(){
+    System.out.println("This statement will not execute because each of the subclasses of"
+        + "NewUser overrides this method.");
+  };
   /*
    * (14) This method estimates total daily energy expenditure with parameters within the
    * parentheses. The return value is a double.
    */
-  public double estimateTDEE() {
+  public void estimateTDEE() {
+    estimateBMR();
 // Sourced from this website:
 //https://www.ajdesigner.com/phpweightloss/weight_loss_equations_total_daily_energy_expenditure_moderate.php
-    /*
-     * This calculation estimates basal metabolic rate(BMR) depending on biological sex, body fat %,
-     * height, weight, and age. We take the average of two equations: the Katch-McArdle equation,
-     * and the Harris-Benedict equation. (23) use +, - , * , /, an example of order of operations
-     * PEMDAS.
-     *
-     */
-    if (getBiologicalSex().equals("female")) {
-      /*
-       *  equations for females
-       */
-      setBasalMetabolicRate(((370 + (21.6 * (1 - getUserBodyFat()) * (getUserWeight() / 2.2)))
-          + (655 + (9.6 * (getUserWeight() / 2.2)) + (1.8 * getUserHeight() * 2.54)
-          - (4.7 * getUserAge())) / 2.0));
-
-    } else if (getBiologicalSex().equals("male")) {
-      //equations for males
-      setBasalMetabolicRate(((370 + (21.6 * (1 - getUserBodyFat()) * (getUserWeight() / 2.2))) +
-          (66 + (13.7 * (getUserWeight() / 2.2)) + (5 * getUserHeight() * 2.54)
-              - (6.8 * getUserAge()))) / 2.0);
-    }
-
     /*
      * (21) Use a switch statement This estimates total daily energy expenditure(TDEE) using BMR
      * and workouts per week, based on the equations referenced above.
      */
-    int workouts = (int) Math.rint(getWorkoutsPerWeek());
+    int workouts = (int) Math.rint(this.getWorkoutsPerWeek());
     switch (workouts) {
       case 0:
-        totalDailyEnergyExpenditure = (1.2 * basalMetabolicRate);
+        this.setTDEE(1.2 * this.getBasalMetabolicRate());
         break;
       case 1:
       case 2:
-        totalDailyEnergyExpenditure = (1.375 * basalMetabolicRate);
+        this.setTDEE(1.375 * this.getBasalMetabolicRate());
         break;
       case 3:
       case 4:
       case 5:
-        totalDailyEnergyExpenditure = (1.55 * basalMetabolicRate);
+        this.setTDEE(1.55 * this.getBasalMetabolicRate());
         break;
       case 6:
       case 7:
-        totalDailyEnergyExpenditure = (1.725 * basalMetabolicRate);
+        this.setTDEE(1.725 * this.getBasalMetabolicRate());
         break;
       default:
-        totalDailyEnergyExpenditure = (1.9 * basalMetabolicRate);
+        this.setTDEE(1.9 * this.getBasalMetabolicRate());
         break;
     }
     /*
@@ -583,16 +631,16 @@ public class NewUser extends Introduction {
      * This rounds the estimated TDEE to the nearest integer, and also sets goalDailyCalories to
      * this number by default.
      */
-    totalDailyEnergyExpenditure = Math.rint(totalDailyEnergyExpenditure);
-    setGoalDailyCalories(getTDEE());
+    this.setTDEE(Math.rint(this.getTDEE()));
+    this.setGoalDailyCalories(this.getTDEE());
 
     System.out.println("\n" + "Name: " + getUserName() + "\n" + "Age: " + getUserAge()
         + " years old" + "\n" + "Height: " + getUserHeight() + " inches" + "\n" + "Weight: "
         + getUserWeight() + "\n" + "Sex: " + getBiologicalSex() + "\n" + "Body Fat Percentage: "
         + (getUserBodyFat() * 100) + "%\n" + "Workouts per week: " + getWorkoutsPerWeek());
 
-    System.out.printf("Estimated Total Daily Energy Expenditure (TDEE): " + "%.0f Calories\n\n",
-        getTDEE());
+    System.out.printf("Estimated Total Daily Energy Expenditure (TDEE): " + "%.0f Calories%n%n",
+        this.getTDEE());
 
     System.out.println("This amount of Calories will maintain your current \n"
         + "weight. When you look at a nutrition label it has \n"
@@ -603,8 +651,6 @@ public class NewUser extends Introduction {
         + "which are used to repair all types of cells including muscle. \n"
         + "Fat requires ~9 Calories to burn 1 gram, while carbohydrates \n"
         + "and protein require 4 Calories to burn 1 gram.\n");
-
-    return totalDailyEnergyExpenditure;
   }
 
   /*
@@ -644,7 +690,7 @@ public class NewUser extends Introduction {
     final int PROTEIN_PERCENT = 100 - FAT_PERCENT - CARB_PERCENT;
 
     System.out.printf("Randomized example of daily macronutrient distribution: "
-        + "%d%% Fat %d%% Carbs %d%% Protein\n\n", FAT_PERCENT, CARB_PERCENT, PROTEIN_PERCENT);
+        + "%d%% Fat %d%% Carbs %d%% Protein%n%n", FAT_PERCENT, CARB_PERCENT, PROTEIN_PERCENT);
 
     /*
      * Daily Calories from each macronutrient is calculated by multiplying the user's
@@ -656,9 +702,9 @@ public class NewUser extends Introduction {
 
     System.out.printf(
         "If we multiply each percentage by the total daily energy expenditure we get: \n"
-            + "(%d/100)*(%.0f) = %.0f Calories from fat\n"
-            + "(%d/100)*(%.0f) = %.0f Calories from carbs\n"
-            + "(%d/100)*(%.0f) = %.0f Calories from protein.\n\n",
+            + "(%d/100)*(%.0f) = %.0f Calories from fat%n"
+            + "(%d/100)*(%.0f) = %.0f Calories from carbs%n"
+            + "(%d/100)*(%.0f) = %.0f Calories from protein.%n%n",
         FAT_PERCENT, getTDEE(), caloriesFromFat,
         CARB_PERCENT, getTDEE(), caloriesFromCarb,
         PROTEIN_PERCENT, getTDEE(), caloriesFromProtein);
@@ -670,9 +716,9 @@ public class NewUser extends Introduction {
     final double gramsOfFat = caloriesFromFat / 9; // 9 Cal/gram of fat
     final double gramsOfCarb = caloriesFromCarb / 4; // 4 Cal/gram of Carb
     final double gramsOfProtein = caloriesFromProtein / 4; // 4 Cal/gram of Protein
-    System.out.printf("We then divide by Calories per gram for each macronutrient, which gives\n"
-            + "daily macronutrient needs in grams: \n\n"
-            + "%.2f grams of fat, %.2f grams of carbs, %.2f grams of protein \n\n",
+    System.out.printf("We then divide by Calories per gram for each macronutrient, which gives%n"
+            + "daily macronutrient needs in grams: %n%n"
+            + "%.2f grams of fat, %.2f grams of carbs, %.2f grams of protein %n%n",
         gramsOfFat, gramsOfCarb, gramsOfProtein);
 
     /*
@@ -700,7 +746,7 @@ public class NewUser extends Introduction {
     setPercentCarb(0);
     setPercentProtein(0);
 
-    System.out.println("\n Please enter your preferred percentage of "
+    System.out.println("\nPlease enter your preferred percentage of "
         + "Calories from fat sources. An average American diet \n"
         + "consists of 20-35 percent fat. A classic ketogenic diet \n"
         + "would have 60-75 percent fat.\n"
@@ -831,14 +877,14 @@ public class NewUser extends Introduction {
    * by entering "back".
    */
   public void decrementMacroPercent(Scanner userInfo) {
-    System.out.println("To decrease a percentage by 1.0% type in the macronutrient,\n"
-        + "either: fat, carb, or protein.\n"
-        + "This will automatically increase the other two macronutrients by 0.5%. \n"
-        + "To re-enter your preferred percentages type: back \n"
-        + "To proceed press enter/return");
 
     boolean decrementOption = true;
     do {
+      System.out.println("To decrease a percentage by 1.0% type in the macronutrient,\n"
+          + "either: fat, carb, or protein.\n"
+          + "This will automatically increase the other two macronutrients by 0.5%. \n"
+          + "To re-enter your preferred percentages type: back \n"
+          + "To proceed press enter/return");
       String changePercent = userInfo.nextLine();
       switch (changePercent.toLowerCase()) {
         case "fat":
@@ -1105,7 +1151,6 @@ public class NewUser extends Introduction {
         + "Daily target grams of protein: " + getGoalGrams(2) + "\n");
   }
 
-  @Override
   public void runUserFunctions(Scanner userScanner) {
     /* (35) Develop code that makes use of polymorphism
      * First, the method estimateTDEE() calculates an estimate of basal metabolic rate(BMR)

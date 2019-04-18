@@ -153,8 +153,8 @@ public class UserCalendar {
 
   public int setInput(Scanner userScanner, boolean inputIsSet,
       int inputVar, int lowerBound, int upperBound, String inputString) {
-    System.out.printf("Please enter the %s you would like to search for expressed as an \n"
-        + "integer between %d and %d. Example: 5\n", inputString, lowerBound, upperBound);
+    System.out.printf("Please enter the %s you would like to search for expressed as an %n"
+        + "integer between %d and %d. Example: 5%n", inputString, lowerBound, upperBound);
 
     while (!inputIsSet) {
       try {
@@ -167,11 +167,11 @@ public class UserCalendar {
           throw new Exception();
         }
       } catch (InputMismatchException ex) {
-        System.out.printf("Your input included text or was expressed as a decimal number. \n"
-            + "Please enter the %s expressed as an integer. Example: 5\n", inputString);
+        System.out.printf("Your input included text or was expressed as a decimal number. %n"
+            + "Please enter the %s expressed as an integer. Example: 5%n", inputString);
       } catch (Exception ex) {
-        System.out.printf("Your input was not in the correct range.\n"
-            + "Please enter the %s expressed as an integer. Example: 5\n", inputString);
+        System.out.printf("Your input was not in the correct range.%n"
+            + "Please enter the %s expressed as an integer. Example: 5%n", inputString);
       }
       userScanner.nextLine();
     }

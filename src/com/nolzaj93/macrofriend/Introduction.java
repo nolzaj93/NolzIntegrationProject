@@ -78,17 +78,30 @@ public class Introduction {
     /*
      * (35) Develop code that makes use of polymorphism.
      * Polymorphism means an object can have many different forms. In this case
-     * user1 is a NewUser object, a subclass of Object, and also a subclass of  Introduction
-     * because of inheritence. We can cast the user1 object into a different
-     * variable with type Introduction, which is the base/super/parent class.
+     * user1 is a NewUser object, and a subclass of Object.
+     * NewUser is the superclass of FemaleUser, MaleUser and IntersexUser. So each of these
+     * subclasses "is a" NewUser object as well as having their own defined type.
+     * Below we cast each subclass object into the NewUser data type due to polymorphism.
      * This feature also allows for Base methods to be overridden in derived classes,
      * and overridden method code will be executed even from a call from an object that
-     * has the base type.
+     * has the base type, NewUser.
      */
     NewUser user1 = new NewUser(userInfo);
-    Introduction user = (Introduction) user1;
-    user.runUserFunctions(userInfo);
-    
+
+    if(user1.getBiologicalSex().equals("female")){
+      FemaleUser femaleUser = new FemaleUser(userInfo, user1.getUserStrings(), user1.getUserDoubles());
+      NewUser newFemaleUser = (NewUser)femaleUser;
+
+    } else if(user1.getBiologicalSex().equals("male")){
+      MaleUser maleUser = new MaleUser(userInfo, user1.getUserStrings(), user1.getUserDoubles());
+      NewUser newMaleUser = (NewUser)maleUser;
+
+    } else{
+      IntersexUser intersexUser = new IntersexUser(userInfo, user1.getUserStrings(), user1.getUserDoubles());
+      NewUser newIntersexUser = (NewUser)intersexUser;
+
+    }
+
     int currentMonth = sampleCalendar.getCurrentMonth();
     int currentDay = sampleCalendar.getCurrentDay();
     DailyTracker currentDayTracker = sampleCalendar.getMonthAndDayTracker(currentMonth,currentDay);
@@ -119,14 +132,5 @@ public class Introduction {
     System.out.println("Welcome to MacroFriend! This application will help you plan \n"
         + "your daily meals based on your activity level, age, and\n"
         + "an estimate of your body fat percentage.\n\n");
-  }
-
-  /*
-   * (35) Develop code that makes use of polymorphism
-   */
-  public void runUserFunctions(Scanner userScanner) {
-    System.out.println("This method and statement will not be reached from a NewUser object even "
-        + "when it is cast to the Introduction type due to polymorphism and rules of the "
-        + "Java Runtime Environment.");
   }
 }
