@@ -4,7 +4,9 @@ package com.nolzaj93.macrofriend;
  * macronutrients depending on your activity level and fitness goals.
  */
 
-import java.util.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
+
 
 public class Introduction {
 
@@ -27,7 +29,7 @@ public class Introduction {
      * logical OR || ternary ? : assignment = += -= *= /= %= &= ^= |= <<= >>= >>>= source:
      * https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html
      */
-    Scanner userInfo = new Scanner(System.in);
+    Scanner userInfo = new Scanner(System.in, StandardCharsets.UTF_8.name());
     /*
      * Creates an object named sampleCalendar from the UserCalendar class, and calls the
      * searchMonthAndDay(Scanner userScanner) method.
@@ -88,37 +90,39 @@ public class Introduction {
      */
     NewUser user1 = new NewUser(userInfo);
 
-    if(user1.getBiologicalSex().equals("female")){
-      FemaleUser femaleUser = new FemaleUser(userInfo, user1.getUserStrings(), user1.getUserDoubles());
-      NewUser newFemaleUser = (NewUser)femaleUser;
+    if ("female".equals(user1.getBiologicalSex())) {
+      FemaleUser femaleUser = new FemaleUser(userInfo, user1.userStrings, user1.userDoubles);
+      NewUser newFemaleUser = (NewUser) femaleUser;
 
-    } else if(user1.getBiologicalSex().equals("male")){
-      MaleUser maleUser = new MaleUser(userInfo, user1.getUserStrings(), user1.getUserDoubles());
-      NewUser newMaleUser = (NewUser)maleUser;
+    } else if ("male".equals(user1.getBiologicalSex())) {
+      MaleUser maleUser = new MaleUser(userInfo, user1.userStrings, user1.userDoubles);
+      NewUser newMaleUser = (NewUser) maleUser;
 
-    } else{
-      IntersexUser intersexUser = new IntersexUser(userInfo, user1.getUserStrings(), user1.getUserDoubles());
-      NewUser newIntersexUser = (NewUser)intersexUser;
+    } else {
+      IntersexUser intersexUser = new IntersexUser(userInfo, user1.userStrings, user1.userDoubles);
+      NewUser newIntersexUser = (NewUser) intersexUser;
 
     }
 
     int currentMonth = sampleCalendar.getCurrentMonth();
     int currentDay = sampleCalendar.getCurrentDay();
-    DailyTracker currentDayTracker = sampleCalendar.getMonthAndDayTracker(currentMonth,currentDay);
-    double[][] testMeal = currentDayTracker.addNewMeal(10,10,10);
+    DailyTracker currentDayTracker = sampleCalendar.getMonthAndDayTracker(currentMonth, currentDay);
+    Double[][] testMeal = currentDayTracker.addNewMeal(10, 10, 10);
     System.out.println("Calories from Fat, Carbs, and Protein");
-    for(int index = 0; index < 3; index++){
+    for (int index = 0; index < 3; index++) {
       System.out.print(testMeal[1][index] + " Calories ");
     }
+
     //(39) Get a sum of the values in an array using an accumulator
-    System.out.println("\nTotal Meal Calories: " + testMeal[1][3]+"\n");
+    System.out.println("\nTotal Meal Calories: "
+        + DailyTracker.getTotalMealCalories(testMeal, 1, 3) + "\n");
     System.out.println("Please type new to add another user.");
 
     /*
      * NewUser object with reference name user2 is created if the Scanner reads "new" as the next
      * String.
      */
-    if (userInfo.next().toLowerCase().equals("new")) {
+    if ("new".equals(userInfo.next().toLowerCase())) {
 
       NewUser user2 = new NewUser(userInfo);
       user2.runUserFunctions(userInfo);

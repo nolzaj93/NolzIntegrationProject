@@ -6,7 +6,7 @@ package com.nolzaj93.macrofriend;
 // a DailyTracker object for every day of every year, and will eventually connect to a database.
 //
 
-import java.time.*;
+import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -72,6 +72,7 @@ public class UserCalendar {
       }
     }
   }
+
   public int getCurrentMonth() {
     return currentMonth;
   }
@@ -92,8 +93,8 @@ public class UserCalendar {
     return monthAndDayTracker[month][day];
   }
 
-  public void setMonthAndDayTracker(DailyTracker[][] monthAndDayTracker) {
-    this.monthAndDayTracker = monthAndDayTracker;
+  public void setMonthAndDayTracker(int month, int day, DailyTracker monthAndDayTracker) {
+    this.monthAndDayTracker[month][day] = monthAndDayTracker;
   }
 
   public void searchMonthAndDay(Scanner userScanner) {
@@ -133,6 +134,7 @@ public class UserCalendar {
         } else {
           dayUpperBound = 28;
         }
+        break;
       default:
         break;
     }

@@ -14,4 +14,11 @@ public class FoodBank {
 
   }
 
+  public ArrayList<Double[]> getFoodBankItems() {
+    return foodBankItems;
+  }
+
+  public void setFoodBankItems(ArrayList<Double[]> foodBankItems) {
+    this.foodBankItems = foodBankItems;
+  }
 }

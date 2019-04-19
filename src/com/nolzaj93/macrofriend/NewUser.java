@@ -27,9 +27,9 @@ public class NewUser {
   private double workoutsPerWeek;
   protected String[] userStrings = new String[2];
   protected Double[] userDoubles = new Double[5];
-  private double katchMcArdleBMR;
-  private double femaleHarrisBenedictBMR;
-  private double maleHarrisBenedictBMR;
+  private double katchMcArdleBmr;
+  private double femaleHarrisBenedictBmr;
+  private double maleHarrisBenedictBmr;
   private boolean randomOption = true;
   private boolean mealPlanOption = true;
   private boolean calculateGramsPerMealOption = true;
@@ -61,18 +61,18 @@ public class NewUser {
     super();
   }
 
-  public NewUser(String[] userStrings, Double[] userDoubles){
-    setUserName(userStrings[0]);
-    setBiologicalSex(userStrings[1]);
-    setUserAge(userDoubles[0]);
-    setUserHeight(userDoubles[1]);
-    setUserWeight(userDoubles[2]);
-    setUserBodyFat(userDoubles[3]);
-    setWorkoutsPerWeek(userDoubles[4]);
-    setKatchMcArdleBMR(370 + (21.6 * (1 - getUserBodyFat()) * (getUserWeight() / 2.2)));
-    setFemaleHarrisBenedictBMR(655 + (9.6 * (getUserWeight() / 2.2))
+  public NewUser(String[] userStrings, Double[] userDoubles) {
+    setUserName(getUserStrings(0));
+    setBiologicalSex(getUserStrings(1));
+    setUserAge(getUserDoubles(0));
+    setUserHeight(getUserDoubles(1));
+    setUserWeight(getUserDoubles(2));
+    setUserBodyFat(getUserDoubles(3));
+    setWorkoutsPerWeek(getUserDoubles(4));
+    setKatchMcArdleBmr(370 + (21.6 * (1 - getUserBodyFat()) * (getUserWeight() / 2.2)));
+    setFemaleHarrisBenedictBmr(655 + (9.6 * (getUserWeight() / 2.2))
         + (1.8 * getUserHeight() * 2.54) - (4.7 * getUserAge()));
-    setMaleHarrisBenedictBMR(66 + (13.7 * (getUserWeight() / 2.2))
+    setMaleHarrisBenedictBmr(66 + (13.7 * (getUserWeight() / 2.2))
         + (5 * getUserHeight() * 2.54) - (6.8 * getUserAge()));
   }
 
@@ -90,21 +90,21 @@ public class NewUser {
      * the method enterUserInfo() as arguments
      */
     enterUserInfo(userScanner, userStrings, userDoubles);
-    setUserName(userStrings[0]);
-    setBiologicalSex(userStrings[1]);
-    setUserAge(userDoubles[0]);
-    setUserHeight(userDoubles[1]);
-    setUserWeight(userDoubles[2]);
-    setUserBodyFat(userDoubles[3]);
-    setWorkoutsPerWeek(userDoubles[4]);
-    setKatchMcArdleBMR(370 + (21.6 * (1 - getUserBodyFat()) * (getUserWeight() / 2.2)));
-    setFemaleHarrisBenedictBMR(655 + (9.6 * (getUserWeight() / 2.2))
+    setUserName(getUserStrings(0));
+    setBiologicalSex(getUserStrings(1));
+    setUserAge(getUserDoubles(0));
+    setUserHeight(getUserDoubles(1));
+    setUserWeight(getUserDoubles(2));
+    setUserBodyFat(getUserDoubles(3));
+    setWorkoutsPerWeek(getUserDoubles(4));
+    setKatchMcArdleBmr(370 + (21.6 * (1 - getUserBodyFat()) * (getUserWeight() / 2.2)));
+    setFemaleHarrisBenedictBmr(655 + (9.6 * (getUserWeight() / 2.2))
         + (1.8 * getUserHeight() * 2.54) - (4.7 * getUserAge()));
-    setMaleHarrisBenedictBMR(66 + (13.7 * (getUserWeight() / 2.2))
+    setMaleHarrisBenedictBmr(66 + (13.7 * (getUserWeight() / 2.2))
         + (5 * getUserHeight() * 2.54) - (6.8 * getUserAge()));
   }
 
-  public void enterUserInfo(Scanner userScanner, String[] userStrings, Double[] userDoubles) {
+  public final void enterUserInfo(Scanner userScanner, String[] userStrings, Double[] userDoubles) {
     System.out.println("Please enter your name.");
     /*
      * (8) String object userName is initialized with the input string literal
@@ -249,15 +249,15 @@ public class NewUser {
       biologicalSex = userScanner.next().toLowerCase();
 
       // (19) if/else constructs
-      if (biologicalSex.equals("male")) {
+      if ("male".equals(biologicalSex)) {
         biologicalSexIsSet = true;
         userStrings[1] = biologicalSex;
 
-      } else if (biologicalSex.compareTo("female") == 0) {
+      } else if ("female".compareTo(biologicalSex) == 0) {
         biologicalSexIsSet = true;
         userStrings[1] = biologicalSex;
 
-      } else if (biologicalSex.equals("intersex")){
+      } else if ("intersex".equals(biologicalSex)) {
         biologicalSexIsSet = true;
         userStrings[1] = biologicalSex;
       } else {
@@ -339,114 +339,106 @@ public class NewUser {
   }
 
   // getter and setter methods
-  public String getUserName() {
+  public final String getUserName() {
 
     return userName;
   }
 
-  public void setUserName(String newName) {
+  public final void setUserName(String newName) {
 
     userName = newName;
   }
 
-  public double getUserAge() {
+  public final double getUserAge() {
 
     return userAge;
   }
 
-  public void setUserAge(double newAge) {
+  public final void setUserAge(double newAge) {
 
     userAge = newAge;
   }
 
-  public double getUserHeight() {
+  public final double getUserHeight() {
 
     return userHeight;
   }
 
-  public void setUserHeight(double newHeight) {
+  public final void setUserHeight(double newHeight) {
 
     userHeight = newHeight;
   }
 
-  public double getUserWeight() {
+  public final double getUserWeight() {
 
     return userWeight;
   }
 
-  public void setUserWeight(double newWeight) {
+  public final void setUserWeight(double newWeight) {
 
     userWeight = newWeight;
   }
 
-  public String getBiologicalSex() {
+  public final String getBiologicalSex() {
 
     return userBiologicalSex;
   }
 
-  public void setBiologicalSex(String newBiologicalSex) {
+  public final void setBiologicalSex(String newBiologicalSex) {
 
     userBiologicalSex = newBiologicalSex;
   }
 
-  public double getUserBodyFat() {
+  public final double getUserBodyFat() {
 
     return userBodyFatPercentage;
   }
 
-  public void setUserBodyFat(double newBodyFat) {
+  public final void setUserBodyFat(double newBodyFat) {
 
     userBodyFatPercentage = newBodyFat;
   }
 
-  public double getWorkoutsPerWeek() {
+  public final double getWorkoutsPerWeek() {
 
     return workoutsPerWeek;
   }
 
-  public void setWorkoutsPerWeek(double newWorkoutDays) {
+  public final void setWorkoutsPerWeek(double newWorkoutDays) {
 
     workoutsPerWeek = newWorkoutDays;
   }
 
-  public String[] getUserStrings() {
-    return userStrings;
+  public final String getUserStrings(int index) {
+    return userStrings[index];
   }
 
-  public void setUserStrings(String[] userStrings) {
-    this.userStrings = userStrings;
+  public final Double getUserDoubles(int index) {
+    return userDoubles[index];
   }
 
-  public Double[] getUserDoubles() {
-    return userDoubles;
+  public final double getKatchMcArdleBmr() {
+    return katchMcArdleBmr;
   }
 
-  public void setUserDoubles(Double[] userDoubles) {
-    this.userDoubles = userDoubles;
+  public final void setKatchMcArdleBmr(double katchMcArdleBmr) {
+    this.katchMcArdleBmr = katchMcArdleBmr;
   }
 
-  public double getKatchMcArdleBMR() {
-    return katchMcArdleBMR;
+  public final double getFemaleHarrisBenedictBmr() {
+    return femaleHarrisBenedictBmr;
   }
 
-  public void setKatchMcArdleBMR(double katchMcArdleBMR) {
-    this.katchMcArdleBMR = katchMcArdleBMR;
+  public final void setFemaleHarrisBenedictBmr(double femaleHarrisBenedictBmr) {
+    this.femaleHarrisBenedictBmr = femaleHarrisBenedictBmr;
   }
 
-  public double getFemaleHarrisBenedictBMR() {
-    return femaleHarrisBenedictBMR;
+  public final double getMaleHarrisBenedictBmr() {
+    return maleHarrisBenedictBmr;
   }
 
-  public void setFemaleHarrisBenedictBMR(double femaleHarrisBenedictBMR) {
-    this.femaleHarrisBenedictBMR = femaleHarrisBenedictBMR;
-  }
-
-  public double getMaleHarrisBenedictBMR() {
-    return maleHarrisBenedictBMR;
-  }
-
-  public void setMaleHarrisBenedictBMR(double maleHarrisBenedictBMR) {
-    this.maleHarrisBenedictBMR = maleHarrisBenedictBMR;
+  public final void setMaleHarrisBenedictBmr(double maleHarrisBenedictBmr) {
+    this.maleHarrisBenedictBmr = maleHarrisBenedictBmr;
   }
 
   public double getBasalMetabolicRate() {
@@ -454,19 +446,19 @@ public class NewUser {
     return basalMetabolicRate;
   }
 
-  public void setBasalMetabolicRate(double newBMR) {
+  public void setBasalMetabolicRate(double bmr) {
 
-    basalMetabolicRate = newBMR;
+    basalMetabolicRate = bmr;
   }
 
-  public double getTDEE() {
+  public double getTotalDailyEnergyExpenditure() {
 
     return totalDailyEnergyExpenditure;
   }
 
-  public void setTDEE(double newTDEE) {
+  public void setTotalDailyEnergyExpenditure(double newEnergyExpenditure) {
 
-    totalDailyEnergyExpenditure = newTDEE;
+    totalDailyEnergyExpenditure = newEnergyExpenditure;
   }
 
   public double getGoalDailyCalories() {
@@ -568,16 +560,6 @@ public class NewUser {
     return goalGrams[n];
   }
 
-  public double[] getGoalGrams() {
-
-    return goalGrams;
-  }
-
-  public void setGoalGrams(double[] newGrams) {
-
-    goalGrams = newGrams;
-  }
-
   public void setGoal(String newGoal) {
 
     goal = newGoal;
@@ -588,18 +570,21 @@ public class NewUser {
     return goal;
   }
 
-  public void estimateBMR(){
+  public void estimateBasalMetabolicRate() {
     System.out.println("This statement will not execute because each of the subclasses of"
         + "NewUser overrides this method.");
-  };
+  }
+
+  ;
+
   /*
    * (14) This method estimates total daily energy expenditure with parameters within the
    * parentheses. The return value is a double.
    */
-  public void estimateTDEE() {
-    estimateBMR();
-// Sourced from this website:
-//https://www.ajdesigner.com/phpweightloss/weight_loss_equations_total_daily_energy_expenditure_moderate.php
+  public void estimateTotalDailyEnergyExpenditure() {
+    estimateBasalMetabolicRate();
+    // Sourced from this website:
+    //https://www.ajdesigner.com/phpweightloss/weight_loss_equations_total_daily_energy_expenditure_moderate.php
     /*
      * (21) Use a switch statement This estimates total daily energy expenditure(TDEE) using BMR
      * and workouts per week, based on the equations referenced above.
@@ -607,23 +592,23 @@ public class NewUser {
     int workouts = (int) Math.rint(this.getWorkoutsPerWeek());
     switch (workouts) {
       case 0:
-        this.setTDEE(1.2 * this.getBasalMetabolicRate());
+        this.setTotalDailyEnergyExpenditure(1.2 * this.getBasalMetabolicRate());
         break;
       case 1:
       case 2:
-        this.setTDEE(1.375 * this.getBasalMetabolicRate());
+        this.setTotalDailyEnergyExpenditure(1.375 * this.getBasalMetabolicRate());
         break;
       case 3:
       case 4:
       case 5:
-        this.setTDEE(1.55 * this.getBasalMetabolicRate());
+        this.setTotalDailyEnergyExpenditure(1.55 * this.getBasalMetabolicRate());
         break;
       case 6:
       case 7:
-        this.setTDEE(1.725 * this.getBasalMetabolicRate());
+        this.setTotalDailyEnergyExpenditure(1.725 * this.getBasalMetabolicRate());
         break;
       default:
-        this.setTDEE(1.9 * this.getBasalMetabolicRate());
+        this.setTotalDailyEnergyExpenditure(1.9 * this.getBasalMetabolicRate());
         break;
     }
     /*
@@ -631,8 +616,8 @@ public class NewUser {
      * This rounds the estimated TDEE to the nearest integer, and also sets goalDailyCalories to
      * this number by default.
      */
-    this.setTDEE(Math.rint(this.getTDEE()));
-    this.setGoalDailyCalories(this.getTDEE());
+    this.setTotalDailyEnergyExpenditure(Math.rint(this.getTotalDailyEnergyExpenditure()));
+    this.setGoalDailyCalories(this.getTotalDailyEnergyExpenditure());
 
     System.out.println("\n" + "Name: " + getUserName() + "\n" + "Age: " + getUserAge()
         + " years old" + "\n" + "Height: " + getUserHeight() + " inches" + "\n" + "Weight: "
@@ -640,7 +625,7 @@ public class NewUser {
         + (getUserBodyFat() * 100) + "%\n" + "Workouts per week: " + getWorkoutsPerWeek());
 
     System.out.printf("Estimated Total Daily Energy Expenditure (TDEE): " + "%.0f Calories%n%n",
-        this.getTDEE());
+        this.getTotalDailyEnergyExpenditure());
 
     System.out.println("This amount of Calories will maintain your current \n"
         + "weight. When you look at a nutrition label it has \n"
@@ -661,9 +646,8 @@ public class NewUser {
     while (randomOption) {
       System.out.println("Would you like to generate a random distribution of macronutrients?\n"
           + "Type yes for a random example or type anything else to enter your own percentages.\n");
-      String randomInput = userScanner.nextLine();
-
-      if (randomInput.toLowerCase().equals("yes")) {
+      String randomInput = userScanner.nextLine().toLowerCase();
+      if ("yes".equals(randomInput)) {
         generateRandomExample();
         setRandomOption(false);
       } else {
@@ -685,29 +669,29 @@ public class NewUser {
      * Random integers are generated for an example of percentage of Calories from fat,
      * carbohydrate, and protein.
      */
-    final int FAT_PERCENT = macroSample.nextInt(15) + 20;
-    final int CARB_PERCENT = macroSample.nextInt(20) + 45;
-    final int PROTEIN_PERCENT = 100 - FAT_PERCENT - CARB_PERCENT;
-
+    final int fatPercent = macroSample.nextInt(15) + 20;
+    final int carbPercent = macroSample.nextInt(20) + 45;
+    final int proteinPercent = 100 - fatPercent - carbPercent;
     System.out.printf("Randomized example of daily macronutrient distribution: "
-        + "%d%% Fat %d%% Carbs %d%% Protein%n%n", FAT_PERCENT, CARB_PERCENT, PROTEIN_PERCENT);
+        + "%d%% Fat %d%% Carbs %d%% Protein%n%n", fatPercent, carbPercent, proteinPercent);
 
     /*
      * Daily Calories from each macronutrient is calculated by multiplying the user's
      * total daily energy expenditure by the percentage of daily Calories from each macronutrient
      */
-    final double caloriesFromFat = (FAT_PERCENT / 100.0) * (getTDEE());
-    final double caloriesFromCarb = (CARB_PERCENT / 100.0) * (getTDEE());
-    final double caloriesFromProtein = (PROTEIN_PERCENT / 100.0) * (getTDEE());
+    final double caloriesFromFat = (fatPercent / 100.0) * (getTotalDailyEnergyExpenditure());
+    final double caloriesFromCarb = (carbPercent / 100.0) * (getTotalDailyEnergyExpenditure());
+    final double caloriesFromProtein =
+        (proteinPercent / 100.0) * (getTotalDailyEnergyExpenditure());
 
     System.out.printf(
-        "If we multiply each percentage by the total daily energy expenditure we get: \n"
+        "If we multiply each percentage by the total daily energy expenditure we get: %n"
             + "(%d/100)*(%.0f) = %.0f Calories from fat%n"
             + "(%d/100)*(%.0f) = %.0f Calories from carbs%n"
             + "(%d/100)*(%.0f) = %.0f Calories from protein.%n%n",
-        FAT_PERCENT, getTDEE(), caloriesFromFat,
-        CARB_PERCENT, getTDEE(), caloriesFromCarb,
-        PROTEIN_PERCENT, getTDEE(), caloriesFromProtein);
+        fatPercent, getTotalDailyEnergyExpenditure(), caloriesFromFat,
+        carbPercent, getTotalDailyEnergyExpenditure(), caloriesFromCarb,
+        proteinPercent, getTotalDailyEnergyExpenditure(), caloriesFromProtein);
 
     /*
      * Daily grams of each macronutrient is calculated by multiplying number of daily Calories
@@ -725,8 +709,9 @@ public class NewUser {
      * (20) A nested ternary operator is used to print different Strings depending on the conditions
      * of caloriesFromFat > caloriesFromCarb
      */
-    String result = (caloriesFromFat != caloriesFromCarb
-        ? ((caloriesFromFat > caloriesFromCarb) ? "is fat dominant." : "is carbohydrate dominant.")
+    String result = ((int) caloriesFromFat != (int) caloriesFromCarb
+        ? (((int) caloriesFromFat > (int) caloriesFromCarb) ? "is fat dominant."
+        : "is carbohydrate dominant.")
         : "has equal Calories from fat and carbs");
 
     System.out.println("This random sample distribution of macronutrients " + result);
@@ -938,7 +923,7 @@ public class NewUser {
         + "\n");
 
     // (37) instantiate and initialize a one-dimensional array
-    setGoalGrams(new double[]{getGoalGramsFat(), getGoalGramsCarb(), getGoalGramsProtein()});
+    goalGrams = new double[]{getGoalGramsFat(), getGoalGramsCarb(), getGoalGramsProtein()};
   }
 
   /* (33) Overload a Method.
@@ -985,25 +970,24 @@ public class NewUser {
           + "fat, carbs, and protein in an specific number of servings of a food using the \n"
           + "the nutritional label please type yes, otherwise type anything else to continue.\n");
       String input = userScanner.nextLine().toLowerCase().trim();
+      /*
+       * The array named mealGramTotals is initialized with the total grams of fat, carbs,
+       * and protein for the given number of servings.
+       */
+      if ("yes".equals(input)) {
+        System.out.println("Roughly how many servings did you or will you have?");
+        double servings = userScanner.nextDouble();
 
-      if (input.equals("yes")) {
         System.out.println("Please enter the grams of fat per serving.");
         double servingFatGrams = userScanner.nextDouble();
+        mealGramTotals[0] = (servingFatGrams * servings);
 
         System.out.println("Please enter the grams of carbohydrate per serving.");
         double servingCarbGrams = userScanner.nextDouble();
+        mealGramTotals[1] = (servingCarbGrams * servings);
 
         System.out.println("Please enter the grams protein per serving.");
         double servingProteinGrams = userScanner.nextDouble();
-
-        System.out.println("Roughly how many servings did you or will you have?");
-        double servings = userScanner.nextDouble();
-        /*
-         * The array named mealGramTotals is initialized with the total grams of fat, carbs,
-         * and protein for the given number of servings.
-         */
-        mealGramTotals[0] = (servingFatGrams * servings);
-        mealGramTotals[1] = (servingCarbGrams * servings);
         mealGramTotals[2] = (servingProteinGrams * servings);
         System.out.println("Total grams for " + servings + " servings:");
         /*
@@ -1046,34 +1030,34 @@ public class NewUser {
           + "your current weight.\n" + "1 : lose ~1 pound per week\n"
           + "2 : lose ~2 pounds per week\n" + "3 : gain ~0.5 pound per week\n"
           + "4 : gain ~1 pound per week\n");
-
-      String userGoal = userScanner.nextLine();
+      userScanner.nextLine();
+      int userGoal = userScanner.nextInt();
       switch (userGoal) {
-        case "1":
-          setGoalDailyCalories(getTDEE() - 500);
+        case 1:
+          setGoalDailyCalories(getTotalDailyEnergyExpenditure() - 500);
           setGoal("Lose 1 pound per week");
           /*
            *(36) Use this to access objects
            */
           goalIsSet = confirmGoal(this, userScanner, goalIsSet);
           break;
-        case "2":
-          setGoalDailyCalories(getTDEE() - 1000);
+        case 2:
+          setGoalDailyCalories(getTotalDailyEnergyExpenditure() - 1000);
           setGoal("Lose 2 pounds per week");
           goalIsSet = confirmGoal(this, userScanner, goalIsSet);
           break;
-        case "3":
-          setGoalDailyCalories(getTDEE() + 250);
+        case 3:
+          setGoalDailyCalories(getTotalDailyEnergyExpenditure() + 250);
           setGoal("Gain half a pound per week");
           goalIsSet = confirmGoal(this, userScanner, goalIsSet);
           break;
-        case "4":
-          setGoalDailyCalories(getTDEE() + 500);
+        case 4:
+          setGoalDailyCalories(getTotalDailyEnergyExpenditure() + 500);
           setGoal("Gain one pound per week");
           goalIsSet = confirmGoal(this, userScanner, goalIsSet);
           break;
         default:
-          setGoalDailyCalories(getTDEE());
+          setGoalDailyCalories(getTotalDailyEnergyExpenditure());
           setGoal("Maintain current weight");
           goalIsSet = confirmGoal(this, userScanner, goalIsSet);
           break;
@@ -1111,7 +1095,7 @@ public class NewUser {
            * maintain weight, sets the isInvalidInput boolean to false to break the while loop,
            * and calls the method changeMacrosByGoal() again.
            */
-          setGoalDailyCalories(getTDEE());
+          setGoalDailyCalories(getTotalDailyEnergyExpenditure());
           isInvalidInput = false;
           changeMacrosByGoal(userScanner);
           break;
@@ -1153,12 +1137,12 @@ public class NewUser {
 
   public void runUserFunctions(Scanner userScanner) {
     /* (35) Develop code that makes use of polymorphism
-     * First, the method estimateTDEE() calculates an estimate of basal metabolic rate(BMR)
-     * and total daily energy expenditure (TDEE). Then, the method giverRandomExampleOption()
-     * is called, which gives the user the option to generate a random example of daily grams
-     * from fat, carbohydrate, and protein.
+     * First, the method estimateTotalDailyEnergyExpenditure() calculates an estimate of
+     * basal metabolic rate(BMR) and total daily energy expenditure (TDEE). Then, the
+     * method giverRandomExampleOption() is called, which gives the user the option to generate
+     * a random example of daily grams from fat, carbohydrate, and protein.
      */
-    estimateTDEE();
+    estimateTotalDailyEnergyExpenditure();
     giveRandomExampleOption(userScanner);
     /*
      * Once the user opts against generating a random example, then the methods within the
@@ -1241,7 +1225,7 @@ public class NewUser {
         + "one pound in one week. Rapid weight changes are not recommended.\n");
     changeMacrosByGoal(userScanner);
     printInfo();
-    findSmallest(getGoalGrams());
+    findSmallest(goalGrams);
   }
 
   /*
@@ -1249,25 +1233,26 @@ public class NewUser {
    * daily Calories according to user's goal.
    */
   public void findSmallest(double[] gramsParam) {
-    double[] caloriesForEachMacro = {(gramsParam[0] * 9), (gramsParam[1] * 4), (gramsParam[2] * 4)};
+    int count = 0;
+    double[] caloriesForEachMacro = new double[3];
+    for (count = 0; count < caloriesForEachMacro.length; count++) {
+      if (count == 0) {
+        caloriesForEachMacro[count] = gramsParam[count] * 9;
+      } else {
+        caloriesForEachMacro[count] = gramsParam[count] * 4;
+      }
+    }
+    int indexOfSmallest = 0;
     double smallestCalorieCount = caloriesForEachMacro[0];
-    for (int count = 1; count < caloriesForEachMacro.length; count++) {
+    for (count = 1; count < caloriesForEachMacro.length; count++) {
       if (caloriesForEachMacro[count] < smallestCalorieCount) {
         smallestCalorieCount = caloriesForEachMacro[count];
+        indexOfSmallest = count;
       }
 
     }
-    if (smallestCalorieCount == caloriesForEachMacro[0]) {
-      System.out.println("Your smallest number of daily Calories is from fat: "
-          + caloriesForEachMacro[0] + " Calories\n");
-
-    } else if (smallestCalorieCount == caloriesForEachMacro[1]) {
-      System.out.println("Your smallest number of daily Calories is from carbs: "
-          + caloriesForEachMacro[1] + " Calories\n");
-    } else {
-      System.out.println("Your smallest number of daily Calories is from protein: "
-          + caloriesForEachMacro[2] + " Calories\n");
-    }
+    System.out.printf("Your smallest number of daily Calories is %f Calories from %s.%n",
+        smallestCalorieCount, macronutrients[indexOfSmallest]);
   }
 
   /*
