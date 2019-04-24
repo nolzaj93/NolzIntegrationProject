@@ -1,20 +1,31 @@
 package com.nolzaj93.macrofriend;
 /*
- * (1) Austin Nolz (2) This program will be able to recommend an estimate of daily calories and
- * macronutrients depending on your activity level and fitness goals.
+ *
  */
 
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-
+/**
+ * (2) MacroFriend is a program that is able to recommend an estimate of daily calories and
+ * macronutrients depending on your activity level and fitness goal.
+ *
+ * @author Austin Nolz - (1)
+ */
 public class Introduction {
 
   /*
    * (16) Below is a header for the main method, void means method doesn't return a value. Public is
    * an access modifier allowing other classes to call this method. Method names should be in lower
    * camelCase and use a verb as first word. The parameter of this method is String[] args.
+   */
+
+  /**
+   * This is the main method for the MacroFriend program, which uses the Scanner object, userInfo,
+   * to retrieve data from the user through the console. This method will be restructured as the GUI
+   * is built, and an SQL database is incorporated for the backend.
    *
+   * @param args - An array of strings sent to the command-line as arguments.
    */
   public static void main(String[] args) {
     /*
@@ -89,20 +100,7 @@ public class Introduction {
      * has the base type, NewUser.
      */
     NewUser user1 = new NewUser(userInfo);
-
-    if ("female".equals(user1.getBiologicalSex())) {
-      FemaleUser femaleUser = new FemaleUser(userInfo, user1.userStrings, user1.userDoubles);
-      NewUser newFemaleUser = (NewUser) femaleUser;
-
-    } else if ("male".equals(user1.getBiologicalSex())) {
-      MaleUser maleUser = new MaleUser(userInfo, user1.userStrings, user1.userDoubles);
-      NewUser newMaleUser = (NewUser) maleUser;
-
-    } else {
-      IntersexUser intersexUser = new IntersexUser(userInfo, user1.userStrings, user1.userDoubles);
-      NewUser newIntersexUser = (NewUser) intersexUser;
-
-    }
+    user1 = createUserBySex(userInfo, user1);
 
     int currentMonth = sampleCalendar.getCurrentMonth();
     int currentDay = sampleCalendar.getCurrentDay();
@@ -125,16 +123,39 @@ public class Introduction {
     if ("new".equals(userInfo.next().toLowerCase())) {
 
       NewUser user2 = new NewUser(userInfo);
-      user2.runUserFunctions(userInfo);
+      user2 = createUserBySex(userInfo, user2);
     }
     user1.printInfo();
     userInfo.close();
   }
 
-  // Explicitly defined no-argument constructor prints welcome message every time
-  public Introduction() {
-    System.out.println("Welcome to MacroFriend! This application will help you plan \n"
-        + "your daily meals based on your activity level, age, and\n"
-        + "an estimate of your body fat percentage.\n\n");
+  /**
+   * This method creates an object of one of the three subclasses of NewUser depending upon what is
+   * returned from the method user.getBiologicalSex()
+   *
+   * @param userScanner - Scanner object is passed into the constructor of the respective subclass.
+   * @param user - NewUser object built from the superclass is passed into the method and holds the
+   *     userName, and the biologicalSex determines which subclass object is created.
+   * @return - NewUser object is returned by casting the respective subclass object into the NewUser
+   *     type.
+   */
+  public static NewUser createUserBySex(Scanner userScanner, NewUser user) {
+    NewUser newUser;
+    if ("female".equals(user.getBiologicalSex())) {
+      FemaleUser newFemaleUser = new FemaleUser(userScanner, user.getUserName(),
+          user.getBiologicalSex());
+      newUser = (NewUser) newFemaleUser;
+
+    } else if ("male".equals(user.getBiologicalSex())) {
+      MaleUser newMaleUser = new MaleUser(userScanner, user.getUserName(), user.getBiologicalSex());
+      newUser = (NewUser) newMaleUser;
+
+    } else {
+      IntersexUser newIntersexUser = new IntersexUser(userScanner, user.getUserName(),
+          user.getBiologicalSex());
+      newUser = (NewUser) newIntersexUser;
+
+    }
+    return newUser;
   }
 }

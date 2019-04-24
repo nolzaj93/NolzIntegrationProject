@@ -1,12 +1,11 @@
 package com.nolzaj93.macrofriend;
-// Austin Nolz
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
-/*
+/* Integration Project requirements:
  * (32)Make a class in a separate file with private fields, public getters and setters, a
  * constructor with and without parameters.
  * (34) Describe inheritance and its benefits.
@@ -16,6 +15,15 @@ import java.util.Scanner;
  * because we can quickly type extends and the superclass name, instead of copying and pasting
  * the code into the subclass. This is much more efficient.
  */
+
+/**
+ * The NewUser class holds the fields and methods for a new user. This class is the blueprint
+ * for a NewUser object. Depending upon input read from the Scanner for the user's biological sex,
+ * an object is instantiated from the respective subclass of NewUser, either FemaleUser,
+ * IntersexUser, and MaleUser.
+ *
+ * @author - Austin Nolz
+ */
 public class NewUser {
 
   private String userName = "";
@@ -24,9 +32,7 @@ public class NewUser {
   private double userWeight;
   private String userBiologicalSex;
   private double userBodyFatPercentage;
-  private double workoutsPerWeek;
-  protected String[] userStrings = new String[2];
-  protected Double[] userDoubles = new Double[5];
+  private double workoutHoursPerWeek;
   private double katchMcArdleBmr;
   private double femaleHarrisBenedictBmr;
   private double maleHarrisBenedictBmr;
@@ -47,34 +53,36 @@ public class NewUser {
   private double[] mealGramTotals = new double[3];
   private String goal;
 
-  public NewUser() {
-    /*
-     * (36) Use super and this to access objects and constructors.
-     * The compiler automatically provides a no-argument, default constructor implicitly. When we
-     * explicitly define this no-argument constructor, then we must explicitly define one for
-     * the superclass as well.
-     *
-     * super() is a call to the constructor of the explicitly defined superclass and is a redundant
-     * statement in this case, because creation of a NewUser object calls NewUser() and
-     * Introduction() by default.
-     */
+  /* public NewUser() {
+   *//*
+   * (36) Use super and this to access objects and constructors.
+   * The compiler automatically provides a no-argument, default constructor implicitly. When we
+   * explicitly define this no-argument constructor, then we must explicitly define one for
+   * the superclass as well.
+   *
+   * super() is a call to the constructor of the explicitly defined superclass and is a redundant
+   * statement in this case, because creation of a NewUser object calls NewUser() and
+   * Introduction() by default.
+   *//*
     super();
+  }*/
+
+  /**
+   * This no-argument constructor is currently being used in the process of learning and
+   * restructuring the project to work with the GUI.
+   */
+  public NewUser() {
+
   }
 
-  public NewUser(String[] userStrings, Double[] userDoubles) {
-    setUserName(getUserStrings(0));
-    setBiologicalSex(getUserStrings(1));
-    setUserAge(getUserDoubles(0));
-    setUserHeight(getUserDoubles(1));
-    setUserWeight(getUserDoubles(2));
-    setUserBodyFat(getUserDoubles(3));
-    setWorkoutsPerWeek(getUserDoubles(4));
-    setKatchMcArdleBmr(370 + (21.6 * (1 - getUserBodyFat()) * (getUserWeight() / 2.2)));
-    setFemaleHarrisBenedictBmr(655 + (9.6 * (getUserWeight() / 2.2))
-        + (1.8 * getUserHeight() * 2.54) - (4.7 * getUserAge()));
-    setMaleHarrisBenedictBmr(66 + (13.7 * (getUserWeight() / 2.2))
-        + (5 * getUserHeight() * 2.54) - (6.8 * getUserAge()));
-  }
+  /**
+   * This constructor is used currently within the driver class, Introduction, in the main method.
+   * Once the GUI is implemented, the interaction with the user will not be through the console and
+   * the Scanner object.
+   *
+   * @param userScanner - Scanner object that is passed into the NewUser constructor to be used
+   *     within the enterUserStrings method as an argument.
+   */
 
   public NewUser(Scanner userScanner) {
     /* (36) It is incorrect to call super() and this() constructors within the same constructor.
@@ -83,20 +91,30 @@ public class NewUser {
      * is called.
      */
     //super();
-    this();
+    //this();
+    System.out.println("Welcome to MacroFriend! This application will help you plan \n"
+        + "your daily meals based on your goal.\n");
+    enterUserStrings(userScanner);
+  }
 
-    /*
-     * userStrings and userDoubles are declared and instantiated locally and passed into
-     * the method enterUserInfo() as arguments
-     */
-    enterUserInfo(userScanner, userStrings, userDoubles);
-    setUserName(getUserStrings(0));
-    setBiologicalSex(getUserStrings(1));
-    setUserAge(getUserDoubles(0));
-    setUserHeight(getUserDoubles(1));
-    setUserWeight(getUserDoubles(2));
-    setUserBodyFat(getUserDoubles(3));
-    setWorkoutsPerWeek(getUserDoubles(4));
+  /**
+   * FemaleUser, IntersexUser and MaleUser are subclasses of NewUser. Depending on the user's input
+   * for biological sex, we create an object from the respective subclass. This constructor is
+   * called from the constructor of all three subclasses in order to call the enterUserDoubles()
+   * method and to set the equations used to estimate basal metabolic rate (BMR).
+   *
+   * @param userScanner - The Scanner object that gets input from the user through the console.
+   * @param name - This parameter holds the user's name, which was retrieved through the Scanner
+   *     object when the NewUser object was created.
+   * @param sex - This parameter holds the user's sex, which was also retrieved through the Scanner
+   *     object when the NewUser object was created.
+   */
+
+  public NewUser(Scanner userScanner, String name, String sex) {
+
+    setUserName(name);
+    setBiologicalSex(sex);
+    enterUserDoubles(userScanner);
     setKatchMcArdleBmr(370 + (21.6 * (1 - getUserBodyFat()) * (getUserWeight() / 2.2)));
     setFemaleHarrisBenedictBmr(655 + (9.6 * (getUserWeight() / 2.2))
         + (1.8 * getUserHeight() * 2.54) - (4.7 * getUserAge()));
@@ -104,7 +122,40 @@ public class NewUser {
         + (5 * getUserHeight() * 2.54) - (6.8 * getUserAge()));
   }
 
-  public final void enterUserInfo(Scanner userScanner, String[] userStrings, Double[] userDoubles) {
+  /**
+   * This method is called from the GUI to check if the userName entered starts with a letter and
+   * contains 8-30 characters.
+   *
+   * @param name - Holds the String that is entered by the user into the userNameField within
+   *     handleRegisterButtonAction in FxmlIntegrationProjectController.
+   * @return - This method returns a String with a message that the userName must start with a
+   *     letter and have 8-30 characters or returns an empty String if the userName does not meet
+   *     the conditions.
+   */
+  public String checkUserNameInput(String name) {
+
+    // checks if name starts with a letter and is at least 8 characters long
+    if (!Character.isLetter(name.charAt(0)) || name.length() < 8 || name.length() > 30) {
+
+      return "Your UserName must start with a letter and have between 8 and 30 characters";
+
+    } else {
+      setUserName(name);
+
+      return "";
+    }
+
+  }
+
+  /**
+   * This method allows the user to enter their name and biological sex, and sets the respective
+   * private fields.
+   *
+   * @param userScanner - Scanner object retrieves name and biological sex and checks if they meet
+   *     the correct conditions (name must have at least one letter, sex must be male, female, or
+   *     intersex).
+   */
+  public final void enterUserStrings(Scanner userScanner) {
     System.out.println("Please enter your name.");
     /*
      * (8) String object userName is initialized with the input string literal
@@ -127,11 +178,58 @@ public class NewUser {
       } else {
         userNameIsSet = true;
       }
-      userStrings[0] = name;
+      setUserName(name);
     }
 
+    /*
+     * (5) boolean loopExit declared and initialized as false Only exits loop if user inputs correct
+     * info (22) equals() and compareTo() methods, == is not appropriate with Strings and other
+     * objects because == compares the object references not the literals that they reference.
+     * (27)This while loop is event-controlled by user input, and only exits if the input is either
+     * female or male. An error message is printed if the input is incorrect
+     */
+
+    boolean biologicalSexIsSet = false;
+    String biologicalSex = "";
+    while (!biologicalSexIsSet) {
+
+      System.out.println("Are you male, female, or intersex?\n");
+      biologicalSex = userScanner.next().toLowerCase();
+
+      // (19) if/else constructs
+      if ("female".equals(biologicalSex)) {
+        biologicalSexIsSet = true;
+        userBiologicalSex = biologicalSex;
+
+
+      } else if ("male".compareTo(biologicalSex) == 0) {
+        biologicalSexIsSet = true;
+        userBiologicalSex = biologicalSex;
+
+      } else if ("intersex".equals(biologicalSex)) {
+        biologicalSexIsSet = true;
+        userBiologicalSex = biologicalSex;
+
+      } else {
+        System.out.println("Error: invalid input. Please type your biological sex.\n");
+        continue;
+      }
+      userScanner.nextLine();
+    }
+  }
+
+  /**
+   * This method prompts the user to enter their age, height, weight, body fat percentage, and
+   * workout hours per week, and checks if the values are in a realistic range. If the conditions
+   * are met, then the respective private field is set.
+   *
+   * @param userScanner - Scanner object allows user to enter their age, height, weight, body fat
+   *     percentage, and workout hours per week.
+   */
+  public final void enterUserDoubles(Scanner userScanner) {
+
     // (13) This string is formatted using the escape sequence for a new line
-    System.out.println("Thank you, " + userStrings[0] + ". "
+    System.out.println("Thank you, " + getUserName() + ". "
         + "Please enter your age expressed as a whole number.\n");
 
     // (29) do while loops
@@ -147,7 +245,7 @@ public class NewUser {
 
         } else {
 
-          userDoubles[0] = (double) age;
+          userAge = (double) age;
           ageIsSet = true;
         }
         /*
@@ -157,7 +255,7 @@ public class NewUser {
         System.out.println("Error: your input included text or had a decimal point.\n"
             + "Please input your age as a whole number.");
       } catch (Exception ex) {
-        System.out.println("Error: your age must be greater than zero, or less than 120.\n"
+        System.out.println("Error: the user age must be greater than zero, or less than 120.\n"
             + "Please enter your age expressed as a whole number.");
       }
       userScanner.nextLine();
@@ -187,7 +285,7 @@ public class NewUser {
           throw new Exception();
         } else {
 
-          userDoubles[1] = height;
+          userHeight = height;
           heightIsSet = true;
         }
       } catch (InputMismatchException ex) {
@@ -221,7 +319,7 @@ public class NewUser {
               + "Please enter your weight in pounds.\n");
           continue;
         } else {
-          userDoubles[2] = weight;
+          userWeight = weight;
           weightIsSet = true;
         }
       } catch (InputMismatchException ex) {
@@ -232,40 +330,6 @@ public class NewUser {
       userScanner.nextLine();
 
     } while (!weightIsSet);
-
-    /*
-     * (5) boolean loopExit declared and initialized as false Only exits loop if user inputs correct
-     * info (22) equals() and compareTo() methods, == is not appropriate with Strings and other
-     * objects because == compares the object references not the literals that they reference.
-     * (27)This while loop is event-controlled by user input, and only exits if the input is either
-     * female or male. An error message is printed if the input is incorrect
-     */
-
-    boolean biologicalSexIsSet = false;
-    String biologicalSex = "";
-    while (!biologicalSexIsSet) {
-
-      System.out.println("Are you male, female, or intersex?\n");
-      biologicalSex = userScanner.next().toLowerCase();
-
-      // (19) if/else constructs
-      if ("male".equals(biologicalSex)) {
-        biologicalSexIsSet = true;
-        userStrings[1] = biologicalSex;
-
-      } else if ("female".compareTo(biologicalSex) == 0) {
-        biologicalSexIsSet = true;
-        userStrings[1] = biologicalSex;
-
-      } else if ("intersex".equals(biologicalSex)) {
-        biologicalSexIsSet = true;
-        userStrings[1] = biologicalSex;
-      } else {
-        System.out.println("Error: invalid input. Please type your biological sex.\n");
-        continue;
-      }
-      userScanner.nextLine();
-    }
 
     System.out.println("\nThank you, now please input your estimated body fat percentage \n"
         + "without a percentage sign. For example: 20.8. If you \n"
@@ -292,7 +356,7 @@ public class NewUser {
 
         } else {
 
-          userDoubles[3] = bodyFatPercentage;
+          userBodyFatPercentage = bodyFatPercentage;
           bodyFatIsSet = true;
         }
       } catch (InputMismatchException ex) {
@@ -327,7 +391,7 @@ public class NewUser {
           continue;
         } else {
           workoutsPerWeekIsSet = true;
-          userDoubles[4] = workoutsPerWeek;
+          workoutHoursPerWeek = workoutsPerWeek;
         }
       } catch (InputMismatchException ex) {
         System.out.println("Error: please input a number.");
@@ -335,7 +399,6 @@ public class NewUser {
       }
 
     } while (workoutsPerWeekIsSet == false);
-
   }
 
   // getter and setter methods
@@ -401,20 +464,12 @@ public class NewUser {
 
   public final double getWorkoutsPerWeek() {
 
-    return workoutsPerWeek;
+    return workoutHoursPerWeek;
   }
 
   public final void setWorkoutsPerWeek(double newWorkoutDays) {
 
-    workoutsPerWeek = newWorkoutDays;
-  }
-
-  public final String getUserStrings(int index) {
-    return userStrings[index];
-  }
-
-  public final Double getUserDoubles(int index) {
-    return userDoubles[index];
+    workoutHoursPerWeek = newWorkoutDays;
   }
 
   public final double getKatchMcArdleBmr() {
@@ -575,11 +630,14 @@ public class NewUser {
         + "NewUser overrides this method.");
   }
 
-  ;
-
-  /*
-   * (14) This method estimates total daily energy expenditure with parameters within the
-   * parentheses. The return value is a double.
+  /**
+   * As described in the method name, this method estimates total daily energy expenditure (TDEE) by
+   * first calling the estimateBasalMetabolicRate(). Within the main method, depending on the
+   * biological sex that is set, a FemaleUser, IntersexUser, or MaleUser object is created. Each of
+   * these classes overrides the estimateBasalMetabolicRate() within NewUser, and each uses a
+   * different calculation. The TDEE is estimated based on the estimated BMR and the number of
+   * workout hours that the user reports per week for the past month. The private fields
+   * totalDailyEnergyExpenditure and goalDailyCalories are set with the estimated value rounded
    */
   public void estimateTotalDailyEnergyExpenditure() {
     estimateBasalMetabolicRate();
@@ -589,26 +647,26 @@ public class NewUser {
      * (21) Use a switch statement This estimates total daily energy expenditure(TDEE) using BMR
      * and workouts per week, based on the equations referenced above.
      */
-    int workouts = (int) Math.rint(this.getWorkoutsPerWeek());
+    int workouts = (int) Math.rint(getWorkoutsPerWeek());
     switch (workouts) {
       case 0:
-        this.setTotalDailyEnergyExpenditure(1.2 * this.getBasalMetabolicRate());
+        setTotalDailyEnergyExpenditure(1.2 * getBasalMetabolicRate());
         break;
       case 1:
       case 2:
-        this.setTotalDailyEnergyExpenditure(1.375 * this.getBasalMetabolicRate());
+        setTotalDailyEnergyExpenditure(1.375 * getBasalMetabolicRate());
         break;
       case 3:
       case 4:
       case 5:
-        this.setTotalDailyEnergyExpenditure(1.55 * this.getBasalMetabolicRate());
+        setTotalDailyEnergyExpenditure(1.55 * getBasalMetabolicRate());
         break;
       case 6:
       case 7:
-        this.setTotalDailyEnergyExpenditure(1.725 * this.getBasalMetabolicRate());
+        setTotalDailyEnergyExpenditure(1.725 * getBasalMetabolicRate());
         break;
       default:
-        this.setTotalDailyEnergyExpenditure(1.9 * this.getBasalMetabolicRate());
+        setTotalDailyEnergyExpenditure(1.9 * getBasalMetabolicRate());
         break;
     }
     /*
@@ -616,8 +674,8 @@ public class NewUser {
      * This rounds the estimated TDEE to the nearest integer, and also sets goalDailyCalories to
      * this number by default.
      */
-    this.setTotalDailyEnergyExpenditure(Math.rint(this.getTotalDailyEnergyExpenditure()));
-    this.setGoalDailyCalories(this.getTotalDailyEnergyExpenditure());
+    setTotalDailyEnergyExpenditure(Math.rint(getTotalDailyEnergyExpenditure()));
+    setGoalDailyCalories(getTotalDailyEnergyExpenditure());
 
     System.out.println("\n" + "Name: " + getUserName() + "\n" + "Age: " + getUserAge()
         + " years old" + "\n" + "Height: " + getUserHeight() + " inches" + "\n" + "Weight: "
@@ -625,7 +683,7 @@ public class NewUser {
         + (getUserBodyFat() * 100) + "%\n" + "Workouts per week: " + getWorkoutsPerWeek());
 
     System.out.printf("Estimated Total Daily Energy Expenditure (TDEE): " + "%.0f Calories%n%n",
-        this.getTotalDailyEnergyExpenditure());
+        getTotalDailyEnergyExpenditure());
 
     System.out.println("This amount of Calories will maintain your current \n"
         + "weight. When you look at a nutrition label it has \n"
@@ -638,8 +696,13 @@ public class NewUser {
         + "and protein require 4 Calories to burn 1 gram.\n");
   }
 
-  /*
-   * This method gives the user the option to call the generateRandomExample() method.
+  /**
+   * This method gives the user the option to call the generateRandomExample() method. If the user
+   * types yes, then the generateRandomExample() method is called. If anything else is typed, then
+   * the program proceeds.
+   *
+   * @param userScanner - Scanner object is used to check if user types yes, and if so, calls the
+   *     generateRandomExample() method.
    */
   public void giveRandomExampleOption(Scanner userScanner) {
     userScanner.nextLine();
@@ -656,9 +719,11 @@ public class NewUser {
     }
   }
 
-  /*
-   * This method generates a random example of daily grams to maintain weight using the user's
-   * total daily energy expenditure(TDEE).
+  /**
+   * This method generates a random example of daily grams to maintain weight using the user's total
+   * daily energy expenditure(TDEE). It uses the Random class to generated two random numbers for
+   * percent of daily calories from fat and carbs, then subtracts those two numbers from 100 to find
+   * percent protein.
    */
   public void generateRandomExample() {
 
@@ -717,10 +782,13 @@ public class NewUser {
     System.out.println("This random sample distribution of macronutrients " + result);
   }
 
-  /*
+  /**
    * This method allows the user to enter their preferred percentage of daily Calories from fat,
-   * carbohydrate, and protein. User input is only accepted when within normal ranges based
-   * on the US Dietary guidelines.
+   * carbohydrate, and protein. User input is only accepted when within normal ranges based on the
+   * US Dietary guidelines.
+   *
+   * @param userScanner - Scanner object used to retrieve the user's preferred percentages of daily
+   *     Calories for each macronutrient.
    */
   public void changeMacronutrientPercent(Scanner userScanner) {
     /*
@@ -807,13 +875,15 @@ public class NewUser {
         + "Percent protein: " + percentProtein + "\n");
   }
 
-  /*
-   * (23) use ++. This method allows the user to increment the percent of each macronutrient
-   * by typing the name of the macronutrient: fat, carb, or protein. Also, allows them to
-   * proceed by pressing enter, or to call changeMacronutrientPercent(Scanner userScanner)
-   * by entering "back".
+  /**
+   * This method allows the user to increment the percent of each macronutrient by typing the name
+   * of the macronutrient: fat, carb, or protein. Also, allows them to proceed by pressing enter, or
+   * to call changeMacronutrientPercent(Scanner userScanner) by entering "back".
+   *
+   * @param userScanner - Scanner object used to check for input of "fat", "carb", "protein", or
+   *     "back" and if there is an empty string read then the program proceeds.
    */
-  public void incrementMacroPercent(Scanner userInfo) {
+  public void incrementMacroPercent(Scanner userScanner) {
 
     boolean incrementOption = true;
     do {
@@ -822,9 +892,12 @@ public class NewUser {
           + "This will automatically reduce the other two macronutrients by 0.5%. \n"
           + "To re-enter your preferred percentages type: back\n"
           + "To proceed press enter/return.");
-      String changePercent = userInfo.nextLine();
+      String changePercent = userScanner.nextLine();
       switch (changePercent.toLowerCase()) {
         case "fat":
+          /*
+           * (23) use ++.
+           */
           setPercentFat(++percentFat);
           setPercentCarb(percentCarb -= 0.5);
           setPercentProtein(percentProtein -= 0.5);
@@ -840,7 +913,7 @@ public class NewUser {
           setPercentCarb(percentCarb -= 0.5);
           break;
         case "back":
-          changeMacronutrientPercent(userInfo);
+          changeMacronutrientPercent(userScanner);
           break;
         case "":
           incrementOption = false;
@@ -856,12 +929,15 @@ public class NewUser {
     } while (incrementOption);
   }
 
-  /* (23) use -- and +=. This method allows the user to decrement the percent of each macronutrient
-   * by typing the name of the macronutrient: fat, carb, or protein. Also, allows them to
-   * proceed by pressing enter, or to call changeMacronutrientPercent(Scanner userScanner) again
-   * by entering "back".
+  /**
+   * This method allows the user to decrement the percent of each macronutrient by typing the name
+   * of the macronutrient: fat, carb, or protein. Also, allows them to proceed by pressing enter, or
+   * to call changeMacronutrientPercent(Scanner userScanner) again by entering "back".
+   *
+   * @param userScanner -  Scanner object used to check for input of "fat", "carb", "protein", or
+   *     "back" and if there is an empty string read then the program proceeds.
    */
-  public void decrementMacroPercent(Scanner userInfo) {
+  public void decrementMacroPercent(Scanner userScanner) {
 
     boolean decrementOption = true;
     do {
@@ -870,9 +946,12 @@ public class NewUser {
           + "This will automatically increase the other two macronutrients by 0.5%. \n"
           + "To re-enter your preferred percentages type: back \n"
           + "To proceed press enter/return");
-      String changePercent = userInfo.nextLine();
+      String changePercent = userScanner.nextLine();
       switch (changePercent.toLowerCase()) {
         case "fat":
+          /*
+           * (23) use -- and +=.
+           */
           setPercentFat(--percentFat);
           setPercentCarb(percentCarb += 0.5);
           setPercentProtein(percentProtein += 0.5);
@@ -888,7 +967,7 @@ public class NewUser {
           setPercentCarb(percentCarb += 0.5);
           break;
         case "back":
-          changeMacronutrientPercent(userInfo);
+          changeMacronutrientPercent(userScanner);
           break;
         case "":
           decrementOption = false;
@@ -904,32 +983,10 @@ public class NewUser {
     } while (decrementOption);
   }
 
-  /*
-   * User previously input their preferred fatPercent, carbPercent and proteinPercent, and this
-   * method accepts these arguments with the parameters defined within the parentheses. Grams of
-   * each macronutrient are set using each setter method, and the values are printed to stdout.
-   * Using the get method for each goalGrams variable, we instantiate and initialize a
-   * one-dimensional array using setGoalGrams().
-   */
-  public void calculateGoalGrams(double fatPercent, double carbPercent, double proteinPercent) {
-
-    setGoalGramsFat(Math.rint((fatPercent / 100) * (getGoalDailyCalories()) / 9));
-    setGoalGramsCarb(Math.rint((carbPercent / 100) * (getGoalDailyCalories()) / 4));
-    setGoalGramsProtein(Math.rint((proteinPercent / 100) * (getGoalDailyCalories()) / 4));
-    System.out.println("Your daily macronutrient requirements in grams:\n"
-        + "Fat: " + getGoalGramsFat() + " g from " + fatPercent + "% of daily Calories" + "\n"
-        + "Carbs: " + getGoalGramsCarb() + " g from " + carbPercent + "% of daily Calories" + "\n"
-        + "Protein: " + getGoalGramsProtein() + " g from " + proteinPercent + "% of daily Calories"
-        + "\n");
-
-    // (37) instantiate and initialize a one-dimensional array
-    goalGrams = new double[]{getGoalGramsFat(), getGoalGramsCarb(), getGoalGramsProtein()};
-  }
-
-  /* (33) Overload a Method.
-   * generateMealPlanOptions() is overloaded, and the method below without a parameter prints each
-   * possible count of grams of fat, carbohydrate and protein for each meal if the user were to
-   * eat 1,2,3,4,5, or 6 meals per day.
+  /**
+   * This method is overloaded, and the method below without a parameter prints each possible count
+   * of grams of fat, carbohydrate and protein for each meal if the user were to eat 1,2,3,4,5, or 6
+   * meals per day.
    */
   public void generateMealPlanOptions() {
 
@@ -942,10 +999,14 @@ public class NewUser {
     }
   }
 
-  /* (33) Overload a method.
-   * This method prints the grams of fat, carb, and protein per meal for the specific number of
-   * meals that the user enters, which is passed into the parameter, int meals.
+  /**
+   * (33) Overload a method. This method prints the grams of fat, carb, and protein per meal for the
+   * specific number of meals that the user enters, which is passed into the parameter, int meals.
+   *
+   * @param meals - This parameter specifies a specific number of meals and is used to calculate how
+   *     many grams of each macronutrient for each meal would be required.
    */
+
   public void generateMealPlanOptions(int meals) {
     System.out.println("Meals per day: " + meals + "\n"
         + "Fat: " + (Math.rint(getGoalGrams(0) / meals)) + " g\n"
@@ -958,16 +1019,23 @@ public class NewUser {
    * arbitrary number of servings. This is helpful if you plan on eating a number of servings
    * that is not a whole integer
    */
+
+  /**
+   * This method gives the user the option of calculating the total grams of each If user input is
+   * yes, then the Scanner will prompt for grams of each macronutrient per serving and number of
+   * servings. Otherwise, calcServingOption is set to false and the loop is broken. Two for loops
+   * are used to print out a String for each macronutrient name and the calculated grams for the
+   * given number of servings.
+   *
+   * @param userScanner - Scanner object allows the user to type yes if they want to call the
+   *     calculateGramsPerServing method, and to enter the number of servings and grams of each
+   *     macronutrient per serving.
+   */
   public void calculateGramsPerServing(Scanner userScanner) {
-    /*
-     * This method gives the user the option of calculating the total grams of each
-     * If user input is yes, then the Scanner will prompt for goalGrams of each macronutrient per
-     * serving and number of servings. Otherwise, calcServingOption is set to false and the loop is
-     * broken
-     */
+
     while (getCalculateGramsPerMealOption()) {
       System.out.println("If you would like to estimate the total grams of \n"
-          + "fat, carbs, and protein in an specific number of servings of a food using the \n"
+          + "fat, carbs, and protein in a specific number of servings of a food using the \n"
           + "the nutritional label please type yes, otherwise type anything else to continue.\n");
       String input = userScanner.nextLine().toLowerCase().trim();
       /*
@@ -975,6 +1043,7 @@ public class NewUser {
        * and protein for the given number of servings.
        */
       if ("yes".equals(input)) {
+
         System.out.println("Roughly how many servings did you or will you have?");
         double servings = userScanner.nextDouble();
 
@@ -998,11 +1067,11 @@ public class NewUser {
         for (String macro : macronutrients) {
           System.out.print(macro + " ");
         }
-        System.out.println();
+        System.out.printf("%n");
         for (double gramTotal : mealGramTotals) {
           System.out.printf("%.0f    ", gramTotal);
         }
-        System.out.println();
+        System.out.printf("%n");
         userScanner.nextLine();
       } else {
         setCalculateGramsPerMealOption(false);
@@ -1010,73 +1079,93 @@ public class NewUser {
     }
   }
 
-  /*
-   * (14) Parameters are userScanner and newGoalIsSet, returns the boolean named goalIsSet.
-   * This method allows the user to change the daily goal grams of each macronutrient according
-   * to their goal. If their goal is to maintain, then no change occurs. If the goal is to
-   * lose 1 pound per week, then 500 Calories is deducted from the estimated TDEE. For 2 pounds
-   * per week, 1000 Calories is deducted. To gain a half pound per week, 250 Calories are added
-   * to the goalDailyCalories, and for 1 pound of weight gain per week, 500 Calories are added.
+  /**
+   * This method allows the user to change the daily goal grams of each macronutrient according to
+   * their goal. If their goal is to maintain, then no change occurs. If the goal is to lose 1 pound
+   * per week, then 500 Calories is deducted from the estimated TDEE. For 2 pounds per week, 1000
+   * Calories is deducted. To gain a half pound per week, 250 Calories are added to the
+   * goalDailyCalories, and for 1 pound of weight gain per week, 500 Calories are added.
+   *
+   * @param userScanner - Scanner object used to accept an integer to choose a weight change goal.
    */
   public void changeMacrosByGoal(Scanner userScanner) {
     /*
      * The do-while loop is only broken when the goalIsSet boolean is set to true by the returned
      * boolean from the confirmGoal() method.
      */
-    boolean goalIsSet = false;
-    do {
+    boolean goalIsNotSet = true;
+    while (goalIsNotSet) {
       System.out.println("Type the number next to your goal to set your current "
-          + "daily macronutrients. Type anything else if your goal is to maintain\n"
-          + "your current weight.\n" + "1 : lose ~1 pound per week\n"
+          + "daily macronutrients.\n" + "0 : maintain weight\n"
+          + "1 : lose ~1 pound per week\n"
           + "2 : lose ~2 pounds per week\n" + "3 : gain ~0.5 pound per week\n"
           + "4 : gain ~1 pound per week\n");
-      userScanner.nextLine();
-      int userGoal = userScanner.nextInt();
+      int userGoal = 0;
+      try {
+        userGoal = userScanner.nextInt();
+        userScanner.nextLine();
+      } catch (InputMismatchException ex) {
+        System.out.println("Error: your input included text.");
+      }
       switch (userGoal) {
+        case 0:
+          setGoalDailyCalories(getTotalDailyEnergyExpenditure());
+          setGoal("Maintain current weight");
+          goalIsNotSet = confirmGoal(this, userScanner, goalIsNotSet);
+          break;
         case 1:
           setGoalDailyCalories(getTotalDailyEnergyExpenditure() - 500);
           setGoal("Lose 1 pound per week");
           /*
            *(36) Use this to access objects
            */
-          goalIsSet = confirmGoal(this, userScanner, goalIsSet);
+          goalIsNotSet = confirmGoal(this, userScanner, goalIsNotSet);
           break;
         case 2:
           setGoalDailyCalories(getTotalDailyEnergyExpenditure() - 1000);
           setGoal("Lose 2 pounds per week");
-          goalIsSet = confirmGoal(this, userScanner, goalIsSet);
+          goalIsNotSet = confirmGoal(this, userScanner, goalIsNotSet);
           break;
         case 3:
           setGoalDailyCalories(getTotalDailyEnergyExpenditure() + 250);
           setGoal("Gain half a pound per week");
-          goalIsSet = confirmGoal(this, userScanner, goalIsSet);
+          goalIsNotSet = confirmGoal(this, userScanner, goalIsNotSet);
           break;
         case 4:
           setGoalDailyCalories(getTotalDailyEnergyExpenditure() + 500);
           setGoal("Gain one pound per week");
-          goalIsSet = confirmGoal(this, userScanner, goalIsSet);
+          goalIsNotSet = confirmGoal(this, userScanner, goalIsNotSet);
           break;
         default:
-          setGoalDailyCalories(getTotalDailyEnergyExpenditure());
-          setGoal("Maintain current weight");
-          goalIsSet = confirmGoal(this, userScanner, goalIsSet);
+          System.out.println("Error: please enter a number between 0 and 4.");
           break;
       }
-    } while (!goalIsSet);
+    }
   }
 
-  /*
-   * This method calls calculateGoalGrams() which uses percentFat, percentCarb, and percentProtein
-   * to calculate an estimate of daily grams according to the users weight change goal. It is
-   * called from changeMacrosByGoal() and returns a boolean to confirm that the goal has been set.
+  /**
+   * (14) The parameters for this method are user, userScanner and goalNotSet, returns the boolean
+   * goalNotSet. This method calls calculateGoalGrams() which uses percentFat, percentCarb, and
+   * percentProtein to calculate an estimate of daily grams according to the users weight change
+   * goal. It is called from changeMacrosByGoal() and returns a boolean to confirm that the goal has
+   * been set.
+   *
+   * @param user - The user parameter accepts this as an argument when this method is called within
+   *     the method changeMacrosByGoal().
+   * @param userScanner - Scanner object is used to read next line for an empty string or "back".
+   * @param goalNotSet - This boolean is set to false if the user enters an empty string which
+   *     confirms the goal is set.
+   * @return - goalNotSet - returns the boolean to the changeMacrosByGoal() statement where this
+   *     method is called.
    */
-  public boolean confirmGoal(NewUser user, Scanner userScanner, boolean goalSet) {
+
+  public boolean confirmGoal(NewUser user, Scanner userScanner, boolean goalNotSet) {
 
     calculateGoalGrams(user.getPercentFat(), user.getPercentCarb(), user.getPercentProtein());
     /*
      * Prints the users chosen goal, and requests an input of back to choose a different goal,
-     * or enter to continue. If the scanner reads an empty line with nextLine() then goalSet
-     * is set to true, which is returned to the method changeMacrosByGoal() where this method
+     * or enter to continue. If the scanner reads an empty line with nextLine() then goalNotSet
+     * is set to false, which is returned to the method changeMacrosByGoal() where this method
      * is called.
      */
     System.out.println("Current goal: " + user.getGoal() + " \n"
@@ -1086,7 +1175,7 @@ public class NewUser {
       String input = userScanner.nextLine();
       switch (input) {
         case "":
-          goalSet = true;
+          goalNotSet = false;
           isInvalidInput = false;
           break;
         case "back":
@@ -1097,7 +1186,6 @@ public class NewUser {
            */
           setGoalDailyCalories(getTotalDailyEnergyExpenditure());
           isInvalidInput = false;
-          changeMacrosByGoal(userScanner);
           break;
         default:
           System.out.println("Invalid input. Please press enter to continue, or type back\n"
@@ -1106,23 +1194,60 @@ public class NewUser {
           break;
       }
     } while (isInvalidInput);
-    return goalSet;
+    return goalNotSet;
   }
 
+  /*
+   *
+   */
+
+  /**
+   * User previously input their preferred fatPercent, carbPercent and proteinPercent, and this
+   * method accepts these arguments with the parameters defined within the parentheses. Grams of
+   * each macronutrient are set using each setter method, and the values are printed to stdout.
+   * Using the get method for each goalGrams variable, we instantiate and initialize a
+   * one-dimensional array using setGoalGrams().
+   *
+   * @param fatPercent - The daily percentage of Calories the user prefers to eat from fat.
+   * @param carbPercent - The daily percentage of Calories the user prefers to eat from carbs.
+   * @param proteinPercent - The daily percentage of Calories the user prefers to eat from protein.
+   */
+  public void calculateGoalGrams(double fatPercent, double carbPercent, double proteinPercent) {
+
+    setGoalGramsFat(Math.rint((fatPercent / 100) * (getGoalDailyCalories()) / 9));
+    setGoalGramsCarb(Math.rint((carbPercent / 100) * (getGoalDailyCalories()) / 4));
+    setGoalGramsProtein(Math.rint((proteinPercent / 100) * (getGoalDailyCalories()) / 4));
+    System.out.println("Your daily macronutrient requirements in grams for the current goal:\n"
+        + "Fat: " + getGoalGramsFat() + " g from " + fatPercent + "% of daily Calories" + "\n"
+        + "Carbs: " + getGoalGramsCarb() + " g from " + carbPercent + "% of daily Calories" + "\n"
+        + "Protein: " + getGoalGramsProtein() + " g from " + proteinPercent + "% of daily Calories"
+        + "\n");
+
+    // (37) instantiate and initialize a one-dimensional array
+    goalGrams = new double[]{getGoalGramsFat(), getGoalGramsCarb(), getGoalGramsProtein()};
+  }
+
+  /**
+   * Prints user's name, age, height, weight, sex, body fat percentage, workouts per week, goal,
+   * estimated daily Calories for goal, estimated total daily energy expenditure, percent of
+   * Calories from fat, carbohydrate, and protein, and daily target of grams for each macronutrient
+   * for the user's goal.
+   */
   public void printInfo() {
     /*
      * Prints user's name, age, height, weight, sex, body fat percentage, workouts per week,
      * and estimated daily Calories.
      */
-    System.out.printf("Name: " + getUserName() + "\n"
-        + "Age: " + getUserAge() + " years old" + "\n"
-        + "Height: " + getUserHeight() + " inches" + "\n"
-        + "Weight: " + getUserWeight() + "\n"
-        + "Sex: " + getBiologicalSex() + "\n"
-        + "Body Fat Percentage: " + (getUserBodyFat() * 100) + "%%\n"
-        + "Workouts per week: " + getWorkoutsPerWeek() + "\n"
-        + "Current Goal: " + getGoal() + "\n"
-        + "Estimated Goal Daily Calories: %.0f Calories\n", getGoalDailyCalories());
+    System.out.printf("Name: " + getUserName() + "%n"
+        + "Age: " + getUserAge() + " years old" + "%n"
+        + "Height: " + getUserHeight() + " inches" + "%n"
+        + "Weight: " + getUserWeight() + "%n"
+        + "Sex: " + getBiologicalSex() + "%n"
+        + "Body Fat Percentage: " + (getUserBodyFat() * 100) + "%%%n"
+        + "Workouts per week: " + getWorkoutsPerWeek() + "%n"
+        + "Current Goal: " + getGoal() + "%n"
+        + "Estimated Goal Daily Calories: " + getGoalDailyCalories() + " Calories%n"
+        + "Total Daily Energy Expenditure: " + getTotalDailyEnergyExpenditure() + " Calories%n");
     /*
      *(37) Use a one-dimensional array. Prints user goal, percent of Calories from each
      * macronutrient, and the daily target grams of each macronutrient for the user's goal
@@ -1135,6 +1260,14 @@ public class NewUser {
         + "Daily target grams of protein: " + getGoalGrams(2) + "\n");
   }
 
+  /**
+   * This method calls all the methods listed above, some of which use the Scanner to determine if
+   * the user would like to call the method or not.
+   *
+   * @param userScanner - Scanner object is passed into each method ran and to accept a String to
+   *     determine whether the user wants to call the generateMealPlanOptions() function and
+   *     whether to pass a number of meals as an argument to the method.
+   */
   public void runUserFunctions(Scanner userScanner) {
     /* (35) Develop code that makes use of polymorphism
      * First, the method estimateTotalDailyEnergyExpenditure() calculates an estimate of
@@ -1175,7 +1308,7 @@ public class NewUser {
        * estimate of goalGrams per meal for that #. Any other input exits the loop.
        */
       System.out
-          .println("Type yes to estimate goalGrams per meal for 1 through 6 meals. \n"
+          .println("Type yes to estimate grams per meal for 1 through 6 meals. \n"
               + "Type 1, 2, 3, 4, 5 or 6 to estimate grams per meal for only one meal frequency,\n"
               + "or type anything else to continue.\n");
       String input = userScanner.nextLine().toLowerCase().trim();
@@ -1228,11 +1361,18 @@ public class NewUser {
     findSmallest(goalGrams);
   }
 
-  /*
-   * (38) Manually find the smallest value in an array. Finds macronutrient with smallest number of
-   * daily Calories according to user's goal.
+  /**
+   * This method takes the grams from each macronutrient as an array and creates a new array of
+   * Calories for each macronutrient which is then searched for the smallest value.
+   *
+   * @param gramsParam - This parameter is passed the user's daily gram targets for their goal as an
+   *     array of doubles, which is then converted to an array of Calories for each macronutrient.
    */
   public void findSmallest(double[] gramsParam) {
+    /*
+     * (38) Manually find the smallest value in an array. Finds macronutrient with smallest
+     * number of daily Calories according to user's goal.
+     */
     int count = 0;
     double[] caloriesForEachMacro = new double[3];
     for (count = 0; count < caloriesForEachMacro.length; count++) {
@@ -1251,12 +1391,17 @@ public class NewUser {
       }
 
     }
-    System.out.printf("Your smallest number of daily Calories is %f Calories from %s.%n",
+    System.out.printf("Your smallest number of daily Calories is %.0f Calories from %s.%n",
         smallestCalorieCount, macronutrients[indexOfSmallest]);
   }
 
-  /*
-   * (40)Search an array and identify the index where a value was found.
+  /**
+   * This method allows the user to search through an array of size 2-10, which they enter the
+   * values into, and they determine which value to search the array for. The indexes of the array
+   * where the search value was found are printed to standard output.
+   *
+   * @param userScanner - This Scanner object is used to allow the user to enter an array size 2-10,
+   *     the numbers they would like to store in the array to be searched, and a search value.
    */
   public static void searchArray(Scanner userScanner) {
     System.out.println("Array search method: please enter a number of integers you would like\n"
@@ -1332,6 +1477,7 @@ public class NewUser {
      */
     ArrayList<Integer> indexesFound = new ArrayList<>(inputArray.length);
     /*
+     * (40)Search an array and identify the index where a value was found.
      * Searches the entire array for the searchValue, and adds the indexes to the arrayList
      * named indexesFound.
      */

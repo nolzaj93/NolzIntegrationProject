@@ -1,18 +1,18 @@
 package com.nolzaj93.macrofriend;
 
-//
-// Austin Nolz
-// The UserCalendar class is still in a primitive stage of development. This class will create
-// a DailyTracker object for every day of every year, and will eventually connect to a database.
-//
-
 import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * The UserCalendar class is still in a primitive stage of development. This class will create a
+ * DailyTracker object for every day of every year, and will eventually connect to a database.
+ *
+ * @author Austin Nolz
+ */
 public class UserCalendar {
 
-  private LocalDate today = LocalDate.now();
+  private LocalDate today;
   /*
    * (42) Declare multi-dimensional arrays
    */
@@ -21,7 +21,12 @@ public class UserCalendar {
   private int currentMonth;
   private int currentDay;
 
+  /**
+   * The constructor for the UserCalendar class builds a Calendar and 2/29 is included if it is a
+   * leap year by using the java.time.LocalDate class.
+   */
   public UserCalendar() {
+    today = LocalDate.now();
     currentMonth = today.getMonthValue();
     currentDay = today.getDayOfMonth();
     boolean isLeapYr = today.isLeapYear();
@@ -97,6 +102,13 @@ public class UserCalendar {
     this.monthAndDayTracker[month][day] = monthAndDayTracker;
   }
 
+  /**
+   * The searchMonthAndDay allows the user to find the index of a specific month and day within the
+   * two-dimensional array named monthsAndDays.
+   *
+   * @param userScanner - Scanner object which allows user to enter in the console the month and day
+   *     they would like to find the index of within the two-dimensional array of Strings.
+   */
   public void searchMonthAndDay(Scanner userScanner) {
     System.out.println("Two-dimensional array search: ");
     boolean monthIsSet = false;
@@ -140,7 +152,7 @@ public class UserCalendar {
     }
 
     inputDay = setInput(userScanner, dayIsSet, inputDay, dayLowerBound, dayUpperBound, inputString);
-    String monthAndDay = Integer.toString(inputMonth) + " " + Integer.toString(inputDay);
+    String monthAndDay = inputMonth + " " + inputDay;
 
     for (int month = 0; month < monthsAndDays.length; month++) {
       for (int day = 0; day < monthsAndDays[month].length; day++) {
@@ -153,6 +165,22 @@ public class UserCalendar {
     }
   }
 
+  /**
+   * This method is called from searchMonthAndDay to allow the user to enter either a month or a
+   * day. It uses exception handling within a while loop to ensure that the user's input is in the
+   * correct range depending whether it is asking for a month or a day.
+   *
+   * @param userScanner - Scanner object which allows the user to enter a month or day.
+   * @param inputIsSet - Boolean used for the while loop that confirms a correct input has been
+   *     set.
+   * @param inputVar - Contains the user's input for the month or day, which is checked to be in the
+   *     correct range, which is the inclusive range from the lowerBound to the upperBound.
+   * @param lowerBound - Contains the lower bound of the specified month or day.
+   * @param upperBound - Contains the upper bound of the specified month or day.
+   * @param inputString - Contains a string of either "month" or "day".
+   * @return - The int variable named inputVar is returned to searchMonthAndDay() where this method
+   *     was called only once the user's input is within the correct range.
+   */
   public int setInput(Scanner userScanner, boolean inputIsSet,
       int inputVar, int lowerBound, int upperBound, String inputString) {
     System.out.printf("Please enter the %s you would like to search for expressed as an %n"

@@ -1,14 +1,19 @@
 package com.nolzaj93.macrofriendgui;
 
+import com.nolzaj93.macrofriend.NewUser;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 /**
+ * This controller class listens for actions from the user and makes changes to the view depending
+ * on whether input is valid or not.
+ *
  * @author Austin Nolz
  */
 public class FxmlIntegrationProjectController {
@@ -17,8 +22,21 @@ public class FxmlIntegrationProjectController {
   private Text actiontarget;
 
   @FXML
+  private TextField userNameField;
+
+  @FXML
   protected void handleSubmitButtonAction(ActionEvent event) {
-    actiontarget.setText("sign in button pressed");
+    actiontarget.setText("Database coding in progress");
   }
 
+  @FXML
+  protected void handleRegisterButtonAction(ActionEvent event) {
+    if ((userNameField.getText() != null && !userNameField.getText().isEmpty())) {
+      NewUser user = new NewUser();
+      actiontarget.setText(user.checkUserNameInput(userNameField.getText()));
+      userNameField.clear();
+    } else {
+      actiontarget.setText("You have not entered a UserName.");
+    }
+  }
 }

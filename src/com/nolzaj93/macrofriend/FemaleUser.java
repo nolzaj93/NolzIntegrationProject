@@ -2,14 +2,34 @@ package com.nolzaj93.macrofriend;
 
 import java.util.Scanner;
 
+/**
+ * This class is a subclass/derived class/child class of NewUser. The only method different for a
+ * female user compared to a male or intersex user is estimateBasalMetabolicRate().
+ *
+ * @author Austin Nolz
+ */
 public class FemaleUser extends NewUser {
 
-  public FemaleUser(Scanner userScanner, String[] userStrings, Double[] userDoubles) {
+  /**
+   * This method constructs a FemaleUser object by calling the overloaded NewUser constructor.
+   *
+   * @param userScanner - Scanner object is passed into the superclass constructor call and into
+   *     the runUserFunctions method.
+   * @param name - The name parameter holds the userName that was set within the NewUser class
+   *     to be set for this object within the superclass constructor called.
+   * @param sex - The sex parameter holds the biological sex that was retrieved and set from
+   *     the enterUserStrings method within the NewUser class, which is the same for the name.
+   */
+  public FemaleUser(Scanner userScanner, String name, String sex) {
 
-    super(userStrings, userDoubles);
-    runUserFunctions(userScanner);
+    super(userScanner, name, sex);
+    this.runUserFunctions(userScanner);
   }
 
+  /**
+   * This overridden method for FemaleUser objects estimates BMR by taking the average of the
+   * KatchMcArdleBMR and the FemaleHarrisBenedictBMR.
+   */
   @Override
   public void estimateBasalMetabolicRate() {
     // Sourced from this website:

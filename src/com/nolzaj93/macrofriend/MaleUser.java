@@ -2,16 +2,32 @@ package com.nolzaj93.macrofriend;
 
 import java.util.Scanner;
 
+/**
+ * This class is a subclass/derived class/child class of NewUser. The only method different for a
+ * male user compared to a female or intersex user is estimateBasalMetabolicRate().
+ *
+ * @author Austin Nolz
+ */
 public class MaleUser extends NewUser {
 
-  public MaleUser(Scanner userScanner, String[] userStrings, Double[] userDoubles) {
-    super(userStrings, userDoubles);
+  /**
+   * This method constructs a MaleUser object by calling the overloaded NewUser constructor.
+   *
+   * @param userScanner - Scanner object is passed into the superclass constructor call and into
+   *     the runUserFunctions method.
+   * @param name - The name parameter holds the userName that was set within the NewUser class
+   *     to be set for this object within the superclass constructor called.
+   * @param sex - The sex parameter holds the biological sex that was retrieved and set from
+   *     the enterUserStrings method within the NewUser class, which is the same for the name.
+   */
+  public MaleUser(Scanner userScanner, String name, String sex) {
+    super(userScanner, name, sex);
     runUserFunctions(userScanner);
   }
 
-  /*
-   * (14) This method estimates total daily energy expenditure with parameters within the
-   * parentheses. The return value is a double.
+  /**
+   * This overridden method for MaleUser objects estimates BMR by taking the average of the
+   * KatchMcArdleBMR and the MaleHarrisBenedictBMR.
    */
   @Override
   public void estimateBasalMetabolicRate() {
@@ -23,8 +39,8 @@ public class MaleUser extends NewUser {
      * and the Harris-Benedict equation. (23) use +, - , * , /, an example of order of operations
      * PEMDAS.
      *
+     * This method averages two equations to estimated BMR for males
      */
-    //equations for males
-    setBasalMetabolicRate((super.getKatchMcArdleBmr() + super.getMaleHarrisBenedictBmr()) / 2.0);
+    setBasalMetabolicRate((getKatchMcArdleBmr() + getMaleHarrisBenedictBmr()) / 2.0);
   }
 }

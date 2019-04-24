@@ -1,10 +1,13 @@
 package com.nolzaj93.macrofriend;
 
-//Austin Nolz
-//The DailyTracker class is a work in progress
-
 import java.util.ArrayList;
 
+/**
+ * The DailyTracker class will create objects which will hold the user's daily nutrition data. This
+ * class is still in progress.
+ *
+ * @author - Austin Nolz
+ */
 public class DailyTracker {
 
   private Double[] newMealGrams;
@@ -55,6 +58,22 @@ public class DailyTracker {
   public void setDailyMeals(ArrayList<Double[][]> dailyMeals) {
     this.dailyMeals = dailyMeals;
   }
+
+  /**
+   * The addNewMeal method takes arguments for grams of fat, carbs and protein, adds each value to
+   * the respective daily gram total, and adds these values to each respective daily arrayList. The
+   * method also uses a for loop to find the Calories from each quantity of grams. The two
+   * dimensional array, newMeal, is added to an arrayList of type double[][].
+   *
+   * @param fatGrams - This parameter holds the grams of fat entered by the user in the new meal.
+   * @param carbGrams - This parameter holds the grams of carbs entered by the user in the new
+   *     meal.
+   * @param proteinGrams - This parameter holds the grams of protein entered by the user in the new
+   *     meal.
+   * @return newMeal- This method returns a two dimensional array of doubles. The first array holds
+   *     the grams of fat, carbs, and protein, and the second array holds the calories from each
+   *     macronutrient, as well as the total meal Calories at index [1][3].
+   */
 
   public Double[][] addNewMeal(double fatGrams, double carbGrams, double proteinGrams) {
     double totalMealCalories = 0;
