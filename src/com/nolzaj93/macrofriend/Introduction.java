@@ -1,7 +1,4 @@
 package com.nolzaj93.macrofriend;
-/*
- *
- */
 
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;

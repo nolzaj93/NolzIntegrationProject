@@ -3,6 +3,8 @@ package com.nolzaj93.macrofriend;
 import java.util.ArrayList;
 
 /**
+ * (2) MacroFriend is a program that is able to recommend an estimate of daily calories and
+ * macronutrients depending on your activity level and fitness goal.
  * The DailyTracker class will create objects which will hold the user's daily nutrition data. This
  * class is still in progress.
  *

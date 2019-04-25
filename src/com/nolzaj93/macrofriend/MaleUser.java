@@ -3,6 +3,8 @@ package com.nolzaj93.macrofriend;
 import java.util.Scanner;
 
 /**
+ * (2) MacroFriend is a program that is able to recommend an estimate of daily calories and
+ * macronutrients depending on your activity level and fitness goal.
  * This class is a subclass/derived class/child class of NewUser. The only method different for a
  * male user compared to a female or intersex user is estimateBasalMetabolicRate().
  *

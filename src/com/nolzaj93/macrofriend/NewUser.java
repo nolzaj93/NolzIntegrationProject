@@ -18,6 +18,8 @@ import java.util.Scanner;
  */
 
 /**
+ * (2) MacroFriend is a program that is able to recommend an estimate of daily calories and
+ * macronutrients depending on your activity level and fitness goal.
  * The NewUser class holds the fields and methods for a new user. This class is the blueprint
  * for a NewUser object. Depending upon input read from the Scanner for the user's biological sex,
  * an object is instantiated from the respective subclass of NewUser, either FemaleUser,

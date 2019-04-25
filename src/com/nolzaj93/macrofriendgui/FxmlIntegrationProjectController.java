@@ -11,6 +11,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 /**
+ * (2) MacroFriend is a program that is able to recommend an estimate of daily calories and
+ * macronutrients depending on your activity level and fitness goal.
  * This controller class listens for actions from the user and makes changes to the view depending
  * on whether input is valid or not.
  *

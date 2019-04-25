@@ -5,6 +5,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
+ * (2) MacroFriend is a program that is able to recommend an estimate of daily calories and
+ * macronutrients depending on your activity level and fitness goal.
  * The UserCalendar class is still in a primitive stage of development. This class will create a
  * DailyTracker object for every day of every year, and will eventually connect to a database.
  *
