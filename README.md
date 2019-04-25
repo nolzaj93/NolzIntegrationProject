@@ -166,7 +166,7 @@ PSI 3
     
    (43)Declare and use an ArrayList of a given type
      
-   (43) NewUser.searchArray(Scanner userScanner) lines 1301, and 1325
+   (43) NewUser.searchArray(Scanner userScanner) 
     
    (44)Search a two-dimensional array and identify the coordinates where a value was found
  
