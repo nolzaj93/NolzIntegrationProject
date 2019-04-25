@@ -13,7 +13,8 @@ import java.util.Scanner;
  * from the superclass, Introduction. Note: constructors are not members, but the superclass
  * constructor can be called directly by the subclass if accessible. This is beneficial
  * because we can quickly type extends and the superclass name, instead of copying and pasting
- * the code into the subclass. This is much more efficient.
+ * the code into the subclass. This is much more efficient. Inheritance should represent an
+ * "is a" relationship.
  */
 
 /**
@@ -91,7 +92,11 @@ public class NewUser {
      * is called.
      */
     //super();
-    //this();
+    this();
+
+    /*
+     * (4) Add a greeting / introduction to the user
+     */
     System.out.println("Welcome to MacroFriend! This application will help you plan \n"
         + "your daily meals based on your goal.\n");
     enterUserStrings(userScanner);
@@ -134,7 +139,9 @@ public class NewUser {
    */
   public String checkUserNameInput(String name) {
 
-    // checks if name starts with a letter and is at least 8 characters long
+    /*
+     *checks if name starts with a letter and is at least 8 characters long
+     */
     if (!Character.isLetter(name.charAt(0)) || name.length() < 8 || name.length() > 30) {
 
       return "Your UserName must start with a letter and have between 8 and 30 characters";
@@ -241,7 +248,8 @@ public class NewUser {
         age = userScanner.nextInt();
 
         if (age > 120 || age < 0) {
-          throw new Exception();
+          throw new Exception("Error: the user age must be greater than zero, or less than 120.\n"
+              + "Please enter your age expressed as a whole number.");
 
         } else {
 
@@ -255,8 +263,7 @@ public class NewUser {
         System.out.println("Error: your input included text or had a decimal point.\n"
             + "Please input your age as a whole number.");
       } catch (Exception ex) {
-        System.out.println("Error: the user age must be greater than zero, or less than 120.\n"
-            + "Please enter your age expressed as a whole number.");
+        System.out.println(ex.getMessage());
       }
       userScanner.nextLine();
     } while (!ageIsSet);
@@ -275,6 +282,10 @@ public class NewUser {
 
     System.out.println("Please enter your height in inches. \n");
     boolean heightIsSet = false;
+
+    /* (29) Create and use do/while loops
+     * (7) Use a double variable with an appropriate name (singular noun, lowerCamelCase)\
+     */
     double height = 0;
     do {
 
@@ -625,6 +636,9 @@ public class NewUser {
     return goal;
   }
 
+  /*
+   * (35) Develop code that makes use of polymorphism
+   */
   public void estimateBasalMetabolicRate() {
     System.out.println("This statement will not execute because each of the subclasses of"
         + "NewUser overrides this method.");
@@ -992,10 +1006,7 @@ public class NewUser {
 
     // (28) Use for loops
     for (int meals = 1; meals <= 6; meals++) {
-      System.out.println("Meals per day: " + meals + "\n"
-          + "Fat: " + (Math.rint(getGoalGrams(0) / meals)) + " g\n"
-          + "Carbs: " + (Math.rint(getGoalGrams(1) / meals)) + " g\n"
-          + "Protein: " + (Math.rint(getGoalGrams(2) / meals)) + " g\n");
+      generateMealPlanOptions(meals);
     }
   }
 
@@ -1060,7 +1071,7 @@ public class NewUser {
         mealGramTotals[2] = (servingProteinGrams * servings);
         System.out.println("Total grams for " + servings + " servings:");
         /*
-         *(28) Use for loops; this for loop prints the Strings in the array
+         * This for loop prints the Strings in the array
          * named macronutrients, and the double values in the array named gramTotals
          *(41) Create and use the enhanced for loop
          */
@@ -1197,10 +1208,6 @@ public class NewUser {
     return goalNotSet;
   }
 
-  /*
-   *
-   */
-
   /**
    * User previously input their preferred fatPercent, carbPercent and proteinPercent, and this
    * method accepts these arguments with the parameters defined within the parentheses. Grams of
@@ -1269,7 +1276,7 @@ public class NewUser {
    *     whether to pass a number of meals as an argument to the method.
    */
   public void runUserFunctions(Scanner userScanner) {
-    /* (35) Develop code that makes use of polymorphism
+    /*
      * First, the method estimateTotalDailyEnergyExpenditure() calculates an estimate of
      * basal metabolic rate(BMR) and total daily energy expenditure (TDEE). Then, the
      * method giverRandomExampleOption() is called, which gives the user the option to generate
@@ -1369,7 +1376,7 @@ public class NewUser {
    *     array of doubles, which is then converted to an array of Calories for each macronutrient.
    */
   public void findSmallest(double[] gramsParam) {
-    /*
+    /* (28) Use for loops
      * (38) Manually find the smallest value in an array. Finds macronutrient with smallest
      * number of daily Calories according to user's goal.
      */

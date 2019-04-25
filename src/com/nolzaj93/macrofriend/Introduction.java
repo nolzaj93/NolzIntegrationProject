@@ -8,7 +8,8 @@ import java.util.Scanner;
 
 /**
  * (2) MacroFriend is a program that is able to recommend an estimate of daily calories and
- * macronutrients depending on your activity level and fitness goal.
+ * macronutrients depending on your activity level and fitness goal. The Introduction class is
+ * the driver class for the program.
  *
  * @author Austin Nolz - (1)
  */
@@ -31,8 +32,10 @@ public class Introduction {
     /*
      * (3) Primitive Data Types byte- 8 bit number short 16 bit int 32 bit long 64 bit float- 32 bit
      * floating point double - 64 bit floating point char -single 16 bit Unicode character boolean-
-     * true or false, one bit of information (4) The Scanner object userInfo allows us to take user
-     * input (26) Operator Precedence: top of table has highest precedence, and binary operators are
+     * true or false, one bit of information
+     * (4) The Scanner object userInfo allows us to take user
+     * input
+     * (26) Operator Precedence: top of table has highest precedence, and binary operators are
      * evaluated left to right, assignment operators evaluated right-to-left Rule governs which is
      * evaluated first when of equal precedence postfix expr++ expr-- unary ++expr --expr +expr
      * -expr ~ ! multiplicative * / % additive + - shift << >> >>> relational < > <= >= instanceof
@@ -47,6 +50,9 @@ public class Introduction {
      */
     UserCalendar sampleCalendar = new UserCalendar();
 
+    /*
+     * (5) Use a boolean variable with an appropriate name
+     */
     boolean monthAndDaySearchOption = true;
     while (monthAndDaySearchOption) {
       System.out.println("Please type yes to run the two-dimensional array search, or press\n"
@@ -100,7 +106,16 @@ public class Introduction {
      * has the base type, NewUser.
      */
     NewUser user1 = new NewUser(userInfo);
+
+    /*
+     * (15)Identify a method call and argument in comments, the right side of the assignment
+     * operator is a method call, userInfo and user1 are arguments.
+     */
     user1 = createUserBySex(userInfo, user1);
+
+    /*
+     *(6) Use an int variable with an appropriate name (singular noun, lowerCamelCase)
+     */
 
     int currentMonth = sampleCalendar.getCurrentMonth();
     int currentDay = sampleCalendar.getCurrentDay();
@@ -144,6 +159,9 @@ public class Introduction {
     if ("female".equals(user.getBiologicalSex())) {
       FemaleUser newFemaleUser = new FemaleUser(userScanner, user.getUserName(),
           user.getBiologicalSex());
+      /*
+       * (35) Develop code that makes use of polymorphism
+       */
       newUser = (NewUser) newFemaleUser;
 
     } else if ("male".equals(user.getBiologicalSex())) {

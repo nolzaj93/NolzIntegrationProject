@@ -25,7 +25,7 @@ public class IntersexUser extends NewUser {
     runUserFunctions(userScanner);
   }
 
-  /**
+  /** (35) Develop code that makes use of polymorphism
    * This overridden method for IntersexUser objects estimates BMR by taking the average of the
    * KatchMcArdleBMR and the FemaleHarrisBenedictBMR.
    */

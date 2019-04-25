@@ -73,7 +73,8 @@ public class UserCalendar {
     }
     for (int month = 0; month < monthsAndDays.length; month++) {
       for (int day = 0; day < monthsAndDays[month].length; day++) {
-        monthsAndDays[month][day] = Integer.toString(month + 1) + " " + Integer.toString(day + 1);
+        monthsAndDays[month][day] = Integer.toString(month + 1) + " "
+            + Integer.toString(day + 1);
       }
     }
   }

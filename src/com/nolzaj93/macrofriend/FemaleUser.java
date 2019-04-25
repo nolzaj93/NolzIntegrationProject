@@ -26,7 +26,7 @@ public class FemaleUser extends NewUser {
     this.runUserFunctions(userScanner);
   }
 
-  /**
+  /** (35) Develop code that makes use of polymorphism
    * This overridden method for FemaleUser objects estimates BMR by taking the average of the
    * KatchMcArdleBMR and the FemaleHarrisBenedictBMR.
    */

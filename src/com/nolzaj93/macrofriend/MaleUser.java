@@ -25,7 +25,7 @@ public class MaleUser extends NewUser {
     runUserFunctions(userScanner);
   }
 
-  /**
+  /** (35) Develop code that makes use of polymorphism
    * This overridden method for MaleUser objects estimates BMR by taking the average of the
    * KatchMcArdleBMR and the MaleHarrisBenedictBMR.
    */
