@@ -2,6 +2,7 @@
 
 
 PSI1
+
    (1) Add your name as a comment at top of every file
    
    (2) Add a description of the program as a comment at top
