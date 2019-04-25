@@ -1477,8 +1477,8 @@ public class NewUser {
       } catch (InputMismatchException ex) {
         System.out.println("Your input included text or was a decimal number.\n"
             + "Please enter a whole integer value. Example: 5");
-        userScanner.nextLine();
       }
+      userScanner.nextLine();
     }
     index = 0;
     /*
