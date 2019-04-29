@@ -1,9 +1,9 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="NolzIntegrationProject:jar">
+  <artifact type="jar" name="NolzIntegrationProject:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/NolzIntegrationProject_jar</output-path>
     <root id="archive" name="NolzIntegrationProject.jar">
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/src/com/nolzaj93/macrofriendgui/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/src/Introduction/resources/META-INF/MANIFEST.MF" />
       </element>
       <element id="module-output" name="NolzIntegrationProject" />
     </root>
