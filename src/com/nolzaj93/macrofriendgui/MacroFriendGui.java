@@ -1,6 +1,5 @@
 package com.nolzaj93.macrofriendgui;
 
-import com.nolzaj93.macrofriend.NewUser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
