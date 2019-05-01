@@ -6,7 +6,7 @@ import java.util.Scanner;
 /**
  * (2) MacroFriend is a program that is able to recommend an estimate of daily calories and
  * macronutrients depending on your activity level and fitness goal. The Introduction class is
- * the driver class for the program.
+ * the driver class for the program. 
  *
  * @author Austin Nolz - (1)
  */
